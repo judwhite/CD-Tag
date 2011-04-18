@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using CDTag.FileBrowser;
 
 namespace CDTag.Views
 {
@@ -11,8 +10,6 @@ namespace CDTag.Views
         public MainWindow()
         {
             InitializeComponent();
-
-            FileExplorer.DirectoryController.NavigateTo(@"C:\");
         }
     }
 }

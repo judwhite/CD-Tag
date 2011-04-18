@@ -2,13 +2,19 @@
     x:Class="CDTag.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:FileBrowser="clr-namespace:CDTag.FileBrowser;assembly=CDTag.FileBrowser" 
+    xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" 
     Title="CD-Tag" 
     Height="600" 
     Width="900"
     WindowStartupLocation="CenterScreen"
 >
     <Grid>
-        <FileBrowser:FileExplorer x:Name="FileExplorer" />
+        <TabControl>
+            <TabControl.Items>
+                <TabItem Header="Tag">
+                    <ContentControl cal:RegionManager.RegionName="TagRegion" />
+                </TabItem>
+            </TabControl.Items>
+        </TabControl>
     </Grid>
 </Window>

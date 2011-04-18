@@ -41,6 +41,16 @@
     <ApplicationIcon>cdtag.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Libraries\Prism\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
+      <HintPath>..\Libraries\Prism\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Unity\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -63,6 +73,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Events\GoUpEvent.cs" />
+    <Compile Include="Events\GoForwardEvent.cs" />
+    <Compile Include="Events\GoBackEvent.cs" />
+    <Compile Include="ViewModel\Tag\ITagToolbarViewModel.cs" />
+    <Compile Include="ViewModel\Tag\ITagViewModel.cs" />
+    <Compile Include="ViewModel\Tag\TagToolbarViewModel.cs" />
+    <Compile Include="ViewModel\Tag\TagViewModel.cs" />
+    <Compile Include="Views\Tag\TagToolbar.xaml.cs">
+      <DependentUpon>TagToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tag\TagView.xaml.cs">
+      <DependentUpon>TagView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +99,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Tag\TagToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tag\TagView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -124,6 +156,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="cdtag.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\GeneralToolbar\Help.png" />
+    <Resource Include="Resources\Images\TagToolbar\Back.png" />
+    <Resource Include="Resources\Images\TagToolbar\Forward.png" />
+    <Resource Include="Resources\Images\TagToolbar\TagAlbum.png" />
+    <Resource Include="Resources\Images\TagToolbar\Up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
