@@ -24,6 +24,8 @@ namespace CDTag.FileBrowser
             FileList.fileView.MouseDoubleClick += fileView_MouseDoubleClick;
 
             _directoryController.NavigationComplete += _directoryController_NavigationComplete;
+            _directoryController.SelectAllRequested += (o, e) => SelectAll();
+            _directoryController.InvertSelectionRequested += (o, e) => InvertSelection();
 
             PreviewMouseDown += FileExplorer_PreviewMouseDown;
         }
@@ -61,6 +63,34 @@ namespace CDTag.FileBrowser
             _directoryController.NavigateTo(FolderTreeView.CurrentDirectory);
 
             ResetCursor();
+        }
+
+        /// <summary>Selects all.</summary>
+        public void SelectAll()
+        {
+            if (FileList.fileView.SelectedItems.Count == FileList.fileView.Items.Count)
+            {
+                FileList.fileView.UnselectAll();
+            }
+            else
+            {
+                FileList.fileView.SelectAll();
+            }
+        }
+
+        /// <summary>Inverts the selection.</summary>
+        public void InvertSelection()
+        {
+            var selectedItems = FileList.fileView.SelectedItems;
+
+            foreach (var item in FileList.fileView.Items)
+            {
+                int index = selectedItems.IndexOf(item);
+                if (index != -1)
+                    selectedItems.RemoveAt(index);
+                else
+                    selectedItems.Add(item);
+            }
         }
 
         /// <summary>Goes back.</summary>

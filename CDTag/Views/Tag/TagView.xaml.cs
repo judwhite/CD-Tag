@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
 using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag
@@ -6,15 +6,19 @@ namespace CDTag.Views.Tag
     /// <summary>
     /// Interaction logic for TagView.xaml
     /// </summary>
-    public partial class TagView : UserControl
+    public partial class TagView : ViewBase
     {
+        public TagView()
+            : this(Unity.Resolve<ITagViewModel>())
+        {
+        }
+
         public TagView(ITagViewModel viewModel)
+            : base(viewModel)
         {
             InitializeComponent();
 
-            FileExplorer.DirectoryController.NavigateTo(@"C:\");
-
-            DataContext = viewModel; // TODO: Put this in ViewBase
+            // TODO: Move to ViewModel
             viewModel.DirectoryController = FileExplorer.DirectoryController;
         }
     }

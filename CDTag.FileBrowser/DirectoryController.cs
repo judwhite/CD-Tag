@@ -46,6 +46,12 @@ namespace CDTag.FileBrowser
 		/// </summary>
 		public event EventHandler GoForwardEnabledChanged;
 
+        /// <summary>Occurs when select all requested.</summary>
+        public event EventHandler SelectAllRequested;
+
+        /// <summary>Occurs when invert selection requested.</summary>
+        public event EventHandler InvertSelectionRequested;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DirectoryController"/> class, setting the initial directory to the <see cref="Environment.SpecialFolder.Personal"/> directory.
 		/// </summary>
@@ -65,6 +71,18 @@ namespace CDTag.FileBrowser
 
 			NavigateTo(directory);
 		}
+
+        /// <summary>Selects all.</summary>
+        public void SelectAll()
+        {
+            SendEvent(SelectAllRequested);
+        }
+
+        /// <summary>Inverts the selection.</summary>
+        public void InvertSelection()
+        {
+            SendEvent(InvertSelectionRequested);
+        }
 
 		/// <summary>
 		/// Raises the <see cref="E:System.ComponentModel.BindingList`1.ListChanged"/> event.
@@ -333,7 +351,10 @@ namespace CDTag.FileBrowser
 				}
 		 */
 
-		private void NavigateTo(string directory, bool addHistory)
+        /// <summary>Navigates to the specified <paramref name="directory"/>.</summary>
+        /// <param name="directory">The directory.</param>
+        /// <param name="addHistory">if set to <c>true</c> the previous directory will be added to the history.</param>
+        public void NavigateTo(string directory, bool addHistory)
 		{
 			SendEvent(Navigating);
 			try
@@ -472,9 +493,8 @@ namespace CDTag.FileBrowser
 
 		private void SendEvent(EventHandler eventHandler)
 		{
-			EventHandler tmpEventHandler = eventHandler;
-			if (tmpEventHandler != null)
-				tmpEventHandler(this, EventArgs.Empty);
+            if (eventHandler != null)
+                eventHandler(this, EventArgs.Empty);
 		}
 
 		/// <summary>
@@ -490,6 +510,16 @@ namespace CDTag.FileBrowser
 				SendEvent(DirectorySizeChanged);
 			}
 		}
+
+        /// <summary>Clears the history.</summary>
+        public void ClearHistory()
+        {
+            _forwardHistory.Clear();
+            _backHistory.Clear();
+
+            SendEvent(GoBackEnabledChanged);
+            SendEvent(GoForwardEnabledChanged);
+        }
 
         private static string _accessDeniedDialogTitle = "Access denied";
         /// <summary>

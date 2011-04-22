@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views
 {
@@ -7,9 +8,11 @@ namespace CDTag.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(ITagViewModel viewModel)
         {
             InitializeComponent();
+
+            DataContext = viewModel;
         }
     }
 }

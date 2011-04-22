@@ -1,18 +1,19 @@
-﻿using CDTag.ViewModel.Tag;
+﻿using System.Windows.Input;
+using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag
 {
     /// <summary>
-    /// Interaction logic for TagToolbar.xaml
+    /// Interaction logic for TagMenu.xaml
     /// </summary>
-    public partial class TagToolbar : ViewBase
+    public partial class TagMenu : ViewBase
     {
-        public TagToolbar()
+        public TagMenu()
             : this(Unity.Resolve<ITagViewModel>())
         {
         }
-
-        public TagToolbar(ITagViewModel viewModel)
+     
+        public TagMenu(ITagViewModel viewModel)
             : base(viewModel)
         {
             InitializeComponent();

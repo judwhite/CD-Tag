@@ -1,11 +1,13 @@
-﻿<UserControl 
+﻿<view:ViewBase
     x:Class="CDTag.Views.Tag.TagToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:view="clr-namespace:CDTag.Views" 
     mc:Ignorable="d" 
-    d:DesignHeight="300" d:DesignWidth="300"
+    d:DesignHeight="300" 
+    d:DesignWidth="300"
 >
     <UserControl.Resources>
         <!-- Disabled ToolBar Image -->
@@ -21,7 +23,7 @@
         </Style>
     </UserControl.Resources>
 
-    <ToolBar ToolBarTray.IsLocked="True">
+    <ToolBar ToolBarTray.IsLocked="True" Style="{StaticResource ToolBarStyle1}">
 
         <Button Command="{Binding BackCommand}">
             <!-- TODO: Localize button text -->
@@ -68,4 +70,4 @@
         </Button>
 
     </ToolBar>
-</UserControl>
+</view:ViewBase>

@@ -3,18 +3,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" 
+    xmlns:Tag="clr-namespace:CDTag.Views.Tag" 
+    xmlns:view="clr-namespace:CDTag.Views" 
     Title="CD-Tag" 
     Height="600" 
     Width="900"
     WindowStartupLocation="CenterScreen"
+    view:AttachedProperties.RegisterCommandBindings="{Binding CommandBindings}"
 >
     <Grid>
-        <TabControl>
-            <TabControl.Items>
-                <TabItem Header="Tag">
-                    <ContentControl cal:RegionManager.RegionName="TagRegion" />
-                </TabItem>
-            </TabControl.Items>
-        </TabControl>
+
+        <Tag:TagView />
+        
     </Grid>
 </Window>

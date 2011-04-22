@@ -41,6 +41,8 @@
     <ApplicationIcon>cdtag.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Libraries\Prism\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -53,6 +55,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -74,19 +77,28 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Events\GoUpEvent.cs" />
-    <Compile Include="Events\GoForwardEvent.cs" />
-    <Compile Include="Events\GoBackEvent.cs" />
-    <Compile Include="ViewModel\Tag\ITagToolbarViewModel.cs" />
     <Compile Include="ViewModel\Tag\ITagViewModel.cs" />
-    <Compile Include="ViewModel\Tag\TagToolbarViewModel.cs" />
+    <Compile Include="ViewModel\Tag\TagViewModel.Commands.cs" />
     <Compile Include="ViewModel\Tag\TagViewModel.cs" />
+    <Compile Include="Views\AttachedProperties.cs" />
+    <Compile Include="Views\Tag\TagMenu.xaml.cs">
+      <DependentUpon>TagMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Tag\TagToolbar.xaml.cs">
       <DependentUpon>TagToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tag\TagView.xaml.cs">
       <DependentUpon>TagView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ViewBase.cs" />
+    <Page Include="Themes\Default\Theme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Default\Toolbars.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +111,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Tag\TagMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Tag\TagToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,6 +141,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -163,6 +180,10 @@
     <Resource Include="Resources\Images\TagToolbar\Forward.png" />
     <Resource Include="Resources\Images\TagToolbar\TagAlbum.png" />
     <Resource Include="Resources\Images\TagToolbar\Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Events\" />
+    <Folder Include="Views\About\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

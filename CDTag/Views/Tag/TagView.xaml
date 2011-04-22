@@ -1,4 +1,4 @@
-﻿<UserControl 
+﻿<view:ViewBase 
     x:Class="CDTag.Views.Tag.TagView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:FileBrowser="clr-namespace:CDTag.FileBrowser;assembly=CDTag.FileBrowser" 
     xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism"
+    xmlns:view="clr-namespace:CDTag.Views" 
+    xmlns:Tag="clr-namespace:CDTag.Views.Tag" 
     mc:Ignorable="d" 
     d:DesignHeight="300" 
     d:DesignWidth="300"
@@ -13,10 +15,12 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0" cal:RegionManager.RegionName="ToolbarRegion" />
-        <FileBrowser:FileExplorer x:Name="FileExplorer" Grid.Row="1" />
+        <Tag:TagMenu Grid.Row="0" />
+        <Tag:TagToolbar Grid.Row="1" />
+        <FileBrowser:FileExplorer x:Name="FileExplorer" Grid.Row="2" />
     </Grid>
-</UserControl>
+</view:ViewBase>
