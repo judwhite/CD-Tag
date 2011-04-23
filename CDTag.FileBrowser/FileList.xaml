@@ -18,15 +18,62 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="0,1,0,1" />
             <Style.Triggers>
                 <Trigger Property="DataGridCell.IsSelected" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                    <Setter Property="BorderBrush" Value="#7DA2CE" />
+                    <Setter Property="BorderThickness" Value="0,1,0,1" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <VisualBrush TileMode="None" Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <Border BorderThickness="0.5,1" BorderBrush="#7DA2CE" Height="15" Width="300" CornerRadius="1" >
+                                        <Border BorderThickness="1,0.5,0.5,0.5" BorderBrush="#EBF4FD" CornerRadius="1">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Offset="0" Color="#DCEBFC" />
+                                                    <GradientStop Offset="1" Color="#C1DBFC" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
+                                    </Border>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridRow">
+            <Setter Property="Margin" Value="0" />
+            <Style.Triggers>
+                <Trigger Property="DataGridRow.IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <VisualBrush TileMode="None" Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <Border BorderThickness="0.5,1" BorderBrush="#B8D6FB" Height="15" Width="300" CornerRadius="1" >
+                                        <Border BorderThickness="1,0.5,0.5,0.5" BorderBrush="#F2F7FE" CornerRadius="1">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Offset="0" Color="#FAFBFD" />
+                                                    <GradientStop Offset="1" Color="#EBF3FD" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
+                                    </Border>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Setter.Value>
+                    </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -40,13 +87,14 @@
         </StatusBar>
 
         <DataGrid x:Name="fileView" AutoGenerateColumns="False" GridLinesVisibility="None"
-                         SelectionUnit="FullRow" Background="White" SelectionMode="Extended" RowHeight="20"
-                             HorizontalScrollBarVisibility="Hidden" CanUserResizeRows="False"
-                         >
+                    SelectionUnit="FullRow" Background="White" SelectionMode="Extended" RowHeight="20"
+                    HorizontalScrollBarVisibility="Hidden" CanUserResizeRows="False" 
+                    HeadersVisibility="Column"
+        >
             <i:Interaction.Behaviors>
                 <FileBrowser:RemoveSelectAllBehavior />
             </i:Interaction.Behaviors>
-            
+
             <DataGrid.Columns>
 
                 <DataGridTemplateColumn Header="" Width="20" CellStyle="{StaticResource NoBorderCell}">
