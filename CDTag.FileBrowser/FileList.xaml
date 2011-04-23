@@ -18,19 +18,16 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="BorderThickness" Value="0,1,0,1" />
+            <Setter Property="Margin" Value="0,-1,0,0" />
             <Style.Triggers>
                 <Trigger Property="DataGridCell.IsSelected" Value="True">
-                    <Setter Property="BorderBrush" Value="#7DA2CE" />
-                    <Setter Property="BorderThickness" Value="0,1,0,1" />
                     <Setter Property="Foreground" Value="Black" />
                     <Setter Property="Background">
                         <Setter.Value>
                             <VisualBrush TileMode="None" Stretch="Fill">
                                 <VisualBrush.Visual>
-                                    <Border BorderThickness="0.5,1" BorderBrush="#7DA2CE" Height="15" Width="300" CornerRadius="1" >
-                                        <Border BorderThickness="1,0.5,0.5,0.5" BorderBrush="#EBF4FD" CornerRadius="1">
+                                    <Border BorderThickness="0,1" BorderBrush="#7DA2CE" Height="15" Width="300" CornerRadius="0">
+                                        <Border BorderThickness="0,0.5,0,0.5" BorderBrush="#EBF4FD" CornerRadius="0">
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                                     <GradientStop Offset="0" Color="#DCEBFC" />
@@ -47,7 +44,6 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="DataGridRow">
-            <Setter Property="Margin" Value="0" />
             <Style.Triggers>
                 <Trigger Property="DataGridRow.IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="Black" />
@@ -55,8 +51,8 @@
                         <Setter.Value>
                             <VisualBrush TileMode="None" Stretch="Fill">
                                 <VisualBrush.Visual>
-                                    <Border BorderThickness="0.5,1" BorderBrush="#B8D6FB" Height="15" Width="300" CornerRadius="1" >
-                                        <Border BorderThickness="1,0.5,0.5,0.5" BorderBrush="#F2F7FE" CornerRadius="1">
+                                    <Border BorderThickness="0,1" BorderBrush="#B8D6FB" Height="15" Width="300" CornerRadius="1" >
+                                        <Border BorderThickness="0,0.5" BorderBrush="#F2F7FE" CornerRadius="1">
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                                     <GradientStop Offset="0" Color="#FAFBFD" />
