@@ -2,6 +2,7 @@
 using CDTag.Common;
 using CDTag.FileBrowser;
 using CDTag.FileBrowser.ViewModel;
+using CDTag.ViewModel.About;
 using CDTag.ViewModel.Tag;
 using CDTag.Views;
 using Microsoft.Practices.Prism.UnityExtensions;
@@ -17,6 +18,7 @@ namespace CDTag
 
             Container.RegisterInstance(typeof(ITagViewModel), Container.Resolve<TagViewModel>());
             Container.RegisterType(typeof(IDirectoryController), typeof(DirectoryController));
+            Container.RegisterType(typeof(IAboutViewModel), typeof(AboutViewModel));
 
             Unity.Container = Container;
         }

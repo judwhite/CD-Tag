@@ -76,9 +76,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ViewModel\About\AboutViewModel.cs" />
+    <Compile Include="ViewModel\About\IAboutViewModel.cs" />
     <Compile Include="ViewModel\Tag\ITagViewModel.cs" />
     <Compile Include="ViewModel\Tag\TagViewModel.Commands.cs" />
     <Compile Include="ViewModel\Tag\TagViewModel.cs" />
+    <Compile Include="Views\About\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AttachedProperties.cs" />
     <Compile Include="Views\Tag\TagMenu.xaml.cs">
       <DependentUpon>TagMenu.xaml</DependentUpon>
@@ -90,11 +95,16 @@
       <DependentUpon>TagView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewBase.cs" />
+    <Compile Include="Views\WindowViewBase.cs" />
     <Page Include="Themes\Default\Theme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Default\Toolbars.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\About\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -182,7 +192,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Events\" />
-    <Folder Include="Views\About\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\GeneralToolbar\Help Circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\About\cdtag.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

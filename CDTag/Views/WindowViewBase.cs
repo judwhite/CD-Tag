@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Windows.Controls;
+using System.Windows;
 using CDTag.Common;
 
 namespace CDTag.Views
 {
-    public class ViewBase : UserControl
+    public class WindowViewBase : Window
     {
-        protected ViewBase(IViewModelBase viewModel)
+        protected WindowViewBase(IViewModelBase viewModel)
         {
             DataContext = viewModel;
         }
 
-        public ViewBase()
+        public WindowViewBase()
         {
             // Note: only here to support XAML
             throw new NotSupportedException();

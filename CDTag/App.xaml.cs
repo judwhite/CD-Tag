@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using CDTag.Common;
+using CDTag.Views;
 
 namespace CDTag
 {
@@ -20,6 +22,24 @@ namespace CDTag
 
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
+        }
+
+        public bool? ShowWindow<T>()
+            where T : WindowViewBase
+        {
+            T window;
+            MouseHelper.SetWaitCursor();
+            try
+            {
+                window = Unity.Resolve<T>();
+                window.Owner = MainWindow;
+            }
+            finally
+            {
+                MouseHelper.ResetCursor();
+            }
+
+            return window.ShowDialog();
         }
         
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

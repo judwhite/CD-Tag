@@ -8,7 +8,6 @@ namespace CDTag.ViewModel.Tag
     {
         IDirectoryController DirectoryViewModel { get; set; }
 
-        ICommand HelpCommand { get; }
         ICommand AboutCommand { get; }
         ICommand TagAlbumCommand { get; }
         ICommand CheckForUpdatesCommand { get; }
