@@ -39,9 +39,9 @@
                 <Separator />
                 <MenuItem Header="Go To">
                     <MenuItem.Items>
-                        <MenuItem Header="_Back" Command="{Binding BackCommand}" InputGestureText="Alt+Left Arrow" />
-                        <MenuItem Header="_Forward" Command="{Binding ForwardCommand}" InputGestureText="Alt+Right Arrow" />
-                        <MenuItem Header="_Up one level" Command="{Binding UpCommand}" InputGestureText="Alt+Up Arrow" />
+                        <MenuItem Header="_Back" Command="{Binding Path=DirectoryViewModel.GoBackCommand}" InputGestureText="Alt+Left Arrow" />
+                        <MenuItem Header="_Forward" Command="{Binding Path=DirectoryViewModel.GoForwardCommand}" InputGestureText="Alt+Right Arrow" />
+                        <MenuItem Header="_Up one level" Command="{Binding Path=DirectoryViewModel.GoUpCommand}" InputGestureText="Alt+Up Arrow" />
                     </MenuItem.Items>
                 </MenuItem>
                 <MenuItem Header="_Refresh" Command="{Binding RefreshCommand}" />

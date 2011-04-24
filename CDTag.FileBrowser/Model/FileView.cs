@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Drawing;
@@ -24,44 +25,34 @@ namespace CDTag.FileBrowser.Model
         private string _type;
         private Icon _icon;
         private string _fullName;
+        private bool _isSelected;
+        private ImageSource _imageSource;
 
-        /// <summary>
-        /// Occurs when a property value changes.
-        /// </summary>
+        /// <summary>Occurs when a property value changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileView"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="FileView"/> class.</summary>
         /// <param name="path">The path.</param>
         public FileView(string path)
             : this(new FileInfo(path))
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileView"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="FileView"/> class.</summary>
         /// <param name="fileInfo">The file info.</param>
         public FileView(FileSystemInfo fileInfo)
         {
             SetState(fileInfo);
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance represents a directory.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance represents a directory; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this instance represents a directory.</summary>
+        /// <value><c>true</c> if this instance represents a directory; otherwise, <c>false</c>.</value>
         public bool IsDirectory
         {
             get { return (Size == null); }
         }
 
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
+        /// <summary>Gets the name.</summary>
         /// <value>The name.</value>
         public string Name
         {
@@ -73,106 +64,129 @@ namespace CDTag.FileBrowser.Model
             }
         }
 
-        /// <summary>
-        /// Gets the size.
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether this instance is selected.</summary>
+        /// <value><c>true</c> if this instance is selected; otherwise, <c>false</c>.</value>
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    SendPropertyChanged("IsSelected");
+                }
+            }
+        }
+
+        /// <summary>Gets the size.</summary>
         /// <value>The size.</value>
         public long? Size
         {
             get { return _size; }
             private set
             {
-                _size = value;
-                SendPropertyChanged("Size");
+                if (_size != value)
+                {
+                    _size = value;
+                    SendPropertyChanged("Size");
+                }
             }
         }
 
-        /// <summary>
-        /// Gets the date modified.
-        /// </summary>
+        /// <summary>Gets the date modified.</summary>
         /// <value>The date modified.</value>
         public DateTime DateModified
         {
             get { return _dateModified; }
             private set
             {
-                _dateModified = value;
-                SendPropertyChanged("DateModified");
+                if (_dateModified != value)
+                {
+                    _dateModified = value;
+                    SendPropertyChanged("DateModified");
+                }
             }
         }
 
-        /// <summary>
-        /// Gets the date created.
-        /// </summary>
+        /// <summary>Gets the date created.</summary>
         /// <value>The date created.</value>
         public DateTime DateCreated
         {
             get { return _dateCreated; }
             private set
             {
-                _dateCreated = value;
-                SendPropertyChanged("DateCreated");
+                if (_dateCreated != value)
+                {
+                    _dateCreated = value;
+                    SendPropertyChanged("DateCreated");
+                }
             }
         }
 
-        /// <summary>
-        /// Gets the file type.
-        /// </summary>
+        /// <summary>Gets the file type.</summary>
         /// <value>The file type.</value>
         public string Type
         {
             get { return _type; }
             private set
             {
-                _type = value;
-                SendPropertyChanged("Type");
+                if (_type != value)
+                {
+                    _type = value;
+                    SendPropertyChanged("Type");
+                }
             }
         }
 
-        /// <summary>
-        /// Gets the icon.
-        /// </summary>
+        /// <summary>Gets the icon.</summary>
         /// <value>The icon.</value>
         public Icon Icon
         {
             get { return _icon; }
             private set
             {
-                _icon = value;
-                SendPropertyChanged("Icon");
+                if (_icon != value)
+                {
+                    _icon = value;
+                    _imageSource = null;
+                    SendPropertyChanged("Icon");
+                }
             }
         }
 
-        /// <summary>
-        /// Gets the image source (WPF icon).
-        /// </summary>
+        /// <summary>Gets the image source (WPF icon).</summary>
         /// <value>The image source (WPF icon).</value>
         public ImageSource ImageSource
         {
             get
             {
-                Icon icon = Icon;
-                return Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, icon.Width, icon.Height), BitmapSizeOptions.FromEmptyOptions());
+                if (_imageSource == null)
+                {
+                    Icon icon = Icon;
+                    _imageSource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, icon.Width, icon.Height), BitmapSizeOptions.FromEmptyOptions());
+                }
+
+                return _imageSource;
             }
         }
 
-        /// <summary>
-        /// Gets the full name.
-        /// </summary>
+        /// <summary>Gets the full name.</summary>
         /// <value>The full name.</value>
         public string FullName
         {
             get { return _fullName; }
             private set
             {
-                _fullName = value;
-                SendPropertyChanged("FullName");
+                if (_fullName != value)
+                {
+                    _fullName = value;
+                    SendPropertyChanged("FullName");
+                }
             }
         }
 
-        /// <summary>
-        /// Refreshes this instance.
-        /// </summary>
+        /// <summary>Refreshes this instance.</summary>
         public void Refresh()
         {
             SetState(new FileInfo(FullName));

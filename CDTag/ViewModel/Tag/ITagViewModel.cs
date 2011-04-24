@@ -1,17 +1,13 @@
 ﻿using System.Windows.Input;
 using CDTag.Common;
-using CDTag.FileBrowser;
 using CDTag.FileBrowser.ViewModel;
 
 namespace CDTag.ViewModel.Tag
 {
     public interface ITagViewModel : IViewModelBase
     {
-        IDirectoryController DirectoryController { get; set; }
+        IDirectoryController DirectoryViewModel { get; set; }
 
-        ICommand BackCommand { get; }
-        ICommand ForwardCommand { get; }
-        ICommand UpCommand { get; }
         ICommand HelpCommand { get; }
         ICommand AboutCommand { get; }
         ICommand TagAlbumCommand { get; }

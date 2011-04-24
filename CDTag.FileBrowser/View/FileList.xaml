@@ -6,11 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
     xmlns:Behavior="clr-namespace:CDTag.FileBrowser.Behavior" 
+    xmlns:Converters="clr-namespace:CDTag.FileBrowser.Converters" 
     mc:Ignorable="d" 
     d:DesignHeight="300" 
     d:DesignWidth="300"
 >
     <UserControl.Resources>
+        
+        <Converters:StatusBarConverter x:Key="StatusBarConverter" />
+        
         <Style x:Key="NoBorderCell" TargetType="{x:Type DataGridCell}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -81,7 +85,14 @@
 
         <StatusBar Grid.Row="1">
             <StatusBarItem>
-                <TextBlock x:Name="lblStatus" Text="TODO: Status goes here." />
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource StatusBarConverter}">
+                            <Binding Path="FileCollection.Count" />
+                            <Binding Path="DirectorySizeBytes" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </StatusBarItem>
         </StatusBar>
 

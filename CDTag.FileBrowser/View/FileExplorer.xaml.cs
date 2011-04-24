@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
-using CDTag.FileBrowser.Model;
 using CDTag.FileBrowser.ViewModel;
 
 namespace CDTag.FileBrowser.View
@@ -46,17 +45,17 @@ namespace CDTag.FileBrowser.View
         {
             if (e.XButton1 == MouseButtonState.Pressed)
             {
-                if (_directoryController.IsGoBackEnabled)
+                if (_directoryController.GoBackCommand.CanExecute(null))
                 {
-                    GoBack();
+                    _directoryController.GoBackCommand.Execute(null);
                     e.Handled = true;
                 }
             }
             else if (e.XButton2 == MouseButtonState.Pressed)
             {
-                if (_directoryController.IsGoForwardEnabled)
+                if (_directoryController.GoForwardCommand.CanExecute(null))
                 {
-                    GoForward();
+                    _directoryController.GoForwardCommand.Execute(null);
                     e.Handled = true;
                 }
             }
@@ -109,36 +108,6 @@ namespace CDTag.FileBrowser.View
             }
         }
 
-        /// <summary>Goes back.</summary>
-        public void GoBack()
-        {
-            MouseHelper.SetWaitCursor();
-
-            _directoryController.GoBack();
-
-            MouseHelper.ResetCursor();
-        }
-
-        /// <summary>Goes forward.</summary>
-        public void GoForward()
-        {
-            MouseHelper.SetWaitCursor();
-
-            _directoryController.GoForward();
-
-            MouseHelper.ResetCursor();
-        }
-
-        /// <summary>Goes up.</summary>
-        public void GoUp()
-        {
-            MouseHelper.SetWaitCursor();
-
-            _directoryController.GoUp();
-
-            MouseHelper.ResetCursor();
-        }
-
         private void fileView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // TODO
@@ -152,7 +121,6 @@ namespace CDTag.FileBrowser.View
             MouseHelper.SetWaitCursor();
 
             FolderTreeView.NavigateTo(_directoryController.CurrentDirectory);
-            FileList.UpdateStatusBar();
 
             MouseHelper.ResetCursor();
         }

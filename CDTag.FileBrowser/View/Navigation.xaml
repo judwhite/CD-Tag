@@ -15,7 +15,7 @@
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
                                 <!-- Background Layer -->
-                                <Ellipse Fill="{TemplateBinding Background}"/>
+                                <Ellipse x:Name="BackgroundLayer" Fill="{TemplateBinding Background}"/>
                                 <!-- Refraction Layer -->
                                 <Ellipse x:Name="RefractionLayer">
                                     <Ellipse.Fill>
@@ -87,8 +87,8 @@
                                 <!-- ContentPresenter -->
                                 <ContentPresenter Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-
                             </Grid>
+                            
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="RefractionLayer" Property="Fill">
@@ -168,6 +168,11 @@
                                         </Setter.Value>
                                     </Setter>
                                 </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="RefractionLayer" Property="Opacity" Value="0.2" />
+                                    <Setter TargetName="ReflectionLayer" Property="Opacity" Value="0.2" />
+                                    <Setter TargetName="BackgroundLayer" Property="Opacity" Value="0.2" />
+                                </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
@@ -216,7 +221,7 @@
             </VisualBrush>
         </Grid.Background>
 
-        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False">
+        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False" Command="{Binding GoBackCommand}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -236,7 +241,7 @@
             </Grid>
         </Button>
 
-        <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False">
+        <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False" Command="{Binding GoForwardCommand}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

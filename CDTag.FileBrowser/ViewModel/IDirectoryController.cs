@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using CDTag.FileBrowser.Model;
 
 namespace CDTag.FileBrowser.ViewModel
@@ -9,6 +10,15 @@ namespace CDTag.FileBrowser.ViewModel
     /// </summary>
     public interface IDirectoryController
     {
+        /// <summary>Gets the go back command.</summary>
+        ICommand GoBackCommand { get; }
+
+        /// <summary>Gets the go forward command.</summary>
+        ICommand GoForwardCommand { get; }
+
+        /// <summary>Gets the go up command.</summary>
+        ICommand GoUpCommand { get; }
+
         /// <summary>Gets the file collection.</summary>
         FileCollection FileCollection { get; }
 
@@ -29,16 +39,6 @@ namespace CDTag.FileBrowser.ViewModel
         event EventHandler NavigationComplete;
 
         /// <summary>
-        /// Occurs when <see cref="IsGoBackEnabled"/> has changed.
-        /// </summary>
-        event EventHandler GoBackEnabledChanged;
-
-        /// <summary>
-        /// Occurs when <see cref="IsGoForwardEnabled"/> has changed.
-        /// </summary>
-        event EventHandler GoForwardEnabledChanged;
-
-        /// <summary>
         /// Gets the current directory.
         /// </summary>
         /// <value>The current directory.</value>
@@ -51,49 +51,10 @@ namespace CDTag.FileBrowser.ViewModel
         long DirectorySizeBytes { get; }
 
         /// <summary>
-        /// Gets a value indicating whether GoBack should be enabled.
-        /// </summary>
-        /// <value><c>true</c> if GoBack should be enabled; otherwise, <c>false</c>.</value>
-        bool IsGoBackEnabled { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether GoForward should be enabled.
-        /// </summary>
-        /// <value><c>true</c> if GoForward should be enabled; otherwise, <c>false</c>.</value>
-        bool IsGoForwardEnabled { get; }
-
-        /// <summary>
         /// Navigates to the specified <paramref name="directory"/>.
         /// </summary>
         /// <param name="directory">The directory.</param>
         void NavigateTo(string directory);
-
-        /// <summary>
-        /// Go up a level.
-        /// </summary>
-        void GoUp();
-
-        /// <summary>
-        /// Go forward in the browsing history.
-        /// </summary>
-        void GoForward();
-
-        /// <summary>
-        /// Go forward <paramref name="count"/> steps in the browsing history.
-        /// </summary>
-        /// <param name="count">The number of steps to go forward.</param>
-        void GoForward(int count);
-
-        /// <summary>
-        /// Go back in the browsing history.
-        /// </summary>
-        void GoBack();
-
-        /// <summary>
-        /// Go back <paramref name="count"/> steps in the browsing history.
-        /// </summary>
-        /// <param name="count">The number of steps to go back.</param>
-        void GoBack(int count);
 
         /// <summary>
         /// Gets the back history.

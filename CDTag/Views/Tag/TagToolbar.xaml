@@ -9,64 +9,106 @@
     d:DesignHeight="300" 
     d:DesignWidth="300"
 >
-    <UserControl.Resources>
-        <!-- Disabled ToolBar Image -->
-        <Style TargetType="{x:Type Image}" x:Key="toolbarImageStyle">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
-                    <Setter Property="Opacity" Value="0.25"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-            <Setter Property="Height" Value="24" />
-            <Setter Property="Width" Value="24" />
-            <Setter Property="Stretch" Value="Fill" />
-        </Style>
-    </UserControl.Resources>
 
-    <ToolBar ToolBarTray.IsLocked="True" Style="{StaticResource ToolBarStyle1}">
+    <Grid HorizontalAlignment="Stretch" Height="30">
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="3" />
+                <Setter Property="Padding" Value="12,2" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="ButtonBorder" BorderThickness="1" CornerRadius="2" SnapsToDevicePixels="True">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush x:Name="scb" Opacity="0" Color="#FFBBCADB" />
+                                </Border.BorderBrush>
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.3" To="0.3" Storyboard.TargetName="scb" Storyboard.TargetProperty="Opacity" />
+                                                <ColorAnimation Duration="0:0:0.3" To="#FFF8FBFE" Storyboard.TargetName="gs1" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0:0:0.3" To="#FFEDF2FA" Storyboard.TargetName="gs2" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0:0:0.3" To="#FFD7E4F4" Storyboard.TargetName="gs3" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0:0:0.3" To="#FFC1D2E8" Storyboard.TargetName="gs4" Storyboard.TargetProperty="Color" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.1" To="0" Storyboard.TargetName="scb" Storyboard.TargetProperty="Opacity" />
+                                                <ColorAnimation Duration="0:0:0.1" To="#FFF5F9FD" Storyboard.TargetName="gs1" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0:0:0.1" To="#FFE7F0FA" Storyboard.TargetName="gs2" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0:0:0.1" To="#FFDEE8F5" Storyboard.TargetName="gs3" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0:0:0.1" To="#FFDDE8F6" Storyboard.TargetName="gs4" Storyboard.TargetProperty="Color" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetName="scb" Storyboard.TargetProperty="Opacity" />
+                                                <ColorAnimation Duration="0" To="#FFC9D4E4" Storyboard.TargetName="gs1" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0" To="#FFD8E4F1" Storyboard.TargetName="gs2" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0" To="#FFCFDBEC" Storyboard.TargetName="gs3" Storyboard.TargetProperty="Color" />
+                                                <ColorAnimation Duration="0" To="#FFCFDCED" Storyboard.TargetName="gs4" Storyboard.TargetProperty="Color" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Border.Background>
+                                    <LinearGradientBrush x:Name="lgb" StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop x:Name="gs1" Color="Transparent" Offset="0" />
+                                        <GradientStop x:Name="gs2" Color="Transparent" Offset="0.5" />
+                                        <GradientStop x:Name="gs3" Color="Transparent" Offset="0.51" />
+                                        <GradientStop x:Name="gs4" Color="Transparent" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="#ADADAD"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Color="#FFFDFEFF" Offset="0" />
+                    <GradientStop Color="#FFE6F0FA" Offset="0.50" />
+                    <GradientStop Color="#FFDCE6F4" Offset="0.51" />
+                    <GradientStop Color="#FFDDE9F7" Offset="1" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+        </Grid.Background>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
         <!-- TODO: Localize button text -->
-        <!--<Button Command="{Binding BackCommand}">
-            
-            <StackPanel MinWidth="66">
-                <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/TagToolbar/Back.png" />
-                <TextBlock Text="Back" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Button>
+        
+        <Button Grid.Column="0" Command="{Binding TagAlbumCommand}" Content="Tag Album" />
+        <Button Grid.Column="1" Command="{Binding EditTagsCommand}" Content="Edit tags" />
+        <Button Grid.Column="2" Command="{Binding ChecksumCommand}" Content="Checksum" />
+        <Button Grid.Column="3" Command="{Binding NewFolderCommand}" Content="New folder" />
 
-        <Button Command="{Binding ForwardCommand}">
-            <StackPanel MinWidth="66">
-                <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/TagToolbar/Forward.png" />
-                <TextBlock Text="Forward" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Button>
-
-        <Button Command="{Binding UpCommand}">
-            <StackPanel MinWidth="66">
-                <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/TagToolbar/Up.png" />
-                <TextBlock Text="Up" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Button>
-
-        <Separator />-->
-
-        <Button Command="{Binding TagAlbumCommand}">
-            <!-- TODO: Localize button text -->
-            <StackPanel MinWidth="66">
-                <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/TagToolbar/TagAlbum.png" />
-                <TextBlock Text="Tag Album" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Button>
-
-        <Separator />
-
-        <Button Command="{Binding HelpCommand}">
-            <!-- TODO: Localize button text -->
-            <StackPanel MinWidth="66">
-                <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/GeneralToolbar/Help.png" />
-                <TextBlock Text="Help" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Button>
-
-    </ToolBar>
+    </Grid>
+    
 </view:ViewBase>

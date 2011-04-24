@@ -52,38 +52,5 @@ namespace CDTag.FileBrowser.View
                 }
             }
         }
-
-        internal void UpdateStatusBar()
-        {
-            // TODO: Localization
-            const string OneItem = "1 item";
-            const string ManyItems = "{0:#,0} items";
-            const string StatusBarKB = " ({0:#,0} KB)";
-            const string StatusBarMB = " ({0:#,0.0} MB)";
-            const string StatusBarGB = " ({0:#,0.0} GB)";
-
-            long bytes = _directoryController.DirectorySizeBytes;
-            decimal kb = bytes / 1024.0m;
-            decimal mb = kb / 1024.0m;
-            decimal gb = mb / 1024.0m;
-
-            int itemCount = _directoryController.FileCollection.Count;
-
-            string text;
-            if (itemCount == 1)
-                text = OneItem;
-            else
-                text = string.Format(ManyItems, itemCount);
-
-            if (bytes <= 0) { /* do nothing */ }
-            else if (bytes < 1024 * 1024)
-                text += string.Format(StatusBarKB, kb);
-            else if (bytes < 1024 * 1024 * 1024)
-                text += string.Format(StatusBarMB, mb);
-            else
-                text += string.Format(StatusBarGB, gb);
-
-            lblStatus.Text = text;
-        }
     }
 }

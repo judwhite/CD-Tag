@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.FileBrowser.Model;
+using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.FileBrowser.ViewModel
@@ -34,16 +35,6 @@ namespace CDTag.FileBrowser.ViewModel
         /// </summary>
         public event EventHandler NavigationComplete;
 
-        /// <summary>
-        /// Occurs when <see cref="IsGoBackEnabled"/> has changed.
-        /// </summary>
-        public event EventHandler GoBackEnabledChanged;
-
-        /// <summary>
-        /// Occurs when <see cref="IsGoForwardEnabled"/> has changed.
-        /// </summary>
-        public event EventHandler GoForwardEnabledChanged;
-
         /// <summary>Occurs when select all requested.</summary>
         public event EventHandler SelectAllRequested;
 
@@ -58,6 +49,10 @@ namespace CDTag.FileBrowser.ViewModel
             : base(eventAggregator)
         {
             FileCollection = new FileCollection();
+
+            GoBackCommand = new DelegateCommand(() => GoBack(), () => IsGoBackEnabled);
+            GoForwardCommand = new DelegateCommand(() => GoForward(), () => IsGoForwardEnabled);
+            GoUpCommand = new DelegateCommand(GoUp, () => true /* TODO */);
         }
 
         /// <summary>Selects all.</summary>
@@ -108,28 +103,17 @@ namespace CDTag.FileBrowser.ViewModel
             get { return _directory; }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether GoBack should be enabled.
-        /// </summary>
-        /// <value><c>true</c> if GoBack should be enabled; otherwise, <c>false</c>.</value>
-        public bool IsGoBackEnabled
+        private bool IsGoBackEnabled
         {
             get { return _backHistory.Count > 0; }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether GoForward should be enabled.
-        /// </summary>
-        /// <value><c>true</c> if GoForward should be enabled; otherwise, <c>false</c>.</value>
-        public bool IsGoForwardEnabled
+        private bool IsGoForwardEnabled
         {
             get { return _forwardHistory.Count > 0; }
         }
 
-        /// <summary>
-        /// Go up a level.
-        /// </summary>
-        public void GoUp()
+        private void GoUp()
         {
             DirectoryInfo di = new DirectoryInfo(_directory.FullName);
             DirectoryInfo parent = di.Parent;
@@ -142,18 +126,10 @@ namespace CDTag.FileBrowser.ViewModel
         }
 
         /// <summary>
-        /// Go forward in the browsing history.
-        /// </summary>
-        public void GoForward()
-        {
-            GoForward(1);
-        }
-
-        /// <summary>
         /// Go forward <paramref name="count"/> steps in the browsing history.
         /// </summary>
         /// <param name="count">The number of steps to go forward.</param>
-        public void GoForward(int count)
+        private void GoForward(int count = 1)
         {
             if (count <= 0)
                 throw new ArgumentOutOfRangeException("count", count, string.Format("Parameter 'count' must be >= 1."));
@@ -179,19 +155,7 @@ namespace CDTag.FileBrowser.ViewModel
             NavigateTo(goToItem.FullName, false);
         }
 
-        /// <summary>
-        /// Go back in the browsing history.
-        /// </summary>
-        public void GoBack()
-        {
-            GoBack(1);
-        }
-
-        /// <summary>
-        /// Go back <paramref name="count"/> steps in the browsing history.
-        /// </summary>
-        /// <param name="count">The number of steps to go back.</param>
-        public void GoBack(int count)
+        private void GoBack(int count = 1)
         {
             if (count <= 0)
                 throw new ArgumentOutOfRangeException("count", count, string.Format("Parameter 'count' must be >= 1."));
@@ -287,7 +251,7 @@ namespace CDTag.FileBrowser.ViewModel
         /// <summary>Navigates to the specified <paramref name="directory"/>.</summary>
         /// <param name="directory">The directory.</param>
         /// <param name="addHistory">if set to <c>true</c> the previous directory will be added to the history.</param>
-        public void NavigateTo(string directory, bool addHistory)
+        private void NavigateTo(string directory, bool addHistory)
         {
             SendEvent(Navigating);
             try
@@ -403,11 +367,8 @@ namespace CDTag.FileBrowser.ViewModel
                 _fsw.Deleted += FileSystem_Deleted;
                 _fsw.Renamed += FileSystem_Renamed;
 
-                SendEvent(GoBackEnabledChanged);
-                SendEvent(GoForwardEnabledChanged);
-
-                // Write debug info
-                //WriteDebugThreadInfo("DirectoryView");
+                ((DelegateCommand)GoBackCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)GoForwardCommand).RaiseCanExecuteChanged();
             }
             finally
             {
@@ -437,14 +398,35 @@ namespace CDTag.FileBrowser.ViewModel
             _forwardHistory.Clear();
             _backHistory.Clear();
 
-            SendEvent(GoBackEnabledChanged);
-            SendEvent(GoForwardEnabledChanged);
+            ((DelegateCommand)GoBackCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)GoForwardCommand).RaiseCanExecuteChanged();
         }
 
         /// <summary>Gets the file collection.</summary>
         public FileCollection FileCollection
         {
             get { return Get<FileCollection>(); }
+            private set { Set(value); }
+        }
+
+        /// <summary>Gets the go back command.</summary>
+        public ICommand GoBackCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
+        /// <summary>Gets the go forward command.</summary>
+        public ICommand GoForwardCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
+        /// <summary>Gets the go up command.</summary>
+        public ICommand GoUpCommand
+        {
+            get { return Get<ICommand>(); }
             private set { Set(value); }
         }
     }

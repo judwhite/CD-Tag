@@ -5,24 +5,6 @@ namespace CDTag.ViewModel.Tag
 {
     public partial class TagViewModel : ViewModelBase<ITagViewModel>, ITagViewModel
     {
-        public ICommand BackCommand
-        {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
-        }
-
-        public ICommand ForwardCommand
-        {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
-        }
-
-        public ICommand UpCommand
-        {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
-        }
-
         public ICommand HelpCommand
         {
             get { return Get<ICommand>(); }

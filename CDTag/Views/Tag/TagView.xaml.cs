@@ -22,7 +22,7 @@ namespace CDTag.Views.Tag
             FileExplorer.Toolbar = Unity.Resolve<TagToolbar>();
 
             // TODO: Move to ViewModel
-            viewModel.DirectoryController = FileExplorer.DirectoryController;
+            viewModel.DirectoryViewModel = FileExplorer.DirectoryController;
         }
     }
 }
