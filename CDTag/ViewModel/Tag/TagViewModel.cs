@@ -14,8 +14,6 @@ namespace CDTag.ViewModel.Tag
             : base(eventAggregator)
         {
             ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
-            SelectAllCommand = new DelegateCommand(() => DirectoryViewModel.SelectAll());
-            InvertSelectionCommand = new DelegateCommand(() => DirectoryViewModel.InvertSelection());
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
         }
@@ -26,7 +24,7 @@ namespace CDTag.ViewModel.Tag
             {
                 RegisterCommandBindings();
 
-                DirectoryViewModel.NavigateTo(@"C:\");
+                DirectoryViewModel.CurrentDirectory = @"C:\";
             }
         }
 
@@ -35,12 +33,12 @@ namespace CDTag.ViewModel.Tag
             RegisterCommandBinding(ModifierKeys.Alt, Key.Left, DirectoryViewModel.GoBackCommand);
             RegisterCommandBinding(ModifierKeys.Alt, Key.Right, DirectoryViewModel.GoForwardCommand);
             RegisterCommandBinding(ModifierKeys.Alt, Key.Up, DirectoryViewModel.GoUpCommand);
-            RegisterCommandBinding(ModifierKeys.Control, Key.A, SelectAllCommand);
+            RegisterCommandBinding(ModifierKeys.Control, Key.A, DirectoryViewModel.SelectAllCommand);
         }
 
         public IDirectoryController DirectoryViewModel
         {
-            get { return Get<DirectoryController>(); }
+            get { return Get<IDirectoryController>(); }
             set { Set(value); }
         }
 

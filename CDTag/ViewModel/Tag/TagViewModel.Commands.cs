@@ -65,18 +65,6 @@ namespace CDTag.ViewModel.Tag
             private set { Set(value); }
         }
 
-        public ICommand SelectAllCommand
-        {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
-        }
-
-        public ICommand InvertSelectionCommand
-        {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
-        }
-
         public ICommand RefreshCommand
         {
             get { return Get<ICommand>(); }

@@ -43,7 +43,7 @@ namespace CDTag.FileBrowser.View
                     MouseHelper.SetWaitCursor();
                     try
                     {
-                        _directoryController.NavigateTo(item.FullName);
+                        _directoryController.CurrentDirectory = item.FullName;
                     }
                     finally
                     {

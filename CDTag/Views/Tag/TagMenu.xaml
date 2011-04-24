@@ -30,8 +30,8 @@
                 <MenuItem Header="Copy to _folder..." Command="{Binding CopyToFolderCommand}" />
                 <MenuItem Header="Mo_ve to folder..." Command="{Binding MoveToFolderCommand}" />
                 <Separator />
-                <MenuItem Header="Select _all" Command="{Binding SelectAllCommand}" InputGestureText="Ctrl+A" />
-                <MenuItem Header="_Invert selection" Command="{Binding InvertSelectionCommand}" />
+                <MenuItem Header="Select _all" Command="{Binding Path=DirectoryViewModel.SelectAllCommand}" InputGestureText="Ctrl+A" />
+                <MenuItem Header="_Invert selection" Command="{Binding Path=DirectoryViewModel.InvertSelectionCommand}" />
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="Status _bar" IsCheckable="True" IsChecked="{Binding IsShowStatusBarChecked, Mode=TwoWay}" />

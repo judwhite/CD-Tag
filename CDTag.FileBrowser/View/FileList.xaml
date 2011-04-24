@@ -51,6 +51,7 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="DataGridRow">
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
             <Style.Triggers>
                 <Trigger Property="DataGridRow.IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="Black" />

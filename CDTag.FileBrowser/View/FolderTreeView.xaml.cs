@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using CDTag.Common.Win32API;
+using CDTag.Common;
 using CDTag.FileBrowser.Model;
+using CDTag.FileBrowser.ViewModel;
 
 namespace CDTag.FileBrowser.View
 {
@@ -20,15 +16,19 @@ namespace CDTag.FileBrowser.View
     /// </summary>
     public partial class FolderTreeView : UserControl
     {
+        private IDirectoryController _viewModel;
+
         // TODO: Get string values from a resource file or make them public
-        private const string DriveTypes_LocalDisk = "Local Disk";
-        private const string DriveTypes_CDDVD = "CD/DVD ({0})";
-        private const string DriveTypes_RemovableDisk = "Removable Disk ({0})";
         private const string DriveNotReadyDialogTitle = "Drive not ready";
         private const string DriveNotReadyMessage = "Drive {0} not ready.";
         private const string AccessDeniedDialogTitle = "Access denied";
 
         private bool _drivesAdded;
+
+        private bool _suppressEventHandling;
+        private int _updateCount;
+
+        private string _oldDirectory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FolderTreeView"/> class.
@@ -37,247 +37,98 @@ namespace CDTag.FileBrowser.View
         {
             InitializeComponent();
 
+            DataContextChanged += FolderTreeView_DataContextChanged;
             treeView1.SelectedItemChanged += treeView1_SelectedItemChanged;
         }
 
-        private bool _suppressEventHandling;
-        private string _currentDirectory;
-        private bool _navigating;
-        private int _updateCount;
-
-        /// <summary>
-        /// Occurs when navigation is complete.
-        /// </summary>
-        public event EventHandler NavigationComplete;
-
-        private class DirectoryTreeNode : TreeViewItem
+        private void FolderTreeView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            private string _directory;
-
-            public bool IsAccessDenied { get; private set; }
-            public bool IsDrive { get; private set; }
-            public string AccessDeniedMessage { get; private set; }
-
-            public string Directory
-            {
-                get { return _directory; }
-                set
-                {
-                    _directory = value;
-
-                    Win32.SHFILEINFO info = new Win32.SHFILEINFO();
-                    Win32.SHGetFileInfo(_directory, 0, ref info, (uint)Marshal.SizeOf(info), Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
-
-                    ImageSource img;
-                    using (System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(info.hIcon))
-                    {
-                        img = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, icon.Width, icon.Height), BitmapSizeOptions.FromEmptyOptions());
-                    }
-
-                    string text = Path.GetFileName(_directory);
-
-                    if (string.IsNullOrEmpty(text))
-                    {
-                        IsDrive = true;
-
-                        DriveInfo drive = new DriveInfo(_directory);
-
-                        string volumeLabel = string.Empty;
-                        if (drive.IsReady)
-                            volumeLabel = drive.VolumeLabel;
-                        string driveLetter = drive.Name.TrimEnd('\\');
-
-                        switch (drive.DriveType)
-                        {
-                            case DriveType.Fixed:
-                                if (string.IsNullOrEmpty(volumeLabel))
-                                    volumeLabel = DriveTypes_LocalDisk;
-                                break;
-                            case DriveType.CDRom:
-                                text = string.Format(DriveTypes_CDDVD, driveLetter);
-                                break;
-                            case DriveType.Removable:
-                                text = string.Format(DriveTypes_RemovableDisk, driveLetter);
-                                break;
-                            default:
-                                text = string.Format("{0}", driveLetter);
-                                break;
-                        }
-
-                        if (drive.DriveType == DriveType.Fixed)
-                        {
-                            text = string.Format("{0} ({1})", volumeLabel, driveLetter);
-                        }
-                        else if (!string.IsNullOrEmpty(volumeLabel))
-                        {
-                            text += " " + volumeLabel;
-                        }
-
-                        if (drive.IsReady)
-                        {
-                            if (System.IO.Directory.GetDirectories(_directory).Length != 0)
-                            {
-                                Items.Add(null);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        string[] dirs;
-                        try
-                        {
-                            dirs = System.IO.Directory.GetDirectories(_directory);
-                            if (dirs.Length != 0)
-                            {
-                                Items.Add(null);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            IsAccessDenied = true;
-                            AccessDeniedMessage = ex.Message;
-                        }
-                    }
-
-                    Header = BuildHeader(img, text);
-                }
-            }
-
-            private static StackPanel BuildHeader(ImageSource img, string text)
-            {
-                StackPanel stack = new StackPanel();
-                stack.Orientation = Orientation.Horizontal;
-
-                Image icon = new Image();
-                icon.VerticalAlignment = VerticalAlignment.Center;
-                icon.Margin = new Thickness(0, 0, 4, 0);
-                icon.Source = img;
-                stack.Children.Add(icon);
-
-                TextBlock textBlock = new TextBlock();
-                textBlock.VerticalAlignment = VerticalAlignment.Center;
-                textBlock.Text = text;
-                stack.Children.Add(textBlock);
-
-                return stack;
-            }
-
-            public static readonly RoutedEvent CollapsingEvent = EventManager.RegisterRoutedEvent("Collapsing", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(DirectoryTreeNode));
-
-            public static readonly RoutedEvent ExpandingEvent = EventManager.RegisterRoutedEvent("Expanding", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(DirectoryTreeNode));
-
-            public event RoutedEventHandler Collapsing
-            {
-                add { AddHandler(CollapsingEvent, value); }
-                remove { RemoveHandler(CollapsingEvent, value); }
-            }
-
-            public event RoutedEventHandler Expanding
-            {
-                add { AddHandler(ExpandingEvent, value); }
-                remove { RemoveHandler(ExpandingEvent, value); }
-            }
-
-            protected override void OnExpanded(RoutedEventArgs e)
-            {
-                OnExpanding(new RoutedEventArgs(ExpandingEvent, this));
-                base.OnExpanded(e);
-            }
-
-            protected override void OnCollapsed(RoutedEventArgs e)
-            {
-                OnCollapsing(new RoutedEventArgs(CollapsingEvent, this));
-                base.OnCollapsed(e);
-            }
-
-            protected virtual void OnCollapsing(RoutedEventArgs e) { RaiseEvent(e); }
-            protected virtual void OnExpanding(RoutedEventArgs e) { RaiseEvent(e); }
+            _viewModel = (IDirectoryController)DataContext;
+            _viewModel.EnhancedPropertyChanged += _viewModel_EnhancedPropertyChanged;
         }
 
-        /// <summary>
-        /// Navigates to a specified directory.
-        /// </summary>
-        /// <param name="fileView">The directory.</param>
-        public void NavigateTo(FileView fileView)
+        private void _viewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<IDirectoryController> e)
         {
-            if (fileView == null)
-                throw new ArgumentNullException("fileView");
+            if (e.IsProperty(p => p.CurrentDirectory))
+            {
+                NavigateTo(_viewModel.CurrentDirectory);
+            }
+        }
 
-            _navigating = true;
+        /// <summary>Navigates to a specified directory.</summary>
+        /// <param name="directory">The directory.</param>
+        private void NavigateTo(string directory)
+        {
+            if (string.IsNullOrEmpty(directory))
+                throw new ArgumentNullException("directory");
+
+            FileView fileView = new FileView(directory);
+            string currentDirectory = _oldDirectory;
+            _oldDirectory = fileView.FullName;
+
+            if (!_drivesAdded)
+            {
+                _drivesAdded = true;
+
+                foreach (DriveInfo drive in DriveInfo.GetDrives())
+                {
+                    DirectoryTreeNode node = new DirectoryTreeNode();
+                    node.Expanding += treeView1_BeforeExpand;
+                    node.Collapsing += treeView1_BeforeCollapse;
+                    treeView1.Items.Add(node);
+
+                    node.Directory = drive.RootDirectory.FullName;
+                }
+            }
+
+            if (!fileView.IsDirectory)
+                return;
+
+            if (string.Compare(currentDirectory, fileView.FullName, true) == 0)
+                return;
+
+            List<string> nodeNames = new List<string>();
+            nodeNames.Add(fileView.FullName);
+            string upLevel = Path.GetDirectoryName(fileView.FullName);
+            while (!string.IsNullOrEmpty(upLevel))
+            {
+                nodeNames.Add(upLevel);
+                upLevel = Path.GetDirectoryName(upLevel);
+            }
+
+            ItemCollection nodes = treeView1.Items;
+            TreeViewItem parentNode = null;
+
+            TreeViewBeginUpdate();
+            _suppressEventHandling = true;
             try
             {
-                if (!_drivesAdded)
+                for (int i = nodeNames.Count - 1; i >= 0; i--)
                 {
-                    _drivesAdded = true;
-
-                    foreach (DriveInfo drive in DriveInfo.GetDrives())
-                    {
-                        DirectoryTreeNode node = new DirectoryTreeNode();
-                        node.Expanding += treeView1_BeforeExpand;
-                        node.Collapsing += treeView1_BeforeCollapse;
-                        treeView1.Items.Add(node);
-
-                        node.Directory = drive.RootDirectory.FullName;
-                    }
+                    parentNode = FindNode(parentNode, nodes, nodeNames[i]);
+                    nodes = parentNode.Items;
                 }
 
-                if (!fileView.IsDirectory)
-                    return;
-
-                if (string.Compare(CurrentDirectory, fileView.FullName, true) == 0)
-                    return;
-
-                List<string> nodeNames = new List<string>();
-                nodeNames.Add(fileView.FullName);
-                string upLevel = Path.GetDirectoryName(fileView.FullName);
-                while (!string.IsNullOrEmpty(upLevel))
+                if (parentNode != null)
                 {
-                    nodeNames.Add(upLevel);
-                    upLevel = Path.GetDirectoryName(upLevel);
-                }
-
-                ItemCollection nodes = treeView1.Items;
-                TreeViewItem parentNode = null;
-
-                TreeViewBeginUpdate();
-                _suppressEventHandling = true;
-                try
-                {
-                    for (int i = nodeNames.Count - 1; i >= 0; i--)
-                    {
-                        parentNode = FindNode(parentNode, nodes, nodeNames[i]);
-                        nodes = parentNode.Items;
-                    }
-
-                    if (parentNode != null)
-                    {
-                        UpdateNodeChildren((DirectoryTreeNode)parentNode);
-                        parentNode.IsSelected = true;
-                        parentNode.IsExpanded = true;
-                        parentNode.BringIntoView();
-                    }
-                }
-                finally
-                {
-                    _suppressEventHandling = false;
-                    TreeViewEndUpdate();
+                    UpdateNodeChildren((DirectoryTreeNode)parentNode);
+                    parentNode.IsSelected = true;
+                    parentNode.IsExpanded = true;
+                    parentNode.BringIntoView();
                 }
             }
             finally
             {
-                _navigating = false;
+                _suppressEventHandling = false;
+                TreeViewEndUpdate();
             }
-
-            SendEvent(NavigationComplete);
         }
 
-        private TreeViewItem FindNode(TreeViewItem parentNode, ItemCollection nodes, string directory)
+        private TreeViewItem FindNode(TreeViewItem parentNode, ItemCollection nodes, string directory, int attemptNumber = 1)
         {
-            return FindNode(parentNode, nodes, directory, 1);
-        }
+            if (attemptNumber < 1)
+                throw new ArgumentOutOfRangeException("attemptNumber", attemptNumber, "attemptNumber must be >= 1");
 
-        private TreeViewItem FindNode(TreeViewItem parentNode, ItemCollection nodes, string directory, int attemptNumber)
-        {
             if (attemptNumber > 2)
             {
                 return parentNode;
@@ -304,21 +155,6 @@ namespace CDTag.FileBrowser.View
         }
 
         /// <summary>
-        /// Gets the current directory.
-        /// </summary>
-        /// <value>The current directory.</value>
-        public string CurrentDirectory
-        {
-            get { return _currentDirectory; }
-            private set
-            {
-                _currentDirectory = value;
-                if (!_suppressEventHandling)
-                    SendEvent(NavigationComplete);
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to show the 'Folders' header.
         /// </summary>
         /// <value><c>true</c> if the 'Folders' header should be shown; otherwise, <c>false</c>.</value>
@@ -338,7 +174,9 @@ namespace CDTag.FileBrowser.View
             if (node == null)
                 return;
 
-            if (CurrentDirectory != node.Directory)
+            string currentDirectory = _viewModel.CurrentDirectory;
+
+            if (currentDirectory != node.Directory)
             {
                 if (!node.IsExpanded)
                 {
@@ -355,11 +193,9 @@ namespace CDTag.FileBrowser.View
                 }
                 else
                 {
-                    CurrentDirectory = node.Directory;
+                    _viewModel.CurrentDirectory = node.Directory;
                 }
             }
-
-            SendEvent(NavigationComplete);
 
             e.Handled = true;
         }
@@ -384,8 +220,6 @@ namespace CDTag.FileBrowser.View
                 _suppressEventHandling = false;
             }
 
-            SendEvent(NavigationComplete);
-
             e.Handled = true;
         }
 
@@ -408,7 +242,6 @@ namespace CDTag.FileBrowser.View
                 DirectoryInfo[] dirs = info.GetDirectories();
 
                 TreeViewBeginUpdate();
-                Mouse.OverrideCursor = Cursors.Wait;
                 try
                 {
                     node.Items.Clear();
@@ -424,13 +257,12 @@ namespace CDTag.FileBrowser.View
                         }
                     }
 
-                    CurrentDirectory = node.Directory;
+                    _viewModel.CurrentDirectory = node.Directory;
                     if (!_suppressEventHandling)
                         node.IsSelected = true;
                 }
                 finally
                 {
-                    Mouse.OverrideCursor = null;
                     TreeViewEndUpdate();
                 }
             }
@@ -438,18 +270,20 @@ namespace CDTag.FileBrowser.View
             {
                 MessageBox.Show(node.AccessDeniedMessage, AccessDeniedDialogTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             }
-
-            SendEvent(NavigationComplete);
         }
 
         private void TreeViewBeginUpdate()
         {
             _updateCount++;
+            MouseHelper.SetWaitCursor();
         }
 
         private void TreeViewEndUpdate()
         {
             _updateCount--;
+            if (_updateCount <= 0)
+                _updateCount = 0;
+            MouseHelper.ResetCursor();
         }
 
         private void treeView1_BeforeCollapse(object sender, RoutedEventArgs e)
@@ -464,24 +298,13 @@ namespace CDTag.FileBrowser.View
             _suppressEventHandling = true;
             try
             {
-                CurrentDirectory = node.Directory;
+                _viewModel.CurrentDirectory = node.Directory;
                 node.IsSelected = true;
                 node.IsExpanded = false;
             }
             finally
             {
                 _suppressEventHandling = false;
-            }
-
-            SendEvent(NavigationComplete);
-        }
-
-        private void SendEvent(EventHandler eventHandler)
-        {
-            if (!_navigating)
-            {
-                if (eventHandler != null)
-                    eventHandler(this, EventArgs.Empty);
             }
         }
     }

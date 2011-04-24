@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using CDTag.Common;
 using CDTag.FileBrowser.Model;
 
 namespace CDTag.FileBrowser.ViewModel
@@ -8,7 +9,7 @@ namespace CDTag.FileBrowser.ViewModel
     /// <summary>
     /// IDirectoryController interface. See <see cref="DirectoryController"/>.
     /// </summary>
-    public interface IDirectoryController
+    public interface IDirectoryController : IViewModelBase<IDirectoryController>
     {
         /// <summary>Gets the go back command.</summary>
         ICommand GoBackCommand { get; }
@@ -19,14 +20,14 @@ namespace CDTag.FileBrowser.ViewModel
         /// <summary>Gets the go up command.</summary>
         ICommand GoUpCommand { get; }
 
+        /// <summary>Gets the select all command.</summary>
+        ICommand SelectAllCommand { get; }
+        
+        /// <summary>Gets the invert selection command.</summary>
+        ICommand InvertSelectionCommand { get; }
+
         /// <summary>Gets the file collection.</summary>
         FileCollection FileCollection { get; }
-
-        /// <summary>Occurs when select all requested.</summary>
-        event EventHandler SelectAllRequested;
-
-        /// <summary>Occurs when invert selection requested.</summary>
-        event EventHandler InvertSelectionRequested;
 
         /// <summary>
         /// Occurs when navigating starts.
@@ -42,19 +43,13 @@ namespace CDTag.FileBrowser.ViewModel
         /// Gets the current directory.
         /// </summary>
         /// <value>The current directory.</value>
-        FileView CurrentDirectory { get; }
+        string CurrentDirectory { get; set; }
 
         /// <summary>
         /// Gets the directory size in bytes.
         /// </summary>
         /// <value>The directory size in bytes.</value>
         long DirectorySizeBytes { get; }
-
-        /// <summary>
-        /// Navigates to the specified <paramref name="directory"/>.
-        /// </summary>
-        /// <param name="directory">The directory.</param>
-        void NavigateTo(string directory);
 
         /// <summary>
         /// Gets the back history.
@@ -72,11 +67,5 @@ namespace CDTag.FileBrowser.ViewModel
         /// Refreshes the view.
         /// </summary>
         void RefreshExplorer();
-
-        /// <summary>Selects all.</summary>
-        void SelectAll();
-
-        /// <summary>Inverts the selection.</summary>
-        void InvertSelection();
     }
 }

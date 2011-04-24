@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
@@ -22,13 +21,6 @@ namespace CDTag.FileBrowser.View
 
             _directoryController = Unity.Resolve<IDirectoryController>();
             DataContext = _directoryController;
-
-            FolderTreeView.NavigationComplete += treeView1_NavigationComplete;
-            FileList.fileView.SelectionChanged += fileView_SelectionChanged;
-
-            _directoryController.NavigationComplete += _directoryController_NavigationComplete;
-            _directoryController.SelectAllRequested += (o, e) => SelectAll();
-            _directoryController.InvertSelectionRequested += (o, e) => InvertSelection();
 
             PreviewMouseDown += FileExplorer_PreviewMouseDown;
         }
@@ -65,64 +57,6 @@ namespace CDTag.FileBrowser.View
         public IDirectoryController DirectoryController
         {
             get { return _directoryController; }
-        }
-
-        private void treeView1_NavigationComplete(object sender, EventArgs e)
-        {
-            MouseHelper.SetWaitCursor();
-            try
-            {
-                _directoryController.NavigateTo(FolderTreeView.CurrentDirectory);
-            }
-            finally
-            {
-                MouseHelper.ResetCursor();
-            }
-        }
-
-        /// <summary>Selects all.</summary>
-        public void SelectAll()
-        {
-            if (FileList.fileView.SelectedItems.Count == FileList.fileView.Items.Count)
-            {
-                FileList.fileView.UnselectAll();
-            }
-            else
-            {
-                FileList.fileView.SelectAll();
-            }
-        }
-
-        /// <summary>Inverts the selection.</summary>
-        public void InvertSelection()
-        {
-            var selectedItems = FileList.fileView.SelectedItems;
-
-            foreach (var item in FileList.fileView.Items)
-            {
-                int index = selectedItems.IndexOf(item);
-                if (index != -1)
-                    selectedItems.RemoveAt(index);
-                else
-                    selectedItems.Add(item);
-            }
-        }
-
-        private void fileView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // TODO
-            foreach (object o in e.AddedItems)
-            {
-            }
-        }
-
-        private void _directoryController_NavigationComplete(object sender, EventArgs e)
-        {
-            MouseHelper.SetWaitCursor();
-
-            FolderTreeView.NavigateTo(_directoryController.CurrentDirectory);
-
-            MouseHelper.ResetCursor();
         }
     }
 }

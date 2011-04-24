@@ -7,9 +7,8 @@ using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.Common
 {
-    /// <summary>
-    /// ViewModelBase
-    /// </summary>
+    /// <summary>ViewModelBase</summary>
+    /// <typeparam name="T">The view model type.</typeparam>
     public abstract class ViewModelBase<T> : ViewModelBase
     {
         /// <summary>Occurs when a property value changes.</summary>

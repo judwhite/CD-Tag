@@ -18,8 +18,6 @@ namespace CDTag.ViewModel.Tag
         ICommand PasteCommand { get; }
         ICommand CopyToFolderCommand { get; }
         ICommand MoveToFolderCommand { get; }
-        ICommand SelectAllCommand { get; }
-        ICommand InvertSelectionCommand { get; }
         ICommand RefreshCommand { get; }
         ICommand CreateChecksumCommand { get; }
         ICommand VerifyChecksumCommand { get; }

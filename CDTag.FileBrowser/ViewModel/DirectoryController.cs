@@ -15,7 +15,7 @@ namespace CDTag.FileBrowser.ViewModel
     /// <summary>
     /// DirectoryController class. Used as a data source for file browsers.
     /// </summary>
-    public class DirectoryController : ViewModelBase, IDirectoryController
+    public class DirectoryController : ViewModelBase<IDirectoryController>, IDirectoryController
     {
         // TODO: Localize
         private const string _accessDeniedDialogTitle = "Access denied";
@@ -35,12 +35,6 @@ namespace CDTag.FileBrowser.ViewModel
         /// </summary>
         public event EventHandler NavigationComplete;
 
-        /// <summary>Occurs when select all requested.</summary>
-        public event EventHandler SelectAllRequested;
-
-        /// <summary>Occurs when invert selection requested.</summary>
-        public event EventHandler InvertSelectionRequested;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectoryController"/> class.
         /// </summary>
@@ -53,18 +47,30 @@ namespace CDTag.FileBrowser.ViewModel
             GoBackCommand = new DelegateCommand(() => GoBack(), () => IsGoBackEnabled);
             GoForwardCommand = new DelegateCommand(() => GoForward(), () => IsGoForwardEnabled);
             GoUpCommand = new DelegateCommand(GoUp, () => true /* TODO */);
+            SelectAllCommand = new DelegateCommand(SelectAll);
+            InvertSelectionCommand = new DelegateCommand(InvertSelection);
         }
 
         /// <summary>Selects all.</summary>
-        public void SelectAll()
+        private void SelectAll()
         {
-            SendEvent(SelectAllRequested);
+            int totalCount = FileCollection.Count;
+            int selectedCount = FileCollection.Count(p => p.IsSelected);
+
+            bool value = (totalCount != selectedCount);
+            foreach (var item in FileCollection)
+            {
+                item.IsSelected = value;
+            }
         }
 
         /// <summary>Inverts the selection.</summary>
-        public void InvertSelection()
+        private void InvertSelection()
         {
-            SendEvent(InvertSelectionRequested);
+            foreach (var item in FileCollection)
+            {
+                item.IsSelected = !item.IsSelected;
+            }
         }
 
         /// <summary>
@@ -86,21 +92,16 @@ namespace CDTag.FileBrowser.ViewModel
         }
 
         /// <summary>
-        /// Navigates to the specified <paramref name="directory"/>.
-        /// </summary>
-        /// <param name="directory">The directory.</param>
-        public void NavigateTo(string directory)
-        {
-            NavigateTo(directory, true);
-        }
-
-        /// <summary>
         /// Gets the current directory.
         /// </summary>
         /// <value>The current directory.</value>
-        public FileView CurrentDirectory
+        public string CurrentDirectory
         {
-            get { return _directory; }
+            get { return _directory == null ? null : _directory.FullName; }
+            set
+            {
+                NavigateTo(value, true);
+            }
         }
 
         private bool IsGoBackEnabled
@@ -121,7 +122,7 @@ namespace CDTag.FileBrowser.ViewModel
             if (parent != null)
             {
                 _forwardHistory.Clear();
-                NavigateTo(parent.FullName);
+                NavigateTo(parent.FullName, true);
             }
         }
 
@@ -186,7 +187,8 @@ namespace CDTag.FileBrowser.ViewModel
         /// </summary>
         public void RefreshExplorer()
         {
-            NavigateTo(CurrentDirectory.FullName, false);
+            // TODO: This may not cause a refresh
+            NavigateTo(CurrentDirectory, false);
         }
 
         private static FileSystemInfo GetFileSystemInfo(string path)
@@ -344,6 +346,7 @@ namespace CDTag.FileBrowser.ViewModel
                     _forwardHistory.Clear();
                 }
 
+                string oldDirectory = CurrentDirectory;
                 _directory = new FileView(info);
 
                 // Raise ListChanged event of ListChangedType.Reset
@@ -369,6 +372,8 @@ namespace CDTag.FileBrowser.ViewModel
 
                 ((DelegateCommand)GoBackCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)GoForwardCommand).RaiseCanExecuteChanged();
+
+                SendPropertyChanged("CurrentDirectory", oldValue: oldDirectory, newValue: CurrentDirectory);
             }
             finally
             {
@@ -425,6 +430,20 @@ namespace CDTag.FileBrowser.ViewModel
 
         /// <summary>Gets the go up command.</summary>
         public ICommand GoUpCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
+        /// <summary>Gets the select all command.</summary>
+        public ICommand SelectAllCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
+        /// <summary>Gets the invert selection command.</summary>
+        public ICommand InvertSelectionCommand
         {
             get { return Get<ICommand>(); }
             private set { Set(value); }
