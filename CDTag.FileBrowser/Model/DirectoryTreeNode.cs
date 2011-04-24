@@ -122,7 +122,10 @@ namespace CDTag.FileBrowser.Model
             TextBlock textBlock = new TextBlock();
             textBlock.VerticalAlignment = VerticalAlignment.Center;
             textBlock.Text = text;
+            textBlock.Margin = new Thickness(0, 0, 4, 0);
             stack.Children.Add(textBlock);
+
+            stack.Margin = new Thickness(0, 1.5, 0, 1.5);
 
             return stack;
         }
