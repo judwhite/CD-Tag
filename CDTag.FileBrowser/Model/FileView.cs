@@ -8,8 +8,9 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CDTag.Common.Win32API;
+using CDTag.FileBrowser.ViewModel;
 
-namespace CDTag.FileBrowser
+namespace CDTag.FileBrowser.Model
 {
     /// <summary>
     /// FileView class. Represents a file or directory in the file system. See <see cref="DirectoryController"/>.

@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using CDTag.FileBrowser.Model;
 
-namespace CDTag.FileBrowser
+namespace CDTag.FileBrowser.ViewModel
 {
     /// <summary>
-    /// IExplorer
+    /// IDirectoryController interface. See <see cref="DirectoryController"/>.
     /// </summary>
-    public interface IExplorer
+    public interface IDirectoryController
     {
+        /// <summary>Gets the file collection.</summary>
+        FileCollection FileCollection { get; }
+
+        /// <summary>Occurs when select all requested.</summary>
+        event EventHandler SelectAllRequested;
+
+        /// <summary>Occurs when invert selection requested.</summary>
+        event EventHandler InvertSelectionRequested;
+
         /// <summary>
         /// Occurs when navigating starts.
         /// </summary>
@@ -29,21 +39,16 @@ namespace CDTag.FileBrowser
         event EventHandler GoForwardEnabledChanged;
 
         /// <summary>
-        /// Occurs when the selected file/directory list has changed.
-        /// </summary>
-        event EventHandler SelectionChanged;
-
-        /// <summary>
         /// Gets the current directory.
         /// </summary>
         /// <value>The current directory.</value>
-        string CurrentDirectory { get; }
+        FileView CurrentDirectory { get; }
 
         /// <summary>
-        /// Gets the display name of the current directory.
+        /// Gets the directory size in bytes.
         /// </summary>
-        /// <value>The display name of the current directory.</value>
-        string CurrentDirectoryDisplayName { get; }
+        /// <value>The directory size in bytes.</value>
+        long DirectorySizeBytes { get; }
 
         /// <summary>
         /// Gets a value indicating whether GoBack should be enabled.
@@ -94,28 +99,23 @@ namespace CDTag.FileBrowser
         /// Gets the back history.
         /// </summary>
         /// <returns>The back history.</returns>
-        List<string> GetBackHistory();
+        List<FileView> GetBackHistory();
 
         /// <summary>
         /// Gets the forward history.
         /// </summary>
         /// <returns>The forward history.</returns>
-        List<string> GetForwardHistory();
-
-        /// <summary>
-        /// Focuses the address bar.
-        /// </summary>
-        void FocusAddressBar();
-
-        /// <summary>
-        /// Gets the selected items.
-        /// </summary>
-        /// <returns>The selected items.</returns>
-        List<string> GetSelectedItems();
+        List<FileView> GetForwardHistory();
 
         /// <summary>
         /// Refreshes the view.
         /// </summary>
         void RefreshExplorer();
+
+        /// <summary>Selects all.</summary>
+        void SelectAll();
+
+        /// <summary>Inverts the selection.</summary>
+        void InvertSelection();
     }
 }

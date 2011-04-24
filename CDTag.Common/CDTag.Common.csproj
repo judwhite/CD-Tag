@@ -59,7 +59,9 @@
   <ItemGroup>
     <Compile Include="EnhancedPropertyChangedEventArgs.cs" />
     <Compile Include="IViewModelBase.cs" />
+    <Compile Include="MouseHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unity.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Win32API\Advapi32.cs" />
     <Compile Include="Win32API\Const.cs" />

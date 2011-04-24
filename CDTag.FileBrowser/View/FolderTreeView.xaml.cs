@@ -11,8 +11,9 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CDTag.Common.Win32API;
+using CDTag.FileBrowser.Model;
 
-namespace CDTag.FileBrowser
+namespace CDTag.FileBrowser.View
 {
     /// <summary>
     /// Interaction logic for FolderTreeView.xaml

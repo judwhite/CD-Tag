@@ -1,9 +1,9 @@
 ﻿using System.Windows;
+using CDTag.Common;
+using CDTag.FileBrowser;
+using CDTag.FileBrowser.ViewModel;
 using CDTag.ViewModel.Tag;
 using CDTag.Views;
-using CDTag.Views.Tag;
-using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
 
@@ -16,6 +16,7 @@ namespace CDTag
             base.ConfigureContainer();
 
             Container.RegisterInstance(typeof(ITagViewModel), Container.Resolve<TagViewModel>());
+            Container.RegisterType(typeof(IDirectoryController), typeof(DirectoryController));
 
             Unity.Container = Container;
         }
@@ -32,16 +33,6 @@ namespace CDTag
         {
             //MainModule module = Container.Resolve<MainModule>();
             //module.Initialize();
-        }
-    }
-
-    public static class Unity
-    {
-        public static IUnityContainer Container { get; set; }
-
-        public static T Resolve<T>()
-        {
-            return Container.Resolve<T>();
         }
     }
 

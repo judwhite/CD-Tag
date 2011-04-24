@@ -25,8 +25,9 @@
 
     <ToolBar ToolBarTray.IsLocked="True" Style="{StaticResource ToolBarStyle1}">
 
-        <Button Command="{Binding BackCommand}">
-            <!-- TODO: Localize button text -->
+        <!-- TODO: Localize button text -->
+        <!--<Button Command="{Binding BackCommand}">
+            
             <StackPanel MinWidth="66">
                 <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/TagToolbar/Back.png" />
                 <TextBlock Text="Back" HorizontalAlignment="Center"/>
@@ -34,7 +35,6 @@
         </Button>
 
         <Button Command="{Binding ForwardCommand}">
-            <!-- TODO: Localize button text -->
             <StackPanel MinWidth="66">
                 <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/TagToolbar/Forward.png" />
                 <TextBlock Text="Forward" HorizontalAlignment="Center"/>
@@ -42,14 +42,13 @@
         </Button>
 
         <Button Command="{Binding UpCommand}">
-            <!-- TODO: Localize button text -->
             <StackPanel MinWidth="66">
                 <Image Style="{StaticResource toolbarImageStyle}" Source="/Resources/Images/TagToolbar/Up.png" />
                 <TextBlock Text="Up" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
 
-        <Separator />
+        <Separator />-->
 
         <Button Command="{Binding TagAlbumCommand}">
             <!-- TODO: Localize button text -->

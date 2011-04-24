@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CDTag.Common;
+using CDTag.FileBrowser.Model;
+using CDTag.FileBrowser.ViewModel;
 
-namespace CDTag.FileBrowser
+namespace CDTag.FileBrowser.View
 {
     /// <summary>
     /// Interaction logic for FileExplorer.xaml
     /// </summary>
     public partial class FileExplorer : UserControl
     {
-        private readonly DirectoryController _directoryController = new DirectoryController();
-        private int _mouseCursorWaitCount;
+        private readonly IDirectoryController _directoryController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileExplorer"/> class.
@@ -19,15 +21,25 @@ namespace CDTag.FileBrowser
         {
             InitializeComponent();
 
+            _directoryController = Unity.Resolve<IDirectoryController>();
+            DataContext = _directoryController;
+
             FolderTreeView.NavigationComplete += treeView1_NavigationComplete;
             FileList.fileView.SelectionChanged += fileView_SelectionChanged;
-            FileList.fileView.MouseDoubleClick += fileView_MouseDoubleClick;
 
             _directoryController.NavigationComplete += _directoryController_NavigationComplete;
             _directoryController.SelectAllRequested += (o, e) => SelectAll();
             _directoryController.InvertSelectionRequested += (o, e) => InvertSelection();
 
             PreviewMouseDown += FileExplorer_PreviewMouseDown;
+        }
+
+        /// <summary>Gets or sets the toolbar.</summary>
+        /// <value>The toolbar.</value>
+        public object Toolbar
+        {
+            get { return ToolbarContentControl.Content; }
+            set { ToolbarContentControl.Content = value; }
         }
 
         private void FileExplorer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -51,18 +63,22 @@ namespace CDTag.FileBrowser
         }
 
         /// <summary>Gets the directory controller.</summary>
-        public DirectoryController DirectoryController
+        public IDirectoryController DirectoryController
         {
             get { return _directoryController; }
         }
 
         private void treeView1_NavigationComplete(object sender, EventArgs e)
         {
-            SetWaitCursor();
-
-            _directoryController.NavigateTo(FolderTreeView.CurrentDirectory);
-
-            ResetCursor();
+            MouseHelper.SetWaitCursor();
+            try
+            {
+                _directoryController.NavigateTo(FolderTreeView.CurrentDirectory);
+            }
+            finally
+            {
+                MouseHelper.ResetCursor();
+            }
         }
 
         /// <summary>Selects all.</summary>
@@ -96,47 +112,31 @@ namespace CDTag.FileBrowser
         /// <summary>Goes back.</summary>
         public void GoBack()
         {
-            SetWaitCursor();
+            MouseHelper.SetWaitCursor();
 
             _directoryController.GoBack();
 
-            ResetCursor();
+            MouseHelper.ResetCursor();
         }
 
         /// <summary>Goes forward.</summary>
         public void GoForward()
         {
-            SetWaitCursor();
+            MouseHelper.SetWaitCursor();
 
             _directoryController.GoForward();
 
-            ResetCursor();
+            MouseHelper.ResetCursor();
         }
 
         /// <summary>Goes up.</summary>
         public void GoUp()
         {
-            SetWaitCursor();
+            MouseHelper.SetWaitCursor();
 
             _directoryController.GoUp();
 
-            ResetCursor();
-        }
-
-        private void SetWaitCursor()
-        {
-            Mouse.OverrideCursor = Cursors.Wait;
-            _mouseCursorWaitCount++;
-        }
-
-        private void ResetCursor()
-        {
-            _mouseCursorWaitCount--;
-            if (_mouseCursorWaitCount <= 0)
-            {
-                _mouseCursorWaitCount = 0;
-                Mouse.OverrideCursor = null;
-            }
+            MouseHelper.ResetCursor();
         }
 
         private void fileView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -147,36 +147,14 @@ namespace CDTag.FileBrowser
             }
         }
 
-        private void fileView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (FileList.fileView.SelectedItems.Count == 1)
-            {
-                FileView item = FileList.fileView.SelectedItem as FileView;
-                if (item == null)
-                    return;
-
-                if (item.IsDirectory)
-                {
-                    SetWaitCursor();
-
-                    _directoryController.NavigateTo(item.FullName);
-
-                    ResetCursor();
-                }
-            }
-        }
-
         private void _directoryController_NavigationComplete(object sender, EventArgs e)
         {
-            SetWaitCursor();
-
-            if (FileList.fileView.ItemsSource == null)
-                FileList.fileView.ItemsSource = _directoryController;
+            MouseHelper.SetWaitCursor();
 
             FolderTreeView.NavigateTo(_directoryController.CurrentDirectory);
-            FileList.UpdateStatusBar(_directoryController);
+            FileList.UpdateStatusBar();
 
-            ResetCursor();
+            MouseHelper.ResetCursor();
         }
     }
 }

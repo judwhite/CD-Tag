@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.FileBrowser;
+using CDTag.FileBrowser.ViewModel;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 
@@ -45,7 +46,7 @@ namespace CDTag.ViewModel.Tag
                 {
                     if (oldValue == null)
                     {
-                        DirectoryController.NavigateTo(@"C:\", false);
+                        DirectoryController.NavigateTo(@"C:\");
                     }
                     DirectoryController.NavigationComplete += DirectoryController_NavigationComplete;
                 }
@@ -59,7 +60,7 @@ namespace CDTag.ViewModel.Tag
             RaiseNavigationCanExecuteChanged();
         }
 
-        public DirectoryController DirectoryController
+        public IDirectoryController DirectoryController
         {
             get { return Get<DirectoryController>(); }
             set { Set(value); }

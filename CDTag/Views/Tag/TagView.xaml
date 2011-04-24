@@ -7,20 +7,18 @@
     xmlns:FileBrowser="clr-namespace:CDTag.FileBrowser;assembly=CDTag.FileBrowser" 
     xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism"
     xmlns:view="clr-namespace:CDTag.Views" 
-    xmlns:Tag="clr-namespace:CDTag.Views.Tag" 
-    mc:Ignorable="d" 
+    xmlns:Tag="clr-namespace:CDTag.Views.Tag" xmlns:View="clr-namespace:CDTag.FileBrowser.View;assembly=CDTag.FileBrowser" mc:Ignorable="d" 
     d:DesignHeight="300" 
     d:DesignWidth="300"
+    Background="Transparent"
 >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Tag:TagMenu Grid.Row="0" />
-        <Tag:TagToolbar Grid.Row="1" />
-        <FileBrowser:FileExplorer x:Name="FileExplorer" Grid.Row="2" />
+        <View:FileExplorer x:Name="FileExplorer" Grid.Row="1" />
     </Grid>
 </view:ViewBase>

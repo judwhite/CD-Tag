@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 
-namespace CDTag.FileBrowser
+namespace CDTag.FileBrowser.Behavior
 {
     /// <summary>
     /// Removes the Select All (Ctrl+A) command from a DataGrid.

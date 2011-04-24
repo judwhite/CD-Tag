@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using CDTag.Common;
 using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag
@@ -17,6 +18,8 @@ namespace CDTag.Views.Tag
             : base(viewModel)
         {
             InitializeComponent();
+
+            FileExplorer.Toolbar = Unity.Resolve<TagToolbar>();
 
             // TODO: Move to ViewModel
             viewModel.DirectoryController = FileExplorer.DirectoryController;

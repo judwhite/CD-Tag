@@ -8,6 +8,7 @@
     Title="CD-Tag" 
     Height="600" 
     Width="900"
+    Background="#FFBCDDFD"
     WindowStartupLocation="CenterScreen"
     view:AttachedProperties.RegisterCommandBindings="{Binding CommandBindings}"
 >
