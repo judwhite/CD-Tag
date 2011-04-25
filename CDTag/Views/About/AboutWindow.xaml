@@ -8,7 +8,8 @@
     Height="500" 
     Width="650"
     WindowStartupLocation="CenterOwner"
-    WindowStyle="SingleBorderWindow"
+    ResizeMode="CanMinimize"
+    ShowInTaskbar="False"
 >
     <Grid>
         <Grid.RowDefinitions>
@@ -111,13 +112,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="CD-Tag" />
-                <TextBlock Grid.Row="1" Grid.Column="0">
+                <TextBlock Grid.Row="0" Grid.Column="0">
 					<Run Text="Version" />
-					<Run Text="3.0.0.0" />
-					<Run Text="nightly-build" />
+					<Run Text="{Binding VersionText, Mode=OneWay}" />
                 </TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="© 1996-2011 Jud White" />
+                <TextBlock Grid.Row="1" Text="{Binding ReleaseDate, StringFormat='{}Released {0:MMMM d, yyyy}', Mode=OneWay}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding CopyrightText, Mode=OneWay}" />
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="All rights reserved" />
             </Grid>
 

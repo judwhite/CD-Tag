@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CDTag.Common;
 
@@ -11,5 +12,8 @@ namespace CDTag.ViewModel.About
         ObservableCollection<string> ComponentsCollection { get; }
         ICommand CopyComponentCommand { get; }
         ICommand CloseCommand { get; }
+        string CopyrightText { get; }
+        string VersionText { get; }
+        DateTime ReleaseDate { get; }
     }
 }

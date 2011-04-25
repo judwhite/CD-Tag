@@ -45,6 +45,7 @@ namespace CDTag
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show(e.Exception.ToString(), "", MessageBoxButton.OK, MessageBoxImage.Warning);
+            e.Handled = true;
         }
     }
 }

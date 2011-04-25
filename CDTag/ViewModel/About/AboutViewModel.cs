@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
@@ -17,6 +19,16 @@ namespace CDTag.ViewModel.About
         {
             CloseCommand = new DelegateCommand<Window>((window) => window.Close());
             NavigateCommand = new DelegateCommand<Uri>(Navigate);
+
+            var assembly = Assembly.GetEntryAssembly();
+            object[] attributes = assembly.GetCustomAttributes(true);
+            CopyrightText = attributes.OfType<AssemblyCopyrightAttribute>().Single().Copyright;
+
+            var version = assembly.GetName().Version;
+
+            VersionText = string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+
+            ReleaseDate = new DateTime(2000, 1, 1).AddDays(version.Build);
         }
 
         private static void Navigate(Uri uri)
@@ -58,6 +70,24 @@ namespace CDTag.ViewModel.About
         public ICommand CloseCommand
         {
             get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
+        public string CopyrightText
+        {
+            get { return Get<string>(); }
+            private set { Set(value); }
+        }
+
+        public string VersionText
+        {
+            get { return Get<string>(); }
+            private set { Set(value); }
+        }
+
+        public DateTime ReleaseDate
+        {
+            get { return Get<DateTime>(); }
             private set { Set(value); }
         }
     }
