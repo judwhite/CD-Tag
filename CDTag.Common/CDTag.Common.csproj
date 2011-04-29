@@ -36,6 +36,7 @@
     <DocumentationFile>bin\Release\CDTag.Common.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Libraries\Prism\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -47,8 +48,11 @@
       <HintPath>..\Libraries\Unity\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,6 +65,7 @@
     <Compile Include="IViewModelBase.cs" />
     <Compile Include="MouseHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\WindowSettings.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Win32API\Advapi32.cs" />

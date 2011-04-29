@@ -14,6 +14,7 @@ namespace CDTag.ViewModel.Tag
         public TagViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
+            //AboutCommand = new DelegateCommand(() => { throw new NotImplementedException(); });
             AboutCommand = new DelegateCommand(() => ((App)Application.Current).ShowWindow<AboutWindow>());
             ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
 

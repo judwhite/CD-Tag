@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using CDTag.Common;
+using CDTag.Controls;
 using CDTag.Views;
 
 namespace CDTag
@@ -44,7 +46,16 @@ namespace CDTag
         
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.ToString(), "", MessageBoxButton.OK, MessageBoxImage.Warning);
+            ErrorNotification errorNotification = new ErrorNotification();
+                
+            Grid errorItems = ((MainWindow)MainWindow).ErrorItems;
+            errorItems.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            errorNotification.SetValue(Grid.RowProperty, errorItems.RowDefinitions.Count - 1);
+            errorItems.Children.Add(errorNotification);
+            errorItems.UpdateLayout(); // Force OnApplyTemplate for ErrorNotification
+
+            errorNotification.Show(e.Exception);
+
             e.Handled = true;
         }
     }

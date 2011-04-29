@@ -1,18 +1,18 @@
-﻿using System.Windows;
-using CDTag.ViewModel.Tag;
+﻿using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : WindowViewBase
     {
         public MainWindow(ITagViewModel viewModel)
+            : base(viewModel)
         {
             InitializeComponent();
 
-            DataContext = viewModel;
+            HandleEscape = false;
         }
     }
 }
