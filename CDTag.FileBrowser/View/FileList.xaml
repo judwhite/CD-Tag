@@ -15,67 +15,6 @@
         
         <Converters:StatusBarConverter x:Key="StatusBarConverter" />
         
-        <Style x:Key="NoBorderCell" TargetType="{x:Type DataGridCell}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ContentPresenter />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Margin" Value="0,-1,0,0" />
-            <Style.Triggers>
-                <Trigger Property="DataGridCell.IsSelected" Value="True">
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <VisualBrush TileMode="None" Stretch="Fill">
-                                <VisualBrush.Visual>
-                                    <Border BorderThickness="0,1" BorderBrush="#7DA2CE" Height="15" Width="300" CornerRadius="0">
-                                        <Border BorderThickness="0,0.5,0,0.5" BorderBrush="#EBF4FD" CornerRadius="0">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Offset="0" Color="#DCEBFC" />
-                                                    <GradientStop Offset="1" Color="#C1DBFC" />
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                        </Border>
-                                    </Border>
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="DataGridRow">
-            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-            <Style.Triggers>
-                <Trigger Property="DataGridRow.IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <VisualBrush TileMode="None" Stretch="Fill">
-                                <VisualBrush.Visual>
-                                    <Border BorderThickness="0,1" BorderBrush="#B8D6FB" Height="15" Width="300" CornerRadius="1" >
-                                        <Border BorderThickness="0,0.5" BorderBrush="#F2F7FE" CornerRadius="1">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Offset="0" Color="#FAFBFD" />
-                                                    <GradientStop Offset="1" Color="#EBF3FD" />
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                        </Border>
-                                    </Border>
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -97,10 +36,9 @@
             </StatusBarItem>
         </StatusBar>
 
-        <DataGrid x:Name="fileView" AutoGenerateColumns="False" GridLinesVisibility="None"
-                    SelectionUnit="FullRow" Background="White" SelectionMode="Extended" RowHeight="20"
-                    HorizontalScrollBarVisibility="Hidden" CanUserResizeRows="False" 
-                    HeadersVisibility="Column" ItemsSource="{Binding FileCollection}"
+        <DataGrid x:Name="fileView" Style="{DynamicResource DataGridStyle}"
+                    HorizontalScrollBarVisibility="Hidden"
+                    ItemsSource="{Binding FileCollection}"
         >
             <i:Interaction.Behaviors>
                 <Behavior:RemoveSelectAllBehavior />
@@ -108,46 +46,46 @@
 
             <DataGrid.Columns>
 
-                <DataGridTemplateColumn Header="" Width="20" CellStyle="{StaticResource NoBorderCell}">
+                <DataGridTemplateColumn Header="" Width="20" CanUserResize="False" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Width="16" Height="16" Source="{Binding ImageSource, Mode=OneWay}" VerticalAlignment="Center"/>
+                            <Image Width="16" Height="16" Source="{Binding ImageSource, Mode=OneWay}" VerticalAlignment="Center" Margin="2,0,0,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn x:Name="colName" Header="Name" Width="*" CellStyle="{StaticResource NoBorderCell}">
+                <DataGridTemplateColumn Header="Name" Width="*" CanUserSort="True" SortMemberPath="SortName">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="4,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn x:Name="colSize" Header="Size" Width="100" CellStyle="{StaticResource NoBorderCell}">
+                <DataGridTemplateColumn Header="Size" Width="100" SortMemberPath="SortSize">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Size, Mode=OneWay, StringFormat='{}{0:#,0}'}" VerticalAlignment="Center" TextAlignment="Right"/>
+                            <TextBlock Text="{Binding Size, Mode=OneWay, StringFormat='{}{0:#,0}'}" VerticalAlignment="Center" TextAlignment="Right" Margin="4,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn x:Name="colType" Header="Type" Width="100" CellStyle="{StaticResource NoBorderCell}">
+                <DataGridTemplateColumn Header="Type" Width="100" SortMemberPath="SortType">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="4,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn x:Name="colDateModified" Header="Date modified" Width="130" CellStyle="{StaticResource NoBorderCell}">
+                <DataGridTemplateColumn Header="Date modified" Width="130" SortMemberPath="SortDateModified">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding DateModified, Mode=OneWay, StringFormat='{}{0:yyyy-MM-dd hh:mm tt}'}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding DateModified, Mode=OneWay, StringFormat='{}{0:yyyy-MM-dd hh:mm tt}'}" VerticalAlignment="Center" Margin="4,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -64,6 +64,16 @@ namespace CDTag.FileBrowser.Model
             }
         }
 
+        /// <summary>Gets the sort name.</summary>
+        /// <value>The sort name.</value>
+        public string SortName
+        {
+            get
+            {
+                return string.Format("{0}?{1}", IsDirectory ? 0 : 1, Name);
+            }
+        }
+
         /// <summary>Gets or sets a value indicating whether this instance is selected.</summary>
         /// <value><c>true</c> if this instance is selected; otherwise, <c>false</c>.</value>
         public bool IsSelected
@@ -94,6 +104,17 @@ namespace CDTag.FileBrowser.Model
             }
         }
 
+        /// <summary>Gets the size of the sort.</summary>
+        /// <value>The size of the sort.</value>
+        public string SortSize
+        {
+            get
+            {
+                string value = string.Format("{0}?{1:000000000000}?{2}", IsDirectory ? 0 : 1, Size, Name);
+                return value;
+            }
+        }
+
         /// <summary>Gets the date modified.</summary>
         /// <value>The date modified.</value>
         public DateTime DateModified
@@ -106,6 +127,15 @@ namespace CDTag.FileBrowser.Model
                     _dateModified = value;
                     SendPropertyChanged("DateModified");
                 }
+            }
+        }
+
+        /// <summary>Gets the sort date modified.</summary>
+        public string SortDateModified
+        {
+            get
+            {
+                return string.Format("{0}?{1:yyyyMMddhhmmss}?{2}", IsDirectory ? 0 : 1, DateModified, Name);
             }
         }
 
@@ -124,6 +154,15 @@ namespace CDTag.FileBrowser.Model
             }
         }
 
+        /// <summary>Gets the sort date created.</summary>
+        public string SortDateCreated
+        {
+            get
+            {
+                return string.Format("{0}?{1:yyyyMMddhhmmss}?{2}", IsDirectory ? 0 : 1, DateCreated, Name);
+            }
+        }
+
         /// <summary>Gets the file type.</summary>
         /// <value>The file type.</value>
         public string Type
@@ -136,6 +175,16 @@ namespace CDTag.FileBrowser.Model
                     _type = value;
                     SendPropertyChanged("Type");
                 }
+            }
+        }
+
+        /// <summary>Gets the sort type.</summary>
+        /// <value>The sort type.</value>
+        public string SortType
+        {
+            get
+            {
+                return string.Format("{0}?{1}?{2}", IsDirectory ? 0 : 1, Type, Name);
             }
         }
 
@@ -224,10 +273,14 @@ namespace CDTag.FileBrowser.Model
             DateCreated = fileInfo.CreationTime;
 
             // Get Type Name
-            Win32.SHFILEINFO info = new Win32.SHFILEINFO();
-            Win32.SHGetFileInfo(fileInfo.FullName, 0, ref info, (uint)Marshal.SizeOf(info), Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
+            Win32.SHFILEINFO info;// = new Win32.SHFILEINFO();
+            Win32.SHGetFileInfo(fileInfo.FullName, 0, out info, (uint)Marshal.SizeOf(typeof(Win32.SHFILEINFO)), Win32.SHGFI_DISPLAYNAME | Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
 
-            Type = string.Format("{0}", info.szTypeName);
+            
+            if (Size == null)
+                Type = "File folder"; // TODO: Localize
+            else
+                Type = string.Format("{0}", info.szTypeName);
 
             if (info.hIcon == IntPtr.Zero)
                 return;

@@ -33,10 +33,23 @@ namespace CDTag.Common.Win32API
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct SHFILEINFO
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SHFILEINFO"/> struct.
+            /// </summary>
+            /// <param name="b">if set to <c>true</c> [b].</param>
+            public SHFILEINFO(bool b)
+            {
+                hIcon = IntPtr.Zero;
+                iIcon = 0;
+                dwAttributes = 0;
+                szDisplayName = "";
+                szTypeName = "";
+            }
+
             /// <summary>Handle to the icon that represents the file.</summary>
             public IntPtr hIcon;
             /// <summary>Index of the icon image within the system image list.</summary>
-            public IntPtr iIcon;
+            public int iIcon;
             /// <summary>Array of values that indicates the attributes of the file object.</summary>
             public UInt32 dwAttributes;
             /// <summary>String that contains the name of the file as it appears in the Microsoft Windows Shell, or the path and file name of the 

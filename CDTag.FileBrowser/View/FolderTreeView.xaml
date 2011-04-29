@@ -8,8 +8,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <DataGrid x:Name="panel1" Grid.Row="0" AutoGenerateColumns="False" GridLinesVisibility="None"
-                         SelectionUnit="FullRow" Background="White" SelectionMode="Extended" RowHeight="20" CanUserResizeColumns="False">
+        <DataGrid x:Name="panel1" Grid.Row="0" CanUserResizeColumns="False">
             <DataGrid.Columns>
                 <!-- TODO: Localization -->
                 <DataGridTextColumn Header="Folders" Width="*" CanUserSort="False"/>

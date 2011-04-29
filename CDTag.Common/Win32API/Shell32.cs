@@ -15,11 +15,11 @@ namespace CDTag.Common.Win32API
         /// <param name="cbSizeFileInfo">The size file info.</param>
         /// <param name="uFlags">The flags.</param>
         /// <returns></returns>
-        [DllImport("shell32.dll", EntryPoint = "SHGetFileInfo", CallingConvention = CallingConvention.StdCall)]
-        public static extern IntPtr SHGetFileInfo(String pszPath,
-                                             UInt32 dwFileAttributes,
-                                             ref SHFILEINFO psfi,
-                                             UInt32 cbSizeFileInfo,
+        [DllImport("shell32.dll", EntryPoint = "SHGetFileInfo", CharSet = CharSet.Auto)]
+        public static extern int SHGetFileInfo(string pszPath,
+                                             int dwFileAttributes,
+                                             out SHFILEINFO psfi,
+                                             uint cbSizeFileInfo,
                                              UInt32 uFlags);
 
         /// <summary>

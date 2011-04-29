@@ -11,6 +11,8 @@ namespace CDTag.Views.About
             : base(viewModel)
         {
             InitializeComponent();
+
+            viewModel.ErrorContainer = errorContainer;
         }
 
         public AboutWindow()

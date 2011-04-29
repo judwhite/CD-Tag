@@ -16,6 +16,7 @@ namespace CDTag
         {
             base.ConfigureContainer();
 
+            Container.RegisterInstance(typeof(IApp), Application.Current);
             Container.RegisterInstance(typeof(ITagViewModel), Container.Resolve<TagViewModel>());
             Container.RegisterType(typeof(IDirectoryController), typeof(DirectoryController));
             Container.RegisterType(typeof(IAboutViewModel), typeof(AboutViewModel));

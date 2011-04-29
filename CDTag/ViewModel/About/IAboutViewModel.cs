@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Model.About;
 
 namespace CDTag.ViewModel.About
 {
@@ -9,7 +10,7 @@ namespace CDTag.ViewModel.About
     {
         ICommand NavigateCommand { get; }
         string ReleaseNotes { get; }
-        ObservableCollection<string> ComponentsCollection { get; }
+        ObservableCollection<ComponentInformation> ComponentsCollection { get; }
         ICommand CopyComponentCommand { get; }
         ICommand CloseCommand { get; }
         string CopyrightText { get; }

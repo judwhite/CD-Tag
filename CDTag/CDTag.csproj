@@ -85,6 +85,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controls\ErrorNotification.cs" />
+    <Compile Include="Model\About\ComponentInformation.cs" />
     <Compile Include="ViewModel\About\AboutViewModel.cs" />
     <Compile Include="ViewModel\About\IAboutViewModel.cs" />
     <Compile Include="ViewModel\Tag\ITagViewModel.cs" />
@@ -105,6 +106,18 @@
     </Compile>
     <Compile Include="Views\ViewBase.cs" />
     <Compile Include="Views\WindowViewBase.cs" />
+    <Page Include="Themes\Default\DataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Default\DataGridCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Default\DataGridRow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Default\Theme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

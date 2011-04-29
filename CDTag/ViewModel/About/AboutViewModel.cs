@@ -2,11 +2,15 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Model.About;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 
@@ -17,8 +21,9 @@ namespace CDTag.ViewModel.About
         public AboutViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            CloseCommand = new DelegateCommand<Window>((window) => window.Close());
+            CloseCommand = new DelegateCommand<Window>(window => window.Close());
             NavigateCommand = new DelegateCommand<Uri>(Navigate);
+            CopyComponentCommand = new DelegateCommand(CopyComponentInformation);
 
             var assembly = Assembly.GetEntryAssembly();
             object[] attributes = assembly.GetCustomAttributes(true);
@@ -29,6 +34,45 @@ namespace CDTag.ViewModel.About
             VersionText = string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
 
             ReleaseDate = new DateTime(2000, 1, 1).AddDays(version.Build);
+
+            Thread thread = new Thread(GetAssemblies);
+            thread.Start();
+        }
+
+        private void GetAssemblies()
+        {
+            try
+            {
+                string appDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                string[] files = Directory.GetFiles(appDir, "*.dll", SearchOption.TopDirectoryOnly);
+                ObservableCollection<ComponentInformation> items = new ObservableCollection<ComponentInformation>();
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        Assembly assembly = Assembly.LoadFrom(file);
+                        AssemblyName assemblyName = assembly.GetName();
+                        Version version = assemblyName.Version;
+
+                        ComponentInformation info = new ComponentInformation();
+                        info.Name = assemblyName.Name;
+                        info.Version = string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+                        info.SortVersion = string.Format("{0:0000000}.{1:0000000}.{2:0000000}.{3:0000000}", version.Major, version.Minor, version.Build, version.Revision);
+                        
+                        items.Add(info);
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowException(ex);
+                    }
+                }
+
+                Application.Current.Dispatcher.Invoke(new Action(() => ComponentsCollection = items));
+            }
+            catch (Exception ex)
+            {
+                ShowException(ex);
+            }
         }
 
         private static void Navigate(Uri uri)
@@ -43,6 +87,20 @@ namespace CDTag.ViewModel.About
             }
         }
 
+        private void CopyComponentInformation()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var item in ComponentsCollection)
+            {
+                stringBuilder.AppendLine(string.Format("{0}\t{1}", item.Name, item.Version));
+            }
+
+            Clipboard.SetText(stringBuilder.ToString());
+
+            // TODO: Localize
+            MessageBox.Show("Component information copied to clipboard.", "Copy Component Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         public ICommand NavigateCommand
         {
             get { return Get<ICommand>(); }
@@ -55,9 +113,9 @@ namespace CDTag.ViewModel.About
             private set { Set(value); }
         }
 
-        public ObservableCollection<string> ComponentsCollection
+        public ObservableCollection<ComponentInformation> ComponentsCollection
         {
-            get { return Get<ObservableCollection<string>>(); }
+            get { return Get<ObservableCollection<ComponentInformation>>(); }
             private set { Set(value); }
         }
 

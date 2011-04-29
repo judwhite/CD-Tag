@@ -30,8 +30,8 @@ namespace CDTag.FileBrowser.Model
             {
                 _directory = value;
 
-                Win32.SHFILEINFO info = new Win32.SHFILEINFO();
-                Win32.SHGetFileInfo(_directory, 0, ref info, (uint)Marshal.SizeOf(info), Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
+                Win32.SHFILEINFO info; //= new Win32.SHFILEINFO();
+                Win32.SHGetFileInfo(_directory, 0, out info, (uint)Marshal.SizeOf(typeof(Win32.SHFILEINFO)), Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
 
                 ImageSource img;
                 using (System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(info.hIcon))

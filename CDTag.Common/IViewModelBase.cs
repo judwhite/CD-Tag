@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace CDTag.Common
 {
@@ -7,6 +9,14 @@ namespace CDTag.Common
     /// </summary>
     public interface IViewModelBase : INotifyPropertyChanged
     {
+        /// <summary>Gets or sets the error container.</summary>
+        /// <value>The error container.</value>
+        IErrorContainer ErrorContainer { get; set; }
+
+        /// <summary>Gets the command bindings.</summary>
+        CommandBindingCollection CommandBindings { get; }
+
+        //void ShowException(Exception exception); // protected
     }
 
     /// <summary>

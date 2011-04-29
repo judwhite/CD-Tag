@@ -11,7 +11,7 @@ namespace CDTag
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, IApp
     {
         public App()
         {
@@ -43,20 +43,40 @@ namespace CDTag
 
             return window.ShowDialog();
         }
-        
+
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            ErrorNotification errorNotification = new ErrorNotification();
-                
-            Grid errorItems = ((MainWindow)MainWindow).ErrorItems;
-            errorItems.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            errorNotification.SetValue(Grid.RowProperty, errorItems.RowDefinitions.Count - 1);
-            errorItems.Children.Add(errorNotification);
-            errorItems.UpdateLayout(); // Force OnApplyTemplate for ErrorNotification
-
-            errorNotification.Show(e.Exception);
-
+            ShowError(e.Exception);
             e.Handled = true;
+        }
+
+        public void ShowError(Exception exception)
+        {
+            ErrorContainer errorItems = ((MainWindow)MainWindow).ErrorItems;
+            ShowError(exception, errorItems);
+        }
+
+        public void ShowError(Exception exception, IErrorContainer errorContainer)
+        {
+            if (exception == null)
+                return;
+
+            ErrorContainer errorGrid = (ErrorContainer)errorContainer;
+
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(new Action(() => ShowError(exception, errorGrid)));
+                return;
+            }
+
+            ErrorNotification errorNotification = new ErrorNotification();
+
+            errorGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            errorNotification.SetValue(Grid.RowProperty, errorGrid.RowDefinitions.Count - 1);
+            errorGrid.Children.Add(errorNotification);
+            errorGrid.UpdateLayout(); // Force OnApplyTemplate for ErrorNotification
+
+            errorNotification.Show(exception);
         }
     }
 }
