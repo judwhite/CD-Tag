@@ -1,9 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Events;
 using CDTag.FileBrowser.ViewModel;
+using CDTag.ViewModel.Tag.EditTag;
 using CDTag.Views.About;
+using CDTag.Views.Tag.EditTag;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 
@@ -17,8 +21,22 @@ namespace CDTag.ViewModel.Tag
             //AboutCommand = new DelegateCommand(() => { throw new NotImplementedException(); });
             AboutCommand = new DelegateCommand(() => ((App)Application.Current).ShowWindow<AboutWindow>());
             ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
+            TagAlbumCommand = new DelegateCommand(() => { throw new NotImplementedException(); });
+            EditTagsCommand = new DelegateCommand(ShowEditTags);
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
+
+            eventAggregator.GetEvent<GetDirectoryControllerEvent>().Subscribe(OnGetDirectoryController);
+        }
+
+        private static void ShowEditTags()
+        {
+            ((App)Application.Current).ShowWindow<EditTagWindow>();
+        }
+
+        private void OnGetDirectoryController(GetDirectoryControllerEventArgs e)
+        {
+            e.DirectoryController = DirectoryViewModel;
         }
 
         private void TagViewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<ITagViewModel> e)
@@ -27,7 +45,7 @@ namespace CDTag.ViewModel.Tag
             {
                 RegisterCommandBindings();
 
-                DirectoryViewModel.CurrentDirectory = @"C:\";
+                DirectoryViewModel.InitialDirectory = @"C:\";
             }
         }
 

@@ -17,6 +17,12 @@ namespace CDTag.ViewModel.Tag
             private set { Set(value); }
         }
 
+        public ICommand EditTagsCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
         public ICommand CheckForUpdatesCommand
         {
             get { return Get<ICommand>(); }

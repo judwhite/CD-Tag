@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
@@ -57,6 +59,21 @@ namespace CDTag.FileBrowser.View
         public IDirectoryController DirectoryController
         {
             get { return _directoryController; }
+        }
+
+        /// <summary>Gets the width of the grid splitter.</summary>
+        /// <returns>The width of the grid splitter.</returns>
+        public GridLength GridSplitterPosition
+        {
+            get { return LayoutRoot.ColumnDefinitions[0].Width; }
+            set { LayoutRoot.ColumnDefinitions[0].Width = value; }
+        }
+
+        /// <summary>Gets the file view columns.</summary>
+        /// <returns>The file view columns.</returns>
+        public ObservableCollection<DataGridColumn> GetFileViewColumns()
+        {
+            return FileList.GetFileViewColumns();
         }
     }
 }

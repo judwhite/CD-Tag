@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -77,6 +78,15 @@ namespace CDTag
             errorGrid.UpdateLayout(); // Force OnApplyTemplate for ErrorNotification
 
             errorNotification.Show(exception);
+        }
+
+        public string LocalApplicationDirectory
+        {
+            get
+            {
+                string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CD-Tag");
+                return directory;
+            }
         }
     }
 }

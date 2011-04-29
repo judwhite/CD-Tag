@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
@@ -51,6 +53,13 @@ namespace CDTag.FileBrowser.View
                     }
                 }
             }
+        }
+
+        /// <summary>Gets the file view columns.</summary>
+        /// <returns>The file view columns.</returns>
+        public ObservableCollection<DataGridColumn> GetFileViewColumns()
+        {
+            return fileView.Columns;
         }
     }
 }

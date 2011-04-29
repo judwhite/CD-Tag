@@ -91,9 +91,7 @@ namespace CDTag.FileBrowser.ViewModel
             return new List<FileView>(_forwardHistory);
         }
 
-        /// <summary>
-        /// Gets the current directory.
-        /// </summary>
+        /// <summary>Gets the current directory.</summary>
         /// <value>The current directory.</value>
         public string CurrentDirectory
         {
@@ -101,6 +99,17 @@ namespace CDTag.FileBrowser.ViewModel
             set
             {
                 NavigateTo(value, true);
+            }
+        }
+
+        /// <summary>Sets the initial directory.</summary>
+        /// <value>The initial directory.</value>
+        public string InitialDirectory
+        {
+            set
+            {
+                ClearHistory();
+                NavigateTo(value, false);
             }
         }
 
@@ -255,7 +264,13 @@ namespace CDTag.FileBrowser.ViewModel
         /// <param name="addHistory">if set to <c>true</c> the previous directory will be added to the history.</param>
         private void NavigateTo(string directory, bool addHistory)
         {
-            SendEvent(Navigating);
+            if (string.IsNullOrWhiteSpace(directory) || !Directory.Exists(directory) || directory.Length < 3 || _isNavigating)
+                return;
+
+            if (directory == CurrentDirectory || directory == CurrentDirectory + @"\" || directory + @"\" == CurrentDirectory)
+                return;
+
+            SendNavigatingEvent();
             try
             {
                 while (!Directory.Exists(directory))
@@ -377,12 +392,23 @@ namespace CDTag.FileBrowser.ViewModel
             }
             finally
             {
-                SendEvent(NavigationComplete);
+                SendNavigationCompleteEvent();
             }
         }
 
-        private void SendEvent(EventHandler eventHandler)
+        private bool _isNavigating;
+        private void SendNavigatingEvent()
         {
+            _isNavigating = true;
+            var eventHandler = Navigating;
+            if (eventHandler != null)
+                eventHandler(this, EventArgs.Empty);
+        }
+
+        private void SendNavigationCompleteEvent()
+        {
+            _isNavigating = false;
+            var eventHandler = NavigationComplete;
             if (eventHandler != null)
                 eventHandler(this, EventArgs.Empty);
         }
@@ -447,6 +473,15 @@ namespace CDTag.FileBrowser.ViewModel
         {
             get { return Get<ICommand>(); }
             private set { Set(value); }
+        }
+
+        /// <summary>Gets the selected items.</summary>
+        public List<FileView> SelectedItems
+        {
+            get
+            {
+                return FileCollection.Where(p => p.IsSelected).ToList();
+            }
         }
     }
 }

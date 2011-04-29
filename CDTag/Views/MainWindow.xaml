@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
 
         <Common:ErrorContainer x:Name="ErrorItems" Grid.Row="0" />
-        <Tag:TagView Grid.Row="1" />
+        <Tag:TagView x:Name="tagView" Grid.Row="1" />
         
     </Grid>
 </view:WindowViewBase>

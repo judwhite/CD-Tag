@@ -10,6 +10,8 @@ namespace CDTag.ViewModel.Tag
 
         ICommand AboutCommand { get; }
         ICommand TagAlbumCommand { get; }
+        ICommand EditTagsCommand { get; }
+        
         ICommand CheckForUpdatesCommand { get; }
         ICommand ExitCommand { get; }
         ICommand CutCommand { get; }

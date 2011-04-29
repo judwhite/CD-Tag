@@ -43,7 +43,7 @@
 
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="{StaticResource WindowBackground}">
 
             <Grid.Resources>
                 <Style TargetType="TextBlock">
@@ -51,13 +51,6 @@
                     <Setter Property="VerticalAlignment" Value="Center" />
                 </Style>
             </Grid.Resources>
-
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Color="#FFD1D2DA" Offset="0" />
-                    <GradientStop Color="#FFBFCDE8" Offset="1" />
-                </LinearGradientBrush>
-            </Grid.Background>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

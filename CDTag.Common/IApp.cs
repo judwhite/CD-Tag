@@ -15,5 +15,8 @@ namespace CDTag.Common
         /// <param name="exception">The exception.</param>
         /// <param name="errorContainer">The error container.</param>
         void ShowError(Exception exception, IErrorContainer errorContainer);
+
+        /// <summary>Gets the local application directory.</summary>
+        string LocalApplicationDirectory { get; }
     }
 }

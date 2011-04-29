@@ -61,6 +61,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataGridUtil.cs" />
     <Compile Include="ErrorContainer.cs" />
     <Compile Include="IApp.cs" />
     <Compile Include="IErrorContainer.cs" />

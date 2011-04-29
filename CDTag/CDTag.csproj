@@ -85,9 +85,25 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controls\ErrorNotification.cs" />
+    <Compile Include="Converters\General\AllTrueConverter.cs" />
+    <Compile Include="Converters\BitrateConverter.cs" />
+    <Compile Include="Converters\General\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\General\EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\ID3v1GenreIndexToTextConverter.cs" />
+    <Compile Include="Converters\ID3v1CommentLengthConverter.cs" />
+    <Compile Include="Converters\General\IsEnumEqualConverter.cs" />
+    <Compile Include="Converters\General\NotBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\General\NotNullToVisibilityConverter.cs" />
+    <Compile Include="Converters\General\NullableIntConverter.cs" />
+    <Compile Include="Converters\PlayLengthConverter.cs" />
+    <Compile Include="Events\GetDirectoryControllerEvent.cs" />
     <Compile Include="Model\About\ComponentInformation.cs" />
     <Compile Include="ViewModel\About\AboutViewModel.cs" />
     <Compile Include="ViewModel\About\IAboutViewModel.cs" />
+    <Compile Include="ViewModel\Tag\EditTag\EditTagViewModel.cs" />
+    <Compile Include="ViewModel\Tag\EditTag\ID3v1ViewModel.cs" />
+    <Compile Include="ViewModel\Tag\EditTag\IEditTagViewModel.cs" />
+    <Compile Include="ViewModel\Tag\EditTag\IID3v1ViewModel.cs" />
     <Compile Include="ViewModel\Tag\ITagViewModel.cs" />
     <Compile Include="ViewModel\Tag\TagViewModel.Commands.cs" />
     <Compile Include="ViewModel\Tag\TagViewModel.cs" />
@@ -95,6 +111,12 @@
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AttachedProperties.cs" />
+    <Compile Include="Views\Tag\EditTag\EditTagWindow.xaml.cs">
+      <DependentUpon>EditTagWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tag\EditTag\ID3v1View.xaml.cs">
+      <DependentUpon>ID3v1View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Tag\TagMenu.xaml.cs">
       <DependentUpon>TagMenu.xaml</DependentUpon>
     </Compile>
@@ -106,6 +128,14 @@
     </Compile>
     <Compile Include="Views\ViewBase.cs" />
     <Compile Include="Views\WindowViewBase.cs" />
+    <Page Include="Themes\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Default\Brush.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Default\DataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +172,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Tag\EditTag\EditTagWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tag\EditTag\ID3v1View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Tag\TagMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -214,7 +252,8 @@
     <Resource Include="Resources\Images\TagToolbar\Up.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Events\" />
+    <Folder Include="ViewModel\Tag\EditTag\ID3v1\" />
+    <Folder Include="ViewModel\Tag\EditTag\ID3v2\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\GeneralToolbar\Help Circle.png" />

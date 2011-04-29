@@ -14,7 +14,6 @@ namespace CDTag.Views
         public ViewBase()
         {
             // Note: only here to support XAML
-            throw new NotSupportedException();
         }
     }
 }

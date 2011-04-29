@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
     xmlns:Behavior="clr-namespace:CDTag.FileBrowser.Behavior" 
-    xmlns:Converters="clr-namespace:CDTag.FileBrowser.Converters" 
+    xmlns:Converters="clr-namespace:CDTag.FileBrowser.Converters"
+    xmlns:dg="clr-namespace:CDTag.Common;assembly=CDTag.Common" 
     mc:Ignorable="d" 
     d:DesignHeight="300" 
     d:DesignWidth="300"
@@ -46,7 +47,7 @@
 
             <DataGrid.Columns>
 
-                <DataGridTemplateColumn Header="" Width="20" CanUserResize="False" CanUserSort="False">
+                <DataGridTemplateColumn dg:DataGridUtil.Name="iconColumn" Header="" Width="20" CanUserResize="False" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Width="16" Height="16" Source="{Binding ImageSource, Mode=OneWay}" VerticalAlignment="Center" Margin="2,0,0,0"/>
@@ -55,7 +56,7 @@
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn Header="Name" Width="*" CanUserSort="True" SortMemberPath="SortName">
+                <DataGridTemplateColumn dg:DataGridUtil.Name="nameColumn" Header="Name" Width="*" CanUserSort="True" SortMemberPath="SortName">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="4,0"/>
@@ -64,7 +65,7 @@
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn Header="Size" Width="100" SortMemberPath="SortSize">
+                <DataGridTemplateColumn dg:DataGridUtil.Name="sizeColumn" Header="Size" Width="100" SortMemberPath="SortSize">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Size, Mode=OneWay, StringFormat='{}{0:#,0}'}" VerticalAlignment="Center" TextAlignment="Right" Margin="4,0"/>
@@ -73,7 +74,7 @@
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn Header="Type" Width="100" SortMemberPath="SortType">
+                <DataGridTemplateColumn dg:DataGridUtil.Name="typeColumn" Header="Type" Width="100" SortMemberPath="SortType">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="4,0"/>
@@ -82,7 +83,7 @@
                 </DataGridTemplateColumn>
 
                 <!-- TODO: Localize Header -->
-                <DataGridTemplateColumn Header="Date modified" Width="130" SortMemberPath="SortDateModified">
+                <DataGridTemplateColumn dg:DataGridUtil.Name="dateModifiedColumn" Header="Date modified" Width="130" SortMemberPath="SortDateModified">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding DateModified, Mode=OneWay, StringFormat='{}{0:yyyy-MM-dd hh:mm tt}'}" VerticalAlignment="Center" Margin="4,0"/>

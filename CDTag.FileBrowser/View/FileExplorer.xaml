@@ -5,14 +5,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:View="clr-namespace:CDTag.FileBrowser.View" 
+    x:Name="fileExplorer"
     mc:Ignorable="d" 
     d:DesignHeight="300" 
     d:DesignWidth="300"
     Background="Transparent"
 >
-    <Grid Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="58" />
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="4" />
             <ColumnDefinition Width="*" />
@@ -23,14 +23,21 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <View:Navigation Grid.Row="0" Grid.Column="0" Margin="4" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Margin="0,0,4,0" />
+        <Grid Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="58" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <View:Navigation Grid.Row="0" Grid.Column="0" Margin="4" />
+            <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,4,0" Text="{Binding CurrentDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Tahoma" />
+        </Grid>
 
-        <ContentControl x:Name="ToolbarContentControl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" HorizontalContentAlignment="Stretch" />
+        <ContentControl x:Name="ToolbarContentControl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalContentAlignment="Stretch" />
         
-        <View:FolderTreeView x:Name="FolderTreeView" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
-        <GridSplitter Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" />
-        <View:FileList x:Name="FileList" Grid.Row="2" Grid.Column="3" />
+        <View:FolderTreeView x:Name="FolderTreeView" Grid.Row="2" Grid.Column="0" />
+        <GridSplitter x:Name="gridSplitter" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" />
+        <View:FileList x:Name="FileList" Grid.Row="2" Grid.Column="2" />
 
     </Grid>
 </UserControl>

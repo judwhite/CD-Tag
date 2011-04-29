@@ -38,7 +38,7 @@ namespace CDTag.Views
         {
             _settingsLoaded = true;
 
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CD-Tag");
+            string directory = Unity.Resolve<IApp>().LocalApplicationDirectory;
             string fileName = Path.Combine(directory, "windows.json");
             Dictionary<string, WindowSettings> windows;
             WindowSettings windowSettings = null;
@@ -61,10 +61,12 @@ namespace CDTag.Views
             {
                 Height = windowSettings.Height ?? Height;
                 Width = windowSettings.Width ?? Width;
-                Top = windowSettings.Top ?? Top;
-                Left = windowSettings.Left ?? Left;
+                if (WindowStartupLocation != WindowStartupLocation.CenterOwner)
+                {
+                    Top = windowSettings.Top ?? Top;
+                    Left = windowSettings.Left ?? Left;
+                }
                 WindowState = (windowSettings.WindowState == null || windowSettings.WindowState == WindowState.Minimized) ? WindowState : windowSettings.WindowState.Value;
-                WindowStartupLocation = WindowStartupLocation.Manual;
             }
         }
 
@@ -73,7 +75,7 @@ namespace CDTag.Views
             if (string.IsNullOrWhiteSpace(Name))
                 return;
 
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CD-Tag");
+            string directory = Unity.Resolve<IApp>().LocalApplicationDirectory;
             string fileName = Path.Combine(directory, "windows.json");
             Dictionary<string, WindowSettings> windows;
             if (File.Exists(fileName))
