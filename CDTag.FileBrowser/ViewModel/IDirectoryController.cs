@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.FileBrowser.Model;
@@ -43,6 +44,10 @@ namespace CDTag.FileBrowser.ViewModel
         /// <value>The initial directory.</value>
         string InitialDirectory { set; }
 
+        /// <summary>Gets or sets the typing directory.</summary>
+        /// <value>The typing directory.</value>
+        string TypingDirectory { get; set; }
+
         /// <summary>Gets the directory size in bytes.</summary>
         /// <value>The directory size in bytes.</value>
         long DirectorySizeBytes { get; }
@@ -63,5 +68,8 @@ namespace CDTag.FileBrowser.ViewModel
 
         /// <summary>Clears the history.</summary>
         void ClearHistory();
+
+        /// <summary>Gets the sub directories of the <see cref="CurrentDirectory" />.</summary>
+        ObservableCollection<string> SubDirectories { get; }
     }
 }

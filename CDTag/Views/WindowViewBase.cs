@@ -131,9 +131,12 @@ namespace CDTag.Views
 
         private void WindowViewBase_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if (HandleEscape)
             {
-                Close();
+                if (e.Key == Key.Escape)
+                {
+                    Close();
+                }
             }
         }
 

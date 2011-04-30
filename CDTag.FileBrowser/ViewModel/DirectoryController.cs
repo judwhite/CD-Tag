@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
@@ -49,6 +51,17 @@ namespace CDTag.FileBrowser.ViewModel
             GoUpCommand = new DelegateCommand(GoUp, () => true /* TODO */);
             SelectAllCommand = new DelegateCommand(SelectAll);
             InvertSelectionCommand = new DelegateCommand(InvertSelection);
+
+            EnhancedPropertyChanged += DirectoryController_EnhancedPropertyChanged;
+        }
+
+        private void DirectoryController_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<IDirectoryController> e)
+        {
+            if (e.IsProperty(p => p.TypingDirectory))
+            {
+                //SubDirectories = new ObservableCollection<string>();
+                GetSubDirectories(TypingDirectory);
+            }
         }
 
         /// <summary>Selects all.</summary>
@@ -98,8 +111,16 @@ namespace CDTag.FileBrowser.ViewModel
             get { return _directory == null ? null : _directory.FullName; }
             set
             {
-                NavigateTo(value, true);
+                NavigateTo(directory: value, addHistory: true);
             }
+        }
+
+        /// <summary>Gets or sets the typing directory.</summary>
+        /// <value>The typing directory.</value>
+        public string TypingDirectory
+        {
+            get { return Get<string>(); }
+            set { Set(value); }
         }
 
         /// <summary>Sets the initial directory.</summary>
@@ -109,7 +130,7 @@ namespace CDTag.FileBrowser.ViewModel
             set
             {
                 ClearHistory();
-                NavigateTo(value, false);
+                NavigateTo(directory: value, addHistory: false);
             }
         }
 
@@ -131,7 +152,7 @@ namespace CDTag.FileBrowser.ViewModel
             if (parent != null)
             {
                 _forwardHistory.Clear();
-                NavigateTo(parent.FullName, true);
+                NavigateTo(directory: parent.FullName, addHistory: true);
             }
         }
 
@@ -162,7 +183,7 @@ namespace CDTag.FileBrowser.ViewModel
             FileView goToItem = _forwardHistory[0];
             _forwardHistory.RemoveAt(0);
 
-            NavigateTo(goToItem.FullName, false);
+            NavigateTo(directory: goToItem.FullName, addHistory: false);
         }
 
         private void GoBack(int count = 1)
@@ -188,7 +209,7 @@ namespace CDTag.FileBrowser.ViewModel
             FileView goToItem = _backHistory[0];
             _backHistory.RemoveAt(0);
 
-            NavigateTo(goToItem.FullName, false);
+            NavigateTo(directory: goToItem.FullName, addHistory: false);
         }
 
         /// <summary>
@@ -197,7 +218,7 @@ namespace CDTag.FileBrowser.ViewModel
         public void RefreshExplorer()
         {
             // TODO: This may not cause a refresh
-            NavigateTo(CurrentDirectory, false);
+            NavigateTo(directory: CurrentDirectory, addHistory: false);
         }
 
         private static FileSystemInfo GetFileSystemInfo(string path)
@@ -264,15 +285,30 @@ namespace CDTag.FileBrowser.ViewModel
         /// <param name="addHistory">if set to <c>true</c> the previous directory will be added to the history.</param>
         private void NavigateTo(string directory, bool addHistory)
         {
-            if (string.IsNullOrWhiteSpace(directory) || !Directory.Exists(directory) || directory.Length < 3 || _isNavigating)
+            if (string.IsNullOrWhiteSpace(directory) || directory.Length < 3 || _isNavigating)
                 return;
 
-            if (directory == CurrentDirectory || directory == CurrentDirectory + @"\" || directory + @"\" == CurrentDirectory)
+            if (string.Compare(directory, CurrentDirectory, true) == 0 ||
+                string.Compare(directory, CurrentDirectory + @"\", true) == 0 ||
+                string.Compare(directory + @"\", CurrentDirectory, true) == 0)
+            {
                 return;
+            }
+
+            if (char.IsLower(directory[0]))
+            {
+                directory = string.Format("{0}{1}", char.ToUpper(directory[0]), directory.Substring(1));
+            }
+
+            if (directory.EndsWith(@"\") && directory.Length > 3)
+            {
+                directory = directory.Substring(0, directory.Length - 1);
+            }
 
             SendNavigatingEvent();
             try
             {
+                // Navigate up the tree until a valid directory is found
                 while (!Directory.Exists(directory))
                 {
                     DirectoryInfo directoryInfo = Directory.GetParent(directory);
@@ -364,9 +400,6 @@ namespace CDTag.FileBrowser.ViewModel
                 string oldDirectory = CurrentDirectory;
                 _directory = new FileView(info);
 
-                // Raise ListChanged event of ListChangedType.Reset
-                //ResetBindings(); // TODO: this shouldn't be necessary with ObservableCollection
-
                 // Setup the FileSystemWatcher
                 if (_fsw != null)
                 {
@@ -407,10 +440,44 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void SendNavigationCompleteEvent()
         {
+            TypingDirectory = CurrentDirectory;
+
             _isNavigating = false;
             var eventHandler = NavigationComplete;
             if (eventHandler != null)
                 eventHandler(this, EventArgs.Empty);
+        }
+
+        private void GetSubDirectories(string directory)
+        {
+            if (string.IsNullOrWhiteSpace(directory))
+                return;
+
+            Thread thread = new Thread(GetSubDirectoriesAsync);
+            thread.Start(directory);
+        }
+
+        private void GetSubDirectoriesAsync(object dir)
+        {
+            try
+            {
+                string directory = (string)dir;
+                string searchPattern = "*";
+                if (!Directory.Exists(directory) || !directory.EndsWith(@"\"))
+                {
+                    //searchPattern = Path.GetFileName(directory) + "*";
+                    directory = Path.GetDirectoryName(directory);
+                    if (!Directory.Exists(directory))
+                        return;
+                }
+
+                ObservableCollection<string> subDirs = new ObservableCollection<string>(Directory.GetDirectories(directory, searchPattern));
+                Application.Current.Dispatcher.Invoke(new Action(() => SubDirectories = subDirs));
+            }
+            catch
+            {
+                // TODO ?
+            }
         }
 
         /// <summary>
@@ -482,6 +549,15 @@ namespace CDTag.FileBrowser.ViewModel
             {
                 return FileCollection.Where(p => p.IsSelected).ToList();
             }
+        }
+
+        /// <summary>
+        /// Gets the sub directories of the <see cref="CurrentDirectory"/>.
+        /// </summary>
+        public ObservableCollection<string> SubDirectories
+        {
+            get { return Get<ObservableCollection<string>>(); }
+            set { Set(value); }
         }
     }
 }

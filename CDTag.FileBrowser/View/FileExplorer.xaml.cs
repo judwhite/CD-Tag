@@ -25,6 +25,27 @@ namespace CDTag.FileBrowser.View
             DataContext = _directoryController;
 
             PreviewMouseDown += FileExplorer_PreviewMouseDown;
+
+            _directoryController.EnhancedPropertyChanged += _directoryController_EnhancedPropertyChanged;
+            //DirectoryComboBox.IsTextSearchEnabled = false;
+        }
+
+        private void _directoryController_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<IDirectoryController> e)
+        {
+            if (DirectoryComboBox.IsSelectionBoxHighlighted)
+            {
+                if (e.IsProperty(p => p.SubDirectories))
+                {
+                    if (_directoryController.SubDirectories == null || _directoryController.SubDirectories.Count == 0)
+                    {
+                        DirectoryComboBox.IsDropDownOpen = false;
+                    }
+                    else
+                    {
+                        DirectoryComboBox.IsDropDownOpen = true;
+                    }
+                }
+            }
         }
 
         /// <summary>Gets or sets the toolbar.</summary>

@@ -4,10 +4,112 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="760">
     <Grid>
+    	<!-- Width = Height * 2.53125 -->
         <Grid.Resources>
-            <Style x:Key="GlassButton" TargetType="{x:Type Button}">
+			<Style x:Key="HistoryDropDownButtonStyle" TargetType="{x:Type ToggleButton}">
+				<Setter Property="Background" Value="Transparent"/>
+				<Setter Property="BorderThickness" Value="0"/>
+				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+				<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+				<Setter Property="Padding" Value="0"/>
+				<Setter Property="Margin" Value="0"/>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ToggleButton}">
+							<Grid IsHitTestVisible="True">
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualState x:Name="Normal">
+											<Storyboard>
+												<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="MouseOverBorder" Storyboard.TargetProperty="Opacity" To="0" />
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="MouseOver">
+											<Storyboard>
+												<DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="MouseOverBorder" Storyboard.TargetProperty="Opacity" To="1" />
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="Disabled" />
+									</VisualStateGroup>
+									<VisualStateGroup x:Name="CheckStates">
+										<VisualState x:Name="Checked">
+											<Storyboard>
+												<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="CheckedBorder" Storyboard.TargetProperty="Opacity" To="1" />
+												<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="CheckedArrow" Storyboard.TargetProperty="Opacity" To="1" />
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="Unchecked" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+								
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*" />
+									<RowDefinition Height="*" />
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+								
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="2.8*" />
+									<ColumnDefinition Width="1.4*" />
+								</Grid.ColumnDefinitions>
+								
+								<Path Grid.RowSpan="3" Grid.ColumnSpan="100" Stretch="Uniform" HorizontalAlignment="Left" 
+								      x:Name="MouseOverBorder" Opacity="1"
+									  Data="M -0.6,0 M 6,8 M 2.82,1.18 L 8,1.18 8,6.82 2.82,6.82 A 4,4 0 0 0 2.82,1.18 Z">
+									<Path.Fill>
+										<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+											<GradientStop Color="#FF70AFE8" Offset="1" />
+											<GradientStop Color="#FFDDE7EC" />
+										</LinearGradientBrush>
+									</Path.Fill>
+								</Path>
+								
+								<Path Grid.RowSpan="3" Grid.ColumnSpan="100" Stretch="Uniform" HorizontalAlignment="Left" 
+								      x:Name="CheckedBorder" Opacity="0" 
+									  Data="M -0.6,0 M 6,8 M 2.82,1.18 L 8,1.18 8,6.82 2.82,6.82 A 4,4 0 0 0 2.82,1.18 Z">
+									<Path.Fill>
+										<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+											<GradientStop Color="#FFC6D8EA" Offset="0" />
+											<GradientStop Color="#FF5E95C8" Offset="1" />
+										</LinearGradientBrush>
+									</Path.Fill>
+								</Path>
+								
+								<!-- Arrow -->
+								<Path x:Name="NormalArrow" Data="M 0,0 L 8,0 4,5 Z" Grid.Row="1" Grid.Column="6" Stroke="#FF335799" StrokeLineJoin="Round" StrokeThickness="0.5" Stretch="Uniform" Opacity="1">
+									<Path.Fill>
+										<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+											<GradientStop Color="#FF33B5DA" Offset="0" />
+											<GradientStop Color="#FF335799" Offset="1" />
+										</LinearGradientBrush>
+									</Path.Fill>
+								</Path>
+								
+								<!-- Checked Arrow -->
+								<Path x:Name="CheckedArrow" Data="M 0,0 L 8,0 4,5 Z" Grid.Row="1" Grid.Column="6" Stroke="#FF335799" StrokeLineJoin="Round" StrokeThickness="0.5" Stretch="Uniform" Opacity="0">
+									<Path.Fill>
+										<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+											<GradientStop Color="#FF1F73A9" />
+											<GradientStop Color="#FF335799" Offset="1" />
+										</LinearGradientBrush>
+									</Path.Fill>
+								</Path>
+								
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+            
+			<Style x:Key="GlassButton" TargetType="{x:Type Button}">
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="Template">
@@ -181,88 +283,111 @@
 
         </Grid.Resources>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="42.5*" />
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="42.5*" />
-            <ColumnDefinition Width="5*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="7.5*" />
-            <RowDefinition Height="85*" />
-            <RowDefinition Height="7.5*" />
-        </Grid.RowDefinitions>
-        <Grid.Background>
-            <VisualBrush Stretch="UniformToFill" Opacity="0.2">
-                <VisualBrush.Visual>
-                    <Path Stroke="Black" StrokeThickness="0.1"
-								Data="M 0,4 A 4,4 0 0 1 4,0
-								            A 4,4 0 0 1 5.5,0.3
-											C 5.5,0.30 8,1.5 10.5,0.30
-											A 4,4 0 0 1 12,0
-											A 4,4 0 0 1 16,4
-											A 4,4 0 0 1 12,8
-											A 4,4 0 0 1 10.5,7.7
-											C 10.5,7.7 8,6.5 5.5,7.7
-											A 4,4 0 0 1 4,8
-											A 4,4 0 0 1 0,4
-											Z">
-                        <Path.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <LinearGradientBrush.GradientStops>
-                                    <GradientStop Color="#FFFFFFFF" Offset="0" />
-                                    <GradientStop Color="#FF333333" Offset="1" />
-                                </LinearGradientBrush.GradientStops>
-                            </LinearGradientBrush>
-                        </Path.Fill>
-                    </Path>
-                </VisualBrush.Visual>
-            </VisualBrush>
-        </Grid.Background>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		
+		<ToggleButton Grid.Column="5" Grid.ColumnSpan="4" Style="{DynamicResource HistoryDropDownButtonStyle}" VerticalAlignment="Stretch" Margin="0" Padding="0" Panel.ZIndex="999">
+		</ToggleButton>
 
-        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False" Command="{Binding GoBackCommand}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Path Grid.Column="1" StrokeThickness="0.5" Fill="White" Stroke="White" Stretch="Uniform"
-							Data="M 1,15 15,1 
-							      C 15,1 16,0 17,1 L 20,4 
-								  C 20,4 21,5 20,6 L 13.5,12.5 39,12.5
-								  C 39,12.5 40,12.5, 40,13.5 L 40,18.5
-								  C 40,18.5 40,19.5 39,19.5 L 13.5,19.5 20,26
-								  C 20,26 21,27 20,28 L 17,31
-								  C 17,31 16,32 15,31 L 1,17
-								  C 1,17 0,16 1,15 Z" 
-						/>
-            </Grid>
-        </Button>
-
-        <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False" Command="{Binding GoForwardCommand}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Path Grid.Column="1" StrokeThickness="0.5" Fill="White" Stroke="White" Stretch="Uniform" RenderTransformOrigin="0.5,0.5"
-							Data="M 1,15 15,1 
-							      C 15,1 16,0 17,1 L 20,4 
-								  C 20,4 21,5 20,6 L 13.5,12.5 39,12.5
-								  C 39,12.5 40,12.5, 40,13.5 L 40,18.5
-								  C 40,18.5 40,19.5 39,19.5 L 13.5,19.5 20,26
-								  C 20,26 21,27 20,28 L 17,31
-								  C 17,31 16,32 15,31 L 1,17
-								  C 1,17 0,16 1,15 Z" 
-						>
-                    <Path.RenderTransform>
-                        <ScaleTransform ScaleX="-1" />
-                    </Path.RenderTransform>
-                </Path>
-            </Grid>
-        </Button>
-    </Grid>
+		<Grid Grid.Column="0" Grid.ColumnSpan="7">
+	        <Grid.ColumnDefinitions>
+	            <ColumnDefinition Width="5*" />
+	            <ColumnDefinition Width="42.5*" />
+	            <ColumnDefinition Width="5*" />
+	            <ColumnDefinition Width="42.5*" />
+	            <ColumnDefinition Width="5*" />
+	        </Grid.ColumnDefinitions>
+	        <Grid.RowDefinitions>
+	            <RowDefinition Height="7.5*" />
+	            <RowDefinition Height="85*" />
+	            <RowDefinition Height="7.5*" />
+	        </Grid.RowDefinitions>
+			
+			<Grid Grid.RowSpan="3" Grid.ColumnSpan="5">
+		        <Grid.Background>
+		            <VisualBrush Stretch="UniformToFill" Opacity="0.2">
+		                <VisualBrush.Visual>
+		                    <Path Stroke="Black" StrokeThickness="0.1"
+										Data="M 0,4 A 4,4 0 0 1 4,0
+										            A 4,4 0 0 1 5.5,0.3
+													C 5.5,0.30 8,1.5 10.5,0.30
+													A 4,4 0 0 1 12,0
+													A 4,4 0 0 1 16,4
+													A 4,4 0 0 1 12,8
+													A 4,4 0 0 1 10.5,7.7
+													C 10.5,7.7 8,6.5 5.5,7.7
+													A 4,4 0 0 1 4,8
+													A 4,4 0 0 1 0,4
+													Z">
+		                        <Path.Fill>
+		                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+		                                <LinearGradientBrush.GradientStops>
+		                                    <GradientStop Color="#FFFFFFFF" Offset="0" />
+		                                    <GradientStop Color="#FF333333" Offset="1" />
+		                                </LinearGradientBrush.GradientStops>
+		                            </LinearGradientBrush>
+		                        </Path.Fill>
+		                    </Path>
+		                </VisualBrush.Visual>
+		            </VisualBrush>
+		        </Grid.Background>
+	        </Grid>
+			
+	        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False" Command="{Binding GoBackCommand}">
+	            <Grid>
+	                <Grid.ColumnDefinitions>
+	                    <ColumnDefinition Width="*" />
+	                    <ColumnDefinition Width="3*" />
+	                    <ColumnDefinition Width="*" />
+	                </Grid.ColumnDefinitions>
+	                <Path Grid.Column="1" StrokeThickness="0.5" Fill="White" Stroke="White" Stretch="Uniform"
+								Data="M 1,15 15,1 
+								      C 15,1 16,0 17,1 L 20,4 
+									  C 20,4 21,5 20,6 L 13.5,12.5 39,12.5
+									  C 39,12.5 40,12.5, 40,13.5 L 40,18.5
+									  C 40,18.5 40,19.5 39,19.5 L 13.5,19.5 20,26
+									  C 20,26 21,27 20,28 L 17,31
+									  C 17,31 16,32 15,31 L 1,17
+									  C 1,17 0,16 1,15 Z" 
+							/>
+	            </Grid>
+	        </Button>
+			
+			<Button Grid.Row="1" Grid.Column="3" Style="{StaticResource GlassButton}" Background="#FF1D5BBA" Focusable="False" Command="{Binding GoForwardCommand}">
+	            <Grid>
+	                <Grid.ColumnDefinitions>
+	                    <ColumnDefinition Width="*" />
+	                    <ColumnDefinition Width="3*" />
+	                    <ColumnDefinition Width="*" />
+	                </Grid.ColumnDefinitions>
+	                <Path Grid.Column="1" StrokeThickness="0.5" Fill="White" Stroke="White" Stretch="Uniform" RenderTransformOrigin="0.5,0.5"
+								Data="M 1,15 15,1 
+								      C 15,1 16,0 17,1 L 20,4 
+									  C 20,4 21,5 20,6 L 13.5,12.5 39,12.5
+									  C 39,12.5 40,12.5, 40,13.5 L 40,18.5
+									  C 40,18.5 40,19.5 39,19.5 L 13.5,19.5 20,26
+									  C 20,26 21,27 20,28 L 17,31
+									  C 17,31 16,32 15,31 L 1,17
+									  C 1,17 0,16 1,15 Z" 
+							>
+	                    <Path.RenderTransform>
+	                        <ScaleTransform ScaleX="-1" />
+	                    </Path.RenderTransform>
+	                </Path>
+	            </Grid>
+	        </Button>
+	    </Grid>
+	</Grid>
 </UserControl>

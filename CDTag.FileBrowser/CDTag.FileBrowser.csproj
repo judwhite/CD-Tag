@@ -68,6 +68,9 @@
     <Compile Include="Model\FileView.cs" />
     <Compile Include="ViewModel\DirectoryController.cs" />
     <Compile Include="ViewModel\IDirectoryController.cs" />
+    <Compile Include="View\DirectoryButtons.xaml.cs">
+      <DependentUpon>DirectoryButtons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FileExplorer.xaml.cs">
       <DependentUpon>FileExplorer.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\DirectoryButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FileExplorer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
