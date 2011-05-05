@@ -476,13 +476,11 @@
         <Button Grid.Column="1" Command="{Binding EditTagsCommand}" Content="Edit tags" />
         <Button Grid.Column="2" Command="{Binding ChecksumCommand}" Content="Checksum" />
         <Button Grid.Column="3" Command="{Binding NewFolderCommand}" Content="New folder" />
-        <!--<Button Grid.Column="5" Command="{Binding AboutCommand}" Padding="2" ToolTipService.ToolTip="Customize and control">
-            <Image Source="/Resources/Images/GeneralToolbar/Tools_24.png" />
-        </Button>-->
+        
         <Menu Grid.Column="5" Style="{DynamicResource MenuStyle1}" Margin="3" VerticalAlignment="Center" x:Name="wrenchMenu">
             <MenuItem Style="{DynamicResource MenuItemStyle1}" Template="{DynamicResource {ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" Header="_File" ToolTip="Tools and options">
                 <MenuItem.Icon>
-                    <Image Source="/Resources/Images/GeneralToolbar/wrench_16.png" Width="16" Height="16" />
+                    <Image Source="/Resources/Images/GeneralToolbar/wrench_16.png" Width="16" Height="16" Opacity="0.5" />
                 </MenuItem.Icon>
                 <MenuItem Header="_New profile" Command="{Binding NewProfileCommand}" InputGestureText="Ctrl+N" />
                 <MenuItem Header="_Edit profile" Command="{Binding EditProfileCommand}" InputGestureText="Ctrl+P" />
@@ -502,6 +500,12 @@
                     <MenuItem Header="Verify _EAC log file" Command="{Binding VerifyEacLogCommand}" InputGestureText="Ctrl+E" />
                 </MenuItem>
                 <Separator />
+                <MenuItem Header="_Go">
+                    <MenuItem Header="_Back" Command="{Binding Path=DirectoryViewModel.GoBackCommand}" InputGestureText="Alt+Left Arrow" />
+                    <MenuItem Header="_Forward" Command="{Binding Path=DirectoryViewModel.GoForwardCommand}" InputGestureText="Alt+Right Arrow" />
+                    <MenuItem Header="_Up" Command="{Binding Path=DirectoryViewModel.GoUpCommand}" InputGestureText="Alt+Up Arrow" />
+                </MenuItem>
+                <Separator />
                 <MenuItem Header="_Options" Command="{Binding OptionsCommand}" InputGestureText="Ctrl+O" />
                 <MenuItem Header="_About CD-Tag" Command="{Binding AboutCommand}" InputGestureText="Ctrl+F1" />
                 <MenuItem Header="_Help" Command="{Binding HelpCommand}" InputGestureText="F1" />
@@ -509,9 +513,6 @@
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
-        <!--<Button Grid.Column="6" Command="{Binding AboutCommand}" Padding="2" ToolTipService.ToolTip="Get help">
-            <Image Source="/Resources/Images/GeneralToolbar/Help.png" Width="16" Height="16" />
-        </Button>-->
 
     </Grid>
     

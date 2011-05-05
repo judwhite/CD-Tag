@@ -110,7 +110,7 @@
 			</Style>
             
 			<Style x:Key="GlassButton" TargetType="{x:Type Button}">
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="SnapsToDevicePixels" Value="False"/>
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="Template">
                     <Setter.Value>
@@ -332,7 +332,7 @@
 													A 4,4 0 0 1 0,4
 													Z">
 		                        <Path.Fill>
-		                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+		                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
 		                                <LinearGradientBrush.GradientStops>
 		                                    <GradientStop Color="#FFFFFFFF" Offset="0" />
 		                                    <GradientStop Color="#FF333333" Offset="1" />

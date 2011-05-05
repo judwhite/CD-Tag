@@ -29,7 +29,7 @@ namespace CDTag.Common
                     if (!string.IsNullOrWhiteSpace(gestureText) && menuItem.Command != null)
                     {
                         ModifierKeys modifiers = ModifierKeys.None;
-                        string[] keyTexts = gestureText.Split(new[] { '+', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] keyTexts = gestureText.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
                         for (int i = 0; i < keyTexts.Length; i++)
                         {
                             string keyText = keyTexts[i];
@@ -39,6 +39,12 @@ namespace CDTag.Common
                                 if (char.IsDigit(keyText[0]))
                                 {
                                     keyText = "D" + keyText;
+                                }
+
+                                const string arrowText = " Arrow";
+                                if (keyText.EndsWith(arrowText))
+                                {
+                                    keyText = keyText.Substring(0, keyText.Length - arrowText.Length);
                                 }
 
                                 Key key;

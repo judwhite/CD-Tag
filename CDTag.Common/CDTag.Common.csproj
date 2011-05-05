@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="DataGridUtil.cs" />
     <Compile Include="ErrorContainer.cs" />
+    <Compile Include="GlassHelper.cs" />
     <Compile Include="IApp.cs" />
     <Compile Include="IErrorContainer.cs" />
     <Compile Include="IModelBase.cs" />

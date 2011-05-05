@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Common.Settings;
@@ -26,6 +27,13 @@ namespace CDTag.Views
             HandleEscape = false;
 
             Closed += MainWindow_Closed;
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            // This can't be done any earlier than this:
+            GlassHelper.ExtendGlassFrame(this, new Thickness(-1));
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
