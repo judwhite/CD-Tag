@@ -3,9 +3,12 @@ using CDTag.Common;
 using CDTag.Events;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.Views.About;
+using CDTag.Views.Profile.EditProfile;
+using CDTag.Views.Profile.NewProfile;
 using CDTag.Views.Tag.EditTag;
 using CDTag.Views.Tag.MassTag;
 using CDTag.Views.Tag.TagAlbum;
+using CDTag.Views.Tools;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 
@@ -21,6 +24,10 @@ namespace CDTag.ViewModel.Tag
             TagAlbumCommand = new DelegateCommand(() => Unity.App.ShowWindow<TagAlbumWindow>());
             EditTagsCommand = new DelegateCommand(() => Unity.App.ShowWindow<EditTagWindow>());
             MassTagCommand = new DelegateCommand(() => Unity.App.ShowWindow<MassTagWindow>());
+            NewProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<NewProfileWindow>());
+            EditProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<EditProfileWindow>());
+            SplitCueSheetCommand = new DelegateCommand(() => Unity.App.ShowWindow<SplitCueWindow>());
+            EncodingInspectorCommand = new DelegateCommand(() => Unity.App.ShowWindow<EncodingInspectorWindow>());
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 

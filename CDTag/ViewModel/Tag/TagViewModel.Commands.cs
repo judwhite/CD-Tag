@@ -5,6 +5,18 @@ namespace CDTag.ViewModel.Tag
 {
     public partial class TagViewModel : ViewModelBase<ITagViewModel>, ITagViewModel
     {
+        public ICommand NewProfileCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
+        public ICommand EditProfileCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
         public ICommand AboutCommand
         {
             get { return Get<ICommand>(); }

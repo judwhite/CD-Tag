@@ -11,9 +11,12 @@ namespace CDTag.ViewModel.Tag
         ICommand AboutCommand { get; }
         ICommand TagAlbumCommand { get; }
         ICommand EditTagsCommand { get; }
-        
-        ICommand CheckForUpdatesCommand { get; }
+        ICommand MassTagCommand { get; }
         ICommand ExitCommand { get; }
+        ICommand NewProfileCommand { get; }
+        ICommand EditProfileCommand { get; }
+
+        ICommand CheckForUpdatesCommand { get; }
         ICommand CutCommand { get; }
         ICommand CopyCommand { get; }
         ICommand PasteCommand { get; }
@@ -25,7 +28,6 @@ namespace CDTag.ViewModel.Tag
         ICommand VerifyEacLogCommand { get; }
         ICommand SplitCueSheetCommand { get; }
         ICommand EncodingInspectorCommand { get; }
-        ICommand MassTagCommand { get; }
         ICommand ShowHelpCommand { get; }
         ICommand HomePageCommand { get; }
         ICommand SupportForumCommand { get; }

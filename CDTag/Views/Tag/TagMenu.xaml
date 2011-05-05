@@ -13,14 +13,7 @@
         <!-- TODO: Localize text -->
         <Menu>
             <MenuItem Header="_File">
-                <MenuItem Header="_New profile..." Command="{Binding NewProfileCommand}" />
-                <MenuItem Header="_Edit profile..." Command="{Binding EditProfileCommand}" />
-                <MenuItem Header="_Active profile" ItemsSource="{Binding ProfileCollection}" />
-                <Separator />
-                <MenuItem Header="_Options..." Command="{Binding OptionsCommand}" />
                 <MenuItem Header="_Check for updates..." Command="{Binding CheckForUpdatesCommand}" />
-                <Separator />
-                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Cu_t" Command="{Binding CutCommand}" />
@@ -37,33 +30,11 @@
                 <MenuItem Header="Status _bar" IsCheckable="True" IsChecked="{Binding IsShowStatusBarChecked, Mode=TwoWay}" />
                 <MenuItem Header="_Navigation pane" IsCheckable="True" IsChecked="{Binding IsShowNavigationPaneChecked, Mode=TwoWay}" />
                 <Separator />
-                <MenuItem Header="Go To">
-                    <MenuItem.Items>
-                        <MenuItem Header="_Back" Command="{Binding Path=DirectoryViewModel.GoBackCommand}" InputGestureText="Alt+Left Arrow" />
-                        <MenuItem Header="_Forward" Command="{Binding Path=DirectoryViewModel.GoForwardCommand}" InputGestureText="Alt+Right Arrow" />
-                        <MenuItem Header="_Up one level" Command="{Binding Path=DirectoryViewModel.GoUpCommand}" InputGestureText="Alt+Up Arrow" />
-                    </MenuItem.Items>
-                </MenuItem>
                 <MenuItem Header="_Refresh" Command="{Binding RefreshCommand}" />
             </MenuItem>
-            <MenuItem Header="_Tools">
-                <MenuItem Header="_Create checksum..." Command="{Binding CreateChecksumCommand}" />
-                <MenuItem Header="_Verify checksum..." Command="{Binding VerifyChecksumCommand}" />
-                <MenuItem Header="Verify _EAC log file..." Command="{Binding VerifyEacLogCommand}" />
-                <Separator />
-                <MenuItem Header="_Split CUE sheet..." Command="{Binding SplitCueSheetCommand}" />
-                <Separator />
-                <MenuItem Header="Encoding _inspector..." Command="{Binding EncodingInspectorCommand}" />
-                <Separator />
-                <MenuItem Header="_Mass tag..." Command="{Binding MassTagCommand}" />
-            </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Header="Show _help" Command="{Binding ShowHelpCommand}" />
-                <Separator />
                 <MenuItem Header="Home _page" Command="{Binding HomePageCommand}" />
                 <MenuItem Header="Support _forum" Command="{Binding SupportForumCommand}" />
-                <Separator />
-                <MenuItem Header="_About" Command="{Binding AboutCommand}" />
             </MenuItem>
         </Menu>
     </Grid>

@@ -2,10 +2,13 @@
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.ViewModel.About;
+using CDTag.ViewModel.Profile.EditProfile;
+using CDTag.ViewModel.Profile.NewProfile;
 using CDTag.ViewModel.Tag;
 using CDTag.ViewModel.Tag.EditTag;
 using CDTag.ViewModel.Tag.MassTag;
 using CDTag.ViewModel.Tag.TagAlbum;
+using CDTag.ViewModel.Tools;
 using CDTag.Views;
 using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
@@ -26,6 +29,10 @@ namespace CDTag
             Container.RegisterType(typeof(IID3v1ViewModel), typeof(ID3v1ViewModel));
             Container.RegisterType(typeof(ITagAlbumViewModel), typeof(TagAlbumViewModel));
             Container.RegisterType(typeof(IMassTagViewModel), typeof(MassTagViewModel));
+            Container.RegisterType(typeof(IEditProfileViewModel), typeof(EditProfileViewModel));
+            Container.RegisterType(typeof(INewProfileViewModel), typeof(NewProfileViewModel));
+            Container.RegisterType(typeof(ISplitCueViewModel), typeof(SplitCueViewModel));
+            Container.RegisterType(typeof(IEncodingInspectorViewModel), typeof(EncodingInspectorViewModel));
 
             Unity.Container = Container;
         }

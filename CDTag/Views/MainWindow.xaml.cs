@@ -29,13 +29,6 @@ namespace CDTag.Views
             Closed += MainWindow_Closed;
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            // This can't be done any earlier than this:
-            GlassHelper.ExtendGlassFrame(this, new Thickness(-1));
-        }
-
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             // Splitter/InitialDirectory settings
@@ -59,7 +52,7 @@ namespace CDTag.Views
             base.OnInitialized(e);
 
             KeyBindingHelper.SetKeyBindings(this, tagView.TagToolbar.wrenchMenu.Items);
-            
+
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoBackCommand, Key.Left, ModifierKeys.Alt));
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoForwardCommand, Key.Right, ModifierKeys.Alt));
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoUpCommand, Key.Up, ModifierKeys.Alt));

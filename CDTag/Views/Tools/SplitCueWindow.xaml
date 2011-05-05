@@ -1,0 +1,13 @@
+﻿<Views:WindowViewBase 
+    x:Class="CDTag.Views.Tools.SplitCueWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Views="clr-namespace:CDTag.Views;assembly=CDTag.Common" 
+    Title="Split CUE" 
+    Height="300" 
+    Width="300"
+>
+    <Grid>
+        
+    </Grid>
+</Views:WindowViewBase>

@@ -30,6 +30,17 @@ namespace CDTag.Views
         }
 
         /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.SourceInitialized"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            GlassHelper.ExtendGlassFrame(this, new Thickness(-1));
+        }
+
+        /// <summary>
         /// Raises the <see cref="E:System.Windows.FrameworkElement.Initialized"/> event. This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized"/> is set to true internally.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> that contains the event data.</param>
