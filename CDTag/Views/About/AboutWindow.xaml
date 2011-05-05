@@ -11,6 +11,7 @@
     WindowStartupLocation="CenterOwner"
     ResizeMode="CanMinimize"
     ShowInTaskbar="False"
+    FocusManager.FocusedElement="{Binding ElementName=OKButton}"
 >
     <Grid>
         <Grid.RowDefinitions>
@@ -131,10 +132,10 @@
 
                 <TabControl Grid.Row="1" Grid.ColumnSpan="2" Margin="0,6,0,0">
                     <TabControl.Items>
-                        <TabItem Header="Release notes">
+                        <TabItem Header="_Release notes">
                             <TextBox IsReadOnly="True" Margin="8" Text="{Binding ReleaseNotes, Mode=OneWay}" />
                         </TabItem>
-                        <TabItem Header="Installed components">
+                        <TabItem Header="_Installed components">
                             <Grid>
 
                                 <Grid.RowDefinitions>
@@ -171,7 +172,7 @@
                     </TabControl.Items>
                 </TabControl>
 
-                <Button Grid.Row="2" Grid.Column="2" Content="_OK" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=aboutWindow}" Margin="8,8,0,0" />
+                <Button x:Name="OKButton" Grid.Row="2" Grid.Column="2" Content="_OK" IsDefault="True" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=aboutWindow}" Margin="8,8,0,0" />
             </Grid>
         </Grid>
     </Grid>

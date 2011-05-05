@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Unity\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Libraries\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -71,6 +74,9 @@
     <Compile Include="ModelBase.cs" />
     <Compile Include="MouseHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\DataGridColumnSettings.cs" />
+    <Compile Include="Settings\MainWindow\MainWindowSettings.cs" />
+    <Compile Include="Settings\SettingsFile.cs" />
     <Compile Include="Settings\WindowSettings.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="ViewModelBase.cs" />
