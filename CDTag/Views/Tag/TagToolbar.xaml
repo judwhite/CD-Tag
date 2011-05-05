@@ -479,7 +479,7 @@
         <!--<Button Grid.Column="5" Command="{Binding AboutCommand}" Padding="2" ToolTipService.ToolTip="Customize and control">
             <Image Source="/Resources/Images/GeneralToolbar/Tools_24.png" />
         </Button>-->
-        <Menu Grid.Column="5" Style="{DynamicResource MenuStyle1}" Margin="3" VerticalAlignment="Center">
+        <Menu Grid.Column="5" Style="{DynamicResource MenuStyle1}" Margin="3" VerticalAlignment="Center" x:Name="wrenchMenu">
             <MenuItem Style="{DynamicResource MenuItemStyle1}" Template="{DynamicResource {ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" Header="_File" ToolTip="Tools and options">
                 <MenuItem.Icon>
                     <Image Source="/Resources/Images/GeneralToolbar/wrench_16.png" Width="16" Height="16" />

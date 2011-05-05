@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Common.Settings;
 using CDTag.Common.Settings.MainWindow;
@@ -13,9 +14,13 @@ namespace CDTag.Views
     /// </summary>
     public partial class MainWindow : WindowViewBase
     {
+        private readonly ITagViewModel _viewModel;
+
         public MainWindow(ITagViewModel viewModel)
             : base(viewModel)
         {
+            _viewModel = viewModel;
+
             InitializeComponent();
 
             HandleEscape = false;
@@ -29,7 +34,7 @@ namespace CDTag.Views
             MainWindowSettings settings = new MainWindowSettings();
             settings.GridSplitterPosition = tagView.FileExplorer.GridSplitterPosition;
             settings.Directory = tagView.FileExplorer.DirectoryController.CurrentDirectory;
-            
+
             // Column settings
             settings.ColumnSettings = new Dictionary<string, DataGridColumnSettings>();
             foreach (var item in tagView.FileExplorer.GetFileViewColumns())
@@ -44,6 +49,13 @@ namespace CDTag.Views
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
+
+            KeyBindingHelper.SetKeyBindings(this, tagView.TagToolbar.wrenchMenu.Items);
+            
+            InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoBackCommand, Key.Left, ModifierKeys.Alt));
+            InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoForwardCommand, Key.Right, ModifierKeys.Alt));
+            InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoUpCommand, Key.Up, ModifierKeys.Alt));
+            InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.SelectAllCommand, Key.A, ModifierKeys.Control));
 
             MainWindowSettings settings;
             if (SettingsFile.TryLoad("mainWindow.json", out settings))

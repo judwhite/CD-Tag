@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:view="clr-namespace:CDTag.Views" 
-    xmlns:Tag="clr-namespace:CDTag.Views.Tag" 
     xmlns:View="clr-namespace:CDTag.FileBrowser.View;assembly=CDTag.FileBrowser"
     mc:Ignorable="d" 
     d:DesignHeight="300" 

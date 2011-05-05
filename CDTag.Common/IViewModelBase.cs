@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Input;
+﻿using System.ComponentModel;
 
 namespace CDTag.Common
 {
@@ -12,11 +10,6 @@ namespace CDTag.Common
         /// <summary>Gets or sets the error container.</summary>
         /// <value>The error container.</value>
         IErrorContainer ErrorContainer { get; set; }
-
-        /// <summary>Gets the command bindings.</summary>
-        CommandBindingCollection CommandBindings { get; }
-
-        //void ShowException(Exception exception); // protected
     }
 
     /// <summary>

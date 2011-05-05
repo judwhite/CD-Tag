@@ -43,7 +43,6 @@ namespace CDTag.Common
     public abstract class ViewModelBase : IViewModelBase
     {
         private readonly Dictionary<string, object> _propertyValues = new Dictionary<string, object>();
-        private readonly CommandBindingCollection _commandBindings;
 
         /// <summary>The event aggregator.</summary>
         protected readonly IEventAggregator _eventAggregator;
@@ -55,13 +54,6 @@ namespace CDTag.Common
         protected ViewModelBase(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            _commandBindings = new CommandBindingCollection();
-        }
-
-        /// <summary>Gets the command bindings.</summary>
-        public CommandBindingCollection CommandBindings
-        {
-            get { return _commandBindings; }
         }
 
         /// <summary>Gets or sets the error container.</summary>
@@ -77,11 +69,10 @@ namespace CDTag.Common
         protected void ShowException(Exception exception)
         {
             IErrorContainer errorContainer = ErrorContainer;
-            IApp app = Unity.Resolve<IApp>();
             if (errorContainer == null)
-                app.ShowError(exception);
+                Unity.App.ShowError(exception);
             else
-                app.ShowError(exception, errorContainer);
+                Unity.App.ShowError(exception, errorContainer);
         }
 
         /// <summary>Occurs when a property value changes.</summary>
@@ -171,26 +162,6 @@ namespace CDTag.Common
             StackFrame stackFrame = new StackFrame(skipFrames: 1);
             string propertyName = stackFrame.GetMethod().Name.Substring(startIndex: 4);
             Set(propertyName, value);
-        }
-
-        /// <summary>Registers a key combination to the specified <paramref name="command"/>.</summary>
-        /// <param name="modifierKeys">The modifier keys.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="command">The command.</param>
-        protected void RegisterCommandBinding(ModifierKeys modifierKeys, Key key, ICommand command)
-        {
-            if (command == null)
-                throw new ArgumentNullException("command");
-
-            RoutedUICommand routedUICommand = new RoutedUICommand();
-            string displayString = string.Format("{0}+{1}", modifierKeys, key);
-            var keyGesture = new KeyGesture(key, modifierKeys, displayString);
-            routedUICommand.InputGestures.Add(keyGesture);
-
-            CommandBinding commandBinding = new CommandBinding(routedUICommand, (s, e) => command.Execute(null), (s, e) => { e.CanExecute = command.CanExecute(null); });
-            CommandManager.RegisterClassCommandBinding(GetType(), commandBinding);
-
-            CommandBindings.Add(commandBinding);
         }
     }
 }

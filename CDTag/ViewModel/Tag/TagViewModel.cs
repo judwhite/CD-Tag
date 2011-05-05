@@ -8,6 +8,7 @@ using CDTag.FileBrowser.ViewModel;
 using CDTag.ViewModel.Tag.EditTag;
 using CDTag.Views.About;
 using CDTag.Views.Tag.EditTag;
+using CDTag.Views.Tag.TagAlbum;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 
@@ -18,20 +19,14 @@ namespace CDTag.ViewModel.Tag
         public TagViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            //AboutCommand = new DelegateCommand(() => { throw new NotImplementedException(); });
-            AboutCommand = new DelegateCommand(() => ((App)Application.Current).ShowWindow<AboutWindow>());
+            AboutCommand = new DelegateCommand(() => Unity.App.ShowWindow<AboutWindow>());
             ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
-            TagAlbumCommand = new DelegateCommand(() => { throw new NotImplementedException(); });
-            EditTagsCommand = new DelegateCommand(ShowEditTags);
+            TagAlbumCommand = new DelegateCommand(() => Unity.App.ShowWindow<TagAlbumWindow>());
+            EditTagsCommand = new DelegateCommand(() => Unity.App.ShowWindow<EditTagWindow>());
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 
             eventAggregator.GetEvent<GetDirectoryControllerEvent>().Subscribe(OnGetDirectoryController);
-        }
-
-        private static void ShowEditTags()
-        {
-            ((App)Application.Current).ShowWindow<EditTagWindow>();
         }
 
         private void OnGetDirectoryController(GetDirectoryControllerEventArgs e)
@@ -43,19 +38,19 @@ namespace CDTag.ViewModel.Tag
         {
             if (e.IsProperty(p => p.DirectoryViewModel))
             {
-                RegisterCommandBindings();
+                //RegisterCommandBindings();
 
                 DirectoryViewModel.InitialDirectory = @"C:\";
             }
         }
 
-        private void RegisterCommandBindings()
+        /*private void RegisterCommandBindings()
         {
             RegisterCommandBinding(ModifierKeys.Alt, Key.Left, DirectoryViewModel.GoBackCommand);
             RegisterCommandBinding(ModifierKeys.Alt, Key.Right, DirectoryViewModel.GoForwardCommand);
             RegisterCommandBinding(ModifierKeys.Alt, Key.Up, DirectoryViewModel.GoUpCommand);
             RegisterCommandBinding(ModifierKeys.Control, Key.A, DirectoryViewModel.SelectAllCommand);
-        }
+        }*/
 
         public IDirectoryController DirectoryViewModel
         {

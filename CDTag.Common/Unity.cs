@@ -18,5 +18,11 @@ namespace CDTag.Common
         {
             return Container.Resolve<T>();
         }
+
+        /// <summary>Gets the current application.</summary>
+        public static IApp App
+        {
+            get { return Resolve<IApp>(); }
+        }
     }
 }

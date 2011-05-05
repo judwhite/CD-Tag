@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using CDTag.Views;
 
 namespace CDTag.Common
 {
@@ -18,5 +20,12 @@ namespace CDTag.Common
 
         /// <summary>Gets the local application directory.</summary>
         string LocalApplicationDirectory { get; }
+
+        /// <summary>Shows the window.</summary>
+        /// <typeparam name="T">The window type.</typeparam>
+        /// <returns>The result of <see cref="Window.ShowDialog()" />.</returns>
+        bool? ShowWindow<T>()
+            where T : WindowViewBase;
+
     }
 }

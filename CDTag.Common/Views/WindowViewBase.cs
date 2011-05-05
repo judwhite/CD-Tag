@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Common.Settings;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace CDTag.Views
 {
+    /// <summary>
+    /// WindowViewBase. Handles generic window settings.
+    /// </summary>
     public class WindowViewBase : Window
     {
         private bool _settingsLoaded;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowViewBase"/> class.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
         protected WindowViewBase(IViewModelBase viewModel)
         {
             DataContext = viewModel;
@@ -22,8 +25,14 @@ namespace CDTag.Views
             PreviewKeyDown += WindowViewBase_PreviewKeyDown;
             Closed += WindowViewBase_Closed;
             HandleEscape = true;
+            ShowInTaskbar = false;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.FrameworkElement.Initialized"/> event. This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized"/> is set to true internally.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> that contains the event data.</param>
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -32,41 +41,32 @@ namespace CDTag.Views
                 LoadWindowSettings();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the escape key should be used to close the window.
+        /// </summary>
+        /// <value><c>true</c> if the escape key should be used to close the window; otherwise, <c>false</c>.</value>
         public bool HandleEscape { get; set; }
 
         private void LoadWindowSettings()
         {
             _settingsLoaded = true;
 
-            string directory = Unity.Resolve<IApp>().LocalApplicationDirectory;
-            string fileName = Path.Combine(directory, "windows.json");
+            const string fileName = "windows.json";
             Dictionary<string, WindowSettings> windows;
-            WindowSettings windowSettings = null;
-            if (File.Exists(fileName))
+            if (SettingsFile.TryLoad(fileName, out windows))
             {
-                try
+                WindowSettings windowSettings;
+                if (windows.TryGetValue(Name, out windowSettings))
                 {
-                    string readJson = File.ReadAllText(fileName, Encoding.UTF8);
-                    windows = JsonConvert.DeserializeObject<Dictionary<string, WindowSettings>>(readJson);
-
-                    if (windows.ContainsKey(Name))
-                        windowSettings = windows[Name];
+                    Height = windowSettings.Height ?? Height;
+                    Width = windowSettings.Width ?? Width;
+                    if (WindowStartupLocation != WindowStartupLocation.CenterOwner)
+                    {
+                        Top = windowSettings.Top ?? Top;
+                        Left = windowSettings.Left ?? Left;
+                    }
+                    WindowState = (windowSettings.WindowState == null || windowSettings.WindowState == WindowState.Minimized) ? WindowState : windowSettings.WindowState.Value;
                 }
-                catch
-                {
-                }
-            }
-
-            if (windowSettings != null)
-            {
-                Height = windowSettings.Height ?? Height;
-                Width = windowSettings.Width ?? Width;
-                if (WindowStartupLocation != WindowStartupLocation.CenterOwner)
-                {
-                    Top = windowSettings.Top ?? Top;
-                    Left = windowSettings.Left ?? Left;
-                }
-                WindowState = (windowSettings.WindowState == null || windowSettings.WindowState == WindowState.Minimized) ? WindowState : windowSettings.WindowState.Value;
             }
         }
 
@@ -75,22 +75,9 @@ namespace CDTag.Views
             if (string.IsNullOrWhiteSpace(Name))
                 return;
 
-            string directory = Unity.Resolve<IApp>().LocalApplicationDirectory;
-            string fileName = Path.Combine(directory, "windows.json");
+            const string fileName = "windows.json";
             Dictionary<string, WindowSettings> windows;
-            if (File.Exists(fileName))
-            {
-                try
-                {
-                    string readJson = File.ReadAllText(fileName, Encoding.UTF8);
-                    windows = JsonConvert.DeserializeObject<Dictionary<string, WindowSettings>>(readJson);
-                }
-                catch
-                {
-                    windows = new Dictionary<string, WindowSettings>();
-                }
-            }
-            else
+            if (!SettingsFile.TryLoad(fileName, out windows))
             {
                 windows = new Dictionary<string, WindowSettings>();
             }
@@ -120,13 +107,7 @@ namespace CDTag.Views
                 windows.Add(Name, windowSettings);
             }
 
-            string json = JsonConvert.SerializeObject(windows, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-
-            using (Stream fileStream = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                byte[] bytes = Encoding.UTF8.GetBytes(json);
-                fileStream.Write(bytes, 0, bytes.Length);
-            }
+            SettingsFile.Save(fileName, windows);
         }
 
         private void WindowViewBase_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -140,6 +121,9 @@ namespace CDTag.Views
             }
         }
 
+        /// <summary>
+        /// Only here to support XAML. Use <see cref="WindowViewBase(IViewModelBase)" /> instead.
+        /// </summary>
         public WindowViewBase()
         {
             // Note: only here to support XAML

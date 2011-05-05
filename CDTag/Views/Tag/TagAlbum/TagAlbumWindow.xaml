@@ -1,0 +1,15 @@
+﻿<Views:WindowViewBase 
+    x:Class="CDTag.Views.Tag.TagAlbum.TagAlbumWindow"
+    x:Name="tagAlbumWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CDTag.Views;assembly=CDTag.Common"
+    Title="Tag Album" 
+    Height="300"
+    Width="300"
+>
+    <!-- TODO: Localize Title -->
+    <Grid>
+        
+    </Grid>
+</Views:WindowViewBase>

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using CDTag.Common;
+﻿using CDTag.Common;
 using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag
@@ -9,6 +8,8 @@ namespace CDTag.Views.Tag
     /// </summary>
     public partial class TagView : ViewBase
     {
+        private readonly TagToolbar _tagToolbar;
+
         public TagView()
             : this(Unity.Resolve<ITagViewModel>())
         {
@@ -19,10 +20,16 @@ namespace CDTag.Views.Tag
         {
             InitializeComponent();
 
-            FileExplorer.Toolbar = Unity.Resolve<TagToolbar>();
+            _tagToolbar = Unity.Resolve<TagToolbar>();
+            FileExplorer.Toolbar = _tagToolbar;
 
             // TODO: Move to ViewModel
             viewModel.DirectoryViewModel = FileExplorer.DirectoryController;
+        }
+
+        public TagToolbar TagToolbar
+        {
+            get { return _tagToolbar; }
         }
     }
 }

@@ -71,6 +71,7 @@
     <Compile Include="IModelBase.cs" />
     <Compile Include="EnhancedPropertyChangedEventArgs.cs" />
     <Compile Include="IViewModelBase.cs" />
+    <Compile Include="KeyBindingHelper.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="MouseHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Settings\WindowSettings.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="Views\WindowViewBase.cs" />
     <Compile Include="Win32API\Advapi32.cs" />
     <Compile Include="Win32API\Const.cs" />
     <Compile Include="Win32API\Kernel32.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Win32API\Struct.cs" />
     <Compile Include="Win32API\User32.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

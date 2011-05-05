@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using CDTag.Common;
-using CDTag.FileBrowser;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.ViewModel.About;
 using CDTag.ViewModel.Tag;
 using CDTag.ViewModel.Tag.EditTag;
+using CDTag.ViewModel.Tag.MassTag;
+using CDTag.ViewModel.Tag.TagAlbum;
 using CDTag.Views;
 using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
@@ -23,6 +24,8 @@ namespace CDTag
             Container.RegisterType(typeof(IAboutViewModel), typeof(AboutViewModel));
             Container.RegisterType(typeof(IEditTagViewModel), typeof(EditTagViewModel));
             Container.RegisterType(typeof(IID3v1ViewModel), typeof(ID3v1ViewModel));
+            Container.RegisterType(typeof(ITagAlbumViewModel), typeof(TagAlbumViewModel));
+            Container.RegisterType(typeof(IMassTagViewModel), typeof(MassTagViewModel));
 
             Unity.Container = Container;
         }
@@ -34,36 +37,5 @@ namespace CDTag
 
             return shell;
         }
-
-        protected override void InitializeModules()
-        {
-            //MainModule module = Container.Resolve<MainModule>();
-            //module.Initialize();
-        }
     }
-
-    // TODO: Take out if the decision is made to not use regions
-    /*public class MainModule : IModule
-    {
-        public MainModule(IUnityContainer container, IRegionManager regionManager)
-        {
-            Container = container;
-            RegionManager = regionManager;
-        }
-
-        public void Initialize()
-        {
-            var tagView = Container.Resolve<TagView>();
-            RegionManager.Regions["TagRegion"].Add(tagView);
-
-            var tagToolbar = Container.Resolve<TagToolbar>();
-            RegionManager.Regions["ToolbarRegion"].Add(tagToolbar);
-
-            var tagMenu = Container.Resolve<TagMenu>();
-            RegionManager.Regions["Menu"].Add(tagMenu);
-        }
-
-        public IUnityContainer Container { get; private set; }
-        public IRegionManager RegionManager { get; private set; }
-    }*/
 }
