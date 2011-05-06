@@ -32,7 +32,8 @@ namespace CDTag.FileBrowser.View
 
         private void _directoryController_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<IDirectoryController> e)
         {
-            if (DirectoryComboBox.IsSelectionBoxHighlighted)
+            // TODO: Move to DirectoryButtons
+            /*if (DirectoryComboBox.IsSelectionBoxHighlighted)
             {
                 if (e.IsProperty(p => p.SubDirectories))
                 {
@@ -45,7 +46,7 @@ namespace CDTag.FileBrowser.View
                         DirectoryComboBox.IsDropDownOpen = true;
                     }
                 }
-            }
+            }*/
         }
 
         /// <summary>Gets or sets the toolbar.</summary>

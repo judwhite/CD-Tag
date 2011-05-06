@@ -12,11 +12,6 @@ namespace CDTag.FileBrowser.Model
 {
     internal class DirectoryTreeNode : TreeViewItem
     {
-        // TODO: Get string values from a resource file or make them public
-        private const string DriveTypes_LocalDisk = "Local Disk";
-        private const string DriveTypes_CDDVD = "CD/DVD ({0})";
-        private const string DriveTypes_RemovableDisk = "Removable Disk ({0})";
-
         private string _directory;
 
         public bool IsAccessDenied { get; private set; }
@@ -47,36 +42,7 @@ namespace CDTag.FileBrowser.Model
 
                     DriveInfo drive = new DriveInfo(_directory);
 
-                    string volumeLabel = string.Empty;
-                    if (drive.IsReady)
-                        volumeLabel = drive.VolumeLabel;
-                    string driveLetter = drive.Name.TrimEnd('\\');
-
-                    switch (drive.DriveType)
-                    {
-                        case DriveType.Fixed:
-                            if (string.IsNullOrEmpty(volumeLabel))
-                                volumeLabel = DriveTypes_LocalDisk;
-                            break;
-                        case DriveType.CDRom:
-                            text = string.Format(DriveTypes_CDDVD, driveLetter);
-                            break;
-                        case DriveType.Removable:
-                            text = string.Format(DriveTypes_RemovableDisk, driveLetter);
-                            break;
-                        default:
-                            text = string.Format("{0}", driveLetter);
-                            break;
-                    }
-
-                    if (drive.DriveType == DriveType.Fixed)
-                    {
-                        text = string.Format("{0} ({1})", volumeLabel, driveLetter);
-                    }
-                    else if (!string.IsNullOrEmpty(volumeLabel))
-                    {
-                        text += " " + volumeLabel;
-                    }
+                    text = DriveTypeHelper.GetDescription(drive);
 
                     if (drive.IsReady)
                     {

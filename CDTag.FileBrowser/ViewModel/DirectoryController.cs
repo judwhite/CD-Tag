@@ -53,6 +53,8 @@ namespace CDTag.FileBrowser.ViewModel
             InvertSelectionCommand = new DelegateCommand(InvertSelection);
 
             EnhancedPropertyChanged += DirectoryController_EnhancedPropertyChanged;
+
+            History = new ObservableCollection<HistoryItem>();
         }
 
         private void DirectoryController_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<IDirectoryController> e)
@@ -441,11 +443,28 @@ namespace CDTag.FileBrowser.ViewModel
         private void SendNavigationCompleteEvent()
         {
             TypingDirectory = CurrentDirectory;
+            UpdateHistory();
 
             _isNavigating = false;
             var eventHandler = NavigationComplete;
             if (eventHandler != null)
                 eventHandler(this, EventArgs.Empty);
+        }
+
+        private void UpdateHistory()
+        {
+            // TODO: This could be more efficient. It may make more sense to have back/forward history derive from this
+            // TODO: list rather than the way it is now.
+
+            ObservableCollection<HistoryItem> history = new ObservableCollection<HistoryItem>();
+
+            foreach (var item in _forwardHistory)
+                history.Add(new HistoryItem { FileView = item });
+            history.Add(new HistoryItem { FileView = _directory, IsCurrent = true });
+            foreach (var item in _backHistory)
+                history.Add(new HistoryItem { FileView = item });
+
+            History = history;
         }
 
         private void GetSubDirectories(string directory)
@@ -557,6 +576,13 @@ namespace CDTag.FileBrowser.ViewModel
         public ObservableCollection<string> SubDirectories
         {
             get { return Get<ObservableCollection<string>>(); }
+            set { Set(value); }
+        }
+
+        /// <summary>Gets the history.</summary>
+        public ObservableCollection<HistoryItem> History
+        {
+            get { return Get<ObservableCollection<HistoryItem>>(); }
             set { Set(value); }
         }
     }

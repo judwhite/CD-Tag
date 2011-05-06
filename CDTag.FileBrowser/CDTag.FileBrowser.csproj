@@ -63,9 +63,11 @@
   <ItemGroup>
     <Compile Include="Behavior\RemoveSelectAllBehavior.cs" />
     <Compile Include="Converters\StatusBarConverter.cs" />
+    <Compile Include="DriveTypeHelper.cs" />
     <Compile Include="Model\DirectoryTreeNode.cs" />
     <Compile Include="Model\FileCollection.cs" />
     <Compile Include="Model\FileView.cs" />
+    <Compile Include="Model\HistoryItem.cs" />
     <Compile Include="ViewModel\DirectoryController.cs" />
     <Compile Include="ViewModel\IDirectoryController.cs" />
     <Compile Include="View\DirectoryButtons.xaml.cs">

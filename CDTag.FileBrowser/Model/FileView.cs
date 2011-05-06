@@ -259,6 +259,12 @@ namespace CDTag.FileBrowser.Model
             FullName = fileInfo.FullName;
             Name = fileInfo.Name;
 
+            DriveInfo driveInfo = null;
+            if (fileInfo.FullName.Length == 3)
+            {
+                driveInfo = new DriveInfo(FullName);
+            }
+
             // Check if not a directory (size is not valid)
             if (fileInfo.Exists && fileInfo is FileInfo)
             {
@@ -269,13 +275,32 @@ namespace CDTag.FileBrowser.Model
                 Size = null;
             }
 
-            DateModified = fileInfo.LastWriteTime;
-            DateCreated = fileInfo.CreationTime;
+            if (driveInfo != null && driveInfo.IsReady)
+            {
+                try
+                {
+                    DateModified = fileInfo.LastWriteTime;
+                }
+                catch
+                {
+                    // TODO: Log error?
+                    DateModified = DateTime.MinValue;
+                }
+
+                try
+                {
+                    DateCreated = fileInfo.CreationTime;
+                }
+                catch
+                {
+                    // TODO: Log error?
+                    DateCreated = DateTime.MinValue;
+                }
+            }
 
             // Get Type Name
             Win32.SHFILEINFO info;// = new Win32.SHFILEINFO();
             Win32.SHGetFileInfo(fileInfo.FullName, 0, out info, (uint)Marshal.SizeOf(typeof(Win32.SHFILEINFO)), Win32.SHGFI_DISPLAYNAME | Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
-
             
             if (Size == null)
                 Type = "File folder"; // TODO: Localize

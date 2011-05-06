@@ -10,16 +10,34 @@
 >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="40" />
         </Grid.ColumnDefinitions>
         
-        <Grid x:Name="ButtonGrid" Grid.Row="0" Grid.Column="0">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="MouseOver">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ContainerBorder" Storyboard.TargetProperty="Opacity" To="1" />
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Border x:Name="ContainerBorder" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Opacity="0.85" />
+        
+        <Grid Grid.Row="0" Grid.Column="0" x:Name="ButtonGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
         </Grid>
+        
     </Grid>
 </UserControl>

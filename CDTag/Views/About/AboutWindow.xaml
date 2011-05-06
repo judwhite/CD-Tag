@@ -44,7 +44,7 @@
 
         </Grid>
 
-        <Grid Grid.Row="2" Background="{StaticResource WindowBackground}">
+        <Grid Grid.Row="2" Background="{DynamicResource AboutWindowBackground}">
 
             <Grid.Resources>
                 <Style TargetType="TextBlock">

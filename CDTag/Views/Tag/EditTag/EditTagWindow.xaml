@@ -6,11 +6,8 @@
     xmlns:EditTag="clr-namespace:CDTag.Views.Tag.EditTag" 
     Title="Edit Tag"
     x:Name="editTagWindow"
-    ShowInTaskbar="False"
-    WindowStartupLocation="CenterOwner"
     Height="400" 
     Width="600"
-    Background="{StaticResource WindowBackground}"
 >
     <Grid Margin="12">
         <EditTag:ID3v1View />

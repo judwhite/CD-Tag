@@ -16,6 +16,9 @@ namespace CDTag
     {
         public App()
         {
+            // Note: Known bug with App.xaml having no StartupUri and the theme speicified in XAML's Application.Resources
+            Resources = (ResourceDictionary)LoadComponent(new Uri("/Themes/Default/Theme.xaml", UriKind.RelativeOrAbsolute));
+            
             DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 

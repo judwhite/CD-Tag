@@ -71,5 +71,8 @@ namespace CDTag.FileBrowser.ViewModel
 
         /// <summary>Gets the sub directories of the <see cref="CurrentDirectory" />.</summary>
         ObservableCollection<string> SubDirectories { get; }
+
+        /// <summary>Gets the history.</summary>
+        ObservableCollection<HistoryItem> History { get; }
     }
 }
