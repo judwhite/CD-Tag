@@ -15,6 +15,12 @@ namespace CDTag.ViewModel.Tag
         ICommand ExitCommand { get; }
         ICommand NewProfileCommand { get; }
         ICommand EditProfileCommand { get; }
+        ICommand SplitCueSheetCommand { get; }
+        ICommand EncodingInspectorCommand { get; }
+        ICommand OptionsCommand { get; }
+        ICommand CreateChecksumCommand { get; } // TODO: These may become one
+        ICommand VerifyChecksumCommand { get; } // TODO: These may become one
+        ICommand VerifyEACLogCommand { get; }
 
         ICommand CheckForUpdatesCommand { get; }
         ICommand CutCommand { get; }
@@ -23,11 +29,7 @@ namespace CDTag.ViewModel.Tag
         ICommand CopyToFolderCommand { get; }
         ICommand MoveToFolderCommand { get; }
         ICommand RefreshCommand { get; }
-        ICommand CreateChecksumCommand { get; }
-        ICommand VerifyChecksumCommand { get; }
         ICommand VerifyEacLogCommand { get; }
-        ICommand SplitCueSheetCommand { get; }
-        ICommand EncodingInspectorCommand { get; }
         ICommand ShowHelpCommand { get; }
         ICommand HomePageCommand { get; }
         ICommand SupportForumCommand { get; }

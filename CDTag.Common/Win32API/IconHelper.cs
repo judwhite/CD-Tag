@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -15,9 +13,6 @@ namespace CDTag.Common.Win32API
     /// </summary>
     public static class IconHelper
     {
-        //private static readonly Dictionary<int, ImageSource> _icons = new Dictionary<int, ImageSource>();
-        //private static readonly object _iconsLocker = new object();
-
         /// <summary>
         /// Gets the icon as an <see cref="ImageSource"/> for the specified path.
         /// </summary>
@@ -41,16 +36,10 @@ namespace CDTag.Common.Win32API
             ImageSource img = null;
             if (info.hIcon != IntPtr.Zero)
             {
-                //ImageSource imageSource;
-                //if (_icons.TryGetValue(info.iIcon, out imageSource))
-                //    return imageSource;
-
                 using (System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(info.hIcon))
                 {
                     img = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, icon.Width, icon.Height), BitmapSizeOptions.FromEmptyOptions());
                 }
-
-                //_icons.Add(info.iIcon, img);
 
                 Win32.DestroyIcon(info.hIcon);
             }

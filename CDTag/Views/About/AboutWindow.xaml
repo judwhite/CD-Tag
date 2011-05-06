@@ -1,16 +1,14 @@
 ﻿<Views:WindowViewBase 
     x:Class="CDTag.Views.About.AboutWindow"
+    x:Name="aboutWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Views="clr-namespace:CDTag.Views;assembly=CDTag.Common" 
     xmlns:Common="clr-namespace:CDTag.Common;assembly=CDTag.Common" 
     Title="About" 
-    x:Name="aboutWindow"
     Height="500" 
     Width="650"
-    WindowStartupLocation="CenterOwner"
     ResizeMode="CanMinimize"
-    ShowInTaskbar="False"
     FocusManager.FocusedElement="{Binding ElementName=OKButton}"
 >
     <Grid>

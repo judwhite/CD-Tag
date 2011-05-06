@@ -1,10 +1,10 @@
 ﻿<Views:WindowViewBase 
-    x:Class="CDTag.Views.Profile.EditProfile.EditProfileWindow"
-    x:Name="editProfileWindow"
+    x:Class="CDTag.Views.Checksum.ChecksumWindow"
+    x:Name="checksumWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Views="clr-namespace:CDTag.Views;assembly=CDTag.Common" 
-    Title="Edit Profile" 
+    Title="Create/Verify Checksum" 
     Height="300" 
     Width="300"
 >

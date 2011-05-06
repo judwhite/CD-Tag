@@ -101,6 +101,12 @@
     <Compile Include="Model\About\ComponentInformation.cs" />
     <Compile Include="ViewModel\About\AboutViewModel.cs" />
     <Compile Include="ViewModel\About\IAboutViewModel.cs" />
+    <Compile Include="ViewModel\Checksum\ChecksumViewModel.cs" />
+    <Compile Include="ViewModel\Checksum\IChecksumViewModel.cs" />
+    <Compile Include="ViewModel\Checksum\IVerifyEACLogViewModel.cs" />
+    <Compile Include="ViewModel\Checksum\VerifyEACLogViewModel.cs" />
+    <Compile Include="ViewModel\Options\IOptionsViewModel.cs" />
+    <Compile Include="ViewModel\Options\OptionsViewModel.cs" />
     <Compile Include="ViewModel\Profile\EditProfile\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\Profile\EditProfile\IEditProfileViewModel.cs" />
     <Compile Include="ViewModel\Profile\NewProfile\INewProfileViewModel.cs" />
@@ -122,6 +128,15 @@
     <Compile Include="ViewModel\Tools\SplitCueViewModel.cs" />
     <Compile Include="Views\About\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Checksum\ChecksumWindow.xaml.cs">
+      <DependentUpon>ChecksumWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Checksum\VerifyEACLogWindow.xaml.cs">
+      <DependentUpon>VerifyEACLogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Options\OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Profile\EditProfile\EditProfileWindow.xaml.cs">
       <DependentUpon>EditProfileWindow.xaml</DependentUpon>
@@ -213,6 +228,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Checksum\ChecksumWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Checksum\VerifyEACLogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -225,6 +248,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Options\OptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Profile\EditProfile\EditProfileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

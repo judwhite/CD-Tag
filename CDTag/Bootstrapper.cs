@@ -2,6 +2,8 @@
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.ViewModel.About;
+using CDTag.ViewModel.Checksum;
+using CDTag.ViewModel.Options;
 using CDTag.ViewModel.Profile.EditProfile;
 using CDTag.ViewModel.Profile.NewProfile;
 using CDTag.ViewModel.Tag;
@@ -23,6 +25,7 @@ namespace CDTag
 
             Container.RegisterInstance(typeof(IApp), Application.Current);
             Container.RegisterInstance(typeof(ITagViewModel), Container.Resolve<TagViewModel>());
+            
             Container.RegisterType(typeof(IDirectoryController), typeof(DirectoryController));
             Container.RegisterType(typeof(IAboutViewModel), typeof(AboutViewModel));
             Container.RegisterType(typeof(IEditTagViewModel), typeof(EditTagViewModel));
@@ -33,6 +36,9 @@ namespace CDTag
             Container.RegisterType(typeof(INewProfileViewModel), typeof(NewProfileViewModel));
             Container.RegisterType(typeof(ISplitCueViewModel), typeof(SplitCueViewModel));
             Container.RegisterType(typeof(IEncodingInspectorViewModel), typeof(EncodingInspectorViewModel));
+            Container.RegisterType(typeof(IOptionsViewModel), typeof(OptionsViewModel));
+            Container.RegisterType(typeof(IChecksumViewModel), typeof(ChecksumViewModel));
+            Container.RegisterType(typeof(IVerifyEACLogViewModel), typeof(VerifyEACLogViewModel));
 
             Unity.Container = Container;
         }

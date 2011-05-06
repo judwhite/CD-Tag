@@ -53,7 +53,7 @@
                 <MenuItem Header="_Checksum">
                     <MenuItem Header="_Create checksum" Command="{Binding CreateChecksumCommand}" InputGestureText="Ctrl+K" />
                     <MenuItem Header="_Verify checksum" Command="{Binding VerifyChecksumCommand}" InputGestureText="Ctrl+L" />
-                    <MenuItem Header="Verify _EAC log file" Command="{Binding VerifyEacLogCommand}" InputGestureText="Ctrl+E" />
+                    <MenuItem Header="Verify _EAC log file" Command="{Binding VerifyEACLogCommand}" InputGestureText="Ctrl+E" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="_Go">

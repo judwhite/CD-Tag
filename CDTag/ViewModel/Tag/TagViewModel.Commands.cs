@@ -136,5 +136,17 @@ namespace CDTag.ViewModel.Tag
             get { return Get<ICommand>(); }
             private set { Set(value); }
         }
+
+        public ICommand OptionsCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
+
+        public ICommand VerifyEACLogCommand
+        {
+            get { return Get<ICommand>(); }
+            private set { Set(value); }
+        }
     }
 }

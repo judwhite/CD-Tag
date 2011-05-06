@@ -3,6 +3,8 @@ using CDTag.Common;
 using CDTag.Events;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.Views.About;
+using CDTag.Views.Checksum;
+using CDTag.Views.Options;
 using CDTag.Views.Profile.EditProfile;
 using CDTag.Views.Profile.NewProfile;
 using CDTag.Views.Tag.EditTag;
@@ -28,6 +30,10 @@ namespace CDTag.ViewModel.Tag
             EditProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<EditProfileWindow>());
             SplitCueSheetCommand = new DelegateCommand(() => Unity.App.ShowWindow<SplitCueWindow>());
             EncodingInspectorCommand = new DelegateCommand(() => Unity.App.ShowWindow<EncodingInspectorWindow>());
+            OptionsCommand = new DelegateCommand(() => Unity.App.ShowWindow<OptionsWindow>());
+            CreateChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<ChecksumWindow>());
+            VerifyChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<ChecksumWindow>());
+            VerifyEACLogCommand = new DelegateCommand(() => Unity.App.ShowWindow<VerifyEACLogWindow>());
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 
