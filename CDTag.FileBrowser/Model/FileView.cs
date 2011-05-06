@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Drawing;
@@ -23,7 +22,6 @@ namespace CDTag.FileBrowser.Model
         private DateTime _dateModified;
         private DateTime _dateCreated;
         private string _type;
-        private Icon _icon;
         private string _fullName;
         private bool _isSelected;
         private ImageSource _imageSource;
@@ -188,35 +186,21 @@ namespace CDTag.FileBrowser.Model
             }
         }
 
-        /// <summary>Gets the icon.</summary>
-        /// <value>The icon.</value>
-        public Icon Icon
-        {
-            get { return _icon; }
-            private set
-            {
-                if (_icon != value)
-                {
-                    _icon = value;
-                    _imageSource = null;
-                    SendPropertyChanged("Icon");
-                }
-            }
-        }
-
         /// <summary>Gets the image source (WPF icon).</summary>
         /// <value>The image source (WPF icon).</value>
         public ImageSource ImageSource
         {
             get
             {
-                if (_imageSource == null)
-                {
-                    Icon icon = Icon;
-                    _imageSource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, icon.Width, icon.Height), BitmapSizeOptions.FromEmptyOptions());
-                }
-
                 return _imageSource;
+            }
+            private set
+            {
+                if (_imageSource != value)
+                {
+                    _imageSource = value;
+                    SendPropertyChanged("ImageSource");
+                }
             }
         }
 
@@ -299,19 +283,13 @@ namespace CDTag.FileBrowser.Model
             }
 
             // Get Type Name
-            Win32.SHFILEINFO info;// = new Win32.SHFILEINFO();
-            Win32.SHGetFileInfo(fileInfo.FullName, 0, out info, (uint)Marshal.SizeOf(typeof(Win32.SHFILEINFO)), Win32.SHGFI_DISPLAYNAME | Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
+            Win32.SHFILEINFO info;
+            ImageSource = IconHelper.GetImageSource(fileInfo.FullName, out info);
             
             if (Size == null)
                 Type = "File folder"; // TODO: Localize
             else
                 Type = string.Format("{0}", info.szTypeName);
-
-            if (info.hIcon == IntPtr.Zero)
-                return;
-
-            // Get ICON
-            Icon = Icon.FromHandle(info.hIcon);
         }
     }
 }

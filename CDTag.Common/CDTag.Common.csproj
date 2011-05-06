@@ -54,6 +54,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -85,6 +86,7 @@
     <Compile Include="Views\WindowViewBase.cs" />
     <Compile Include="Win32API\Advapi32.cs" />
     <Compile Include="Win32API\Const.cs" />
+    <Compile Include="Win32API\IconHelper.cs" />
     <Compile Include="Win32API\Kernel32.cs" />
     <Compile Include="Win32API\Ole32.cs" />
     <Compile Include="Win32API\Shell32.cs" />

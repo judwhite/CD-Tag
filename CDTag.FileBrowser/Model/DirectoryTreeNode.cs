@@ -25,14 +25,7 @@ namespace CDTag.FileBrowser.Model
             {
                 _directory = value;
 
-                Win32.SHFILEINFO info; //= new Win32.SHFILEINFO();
-                Win32.SHGetFileInfo(_directory, 0, out info, (uint)Marshal.SizeOf(typeof(Win32.SHFILEINFO)), Win32.SHGFI_ICON | Win32.SHGFI_TYPENAME | Win32.SHGFI_SMALLICON);
-
-                ImageSource img;
-                using (System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(info.hIcon))
-                {
-                    img = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, icon.Width, icon.Height), BitmapSizeOptions.FromEmptyOptions());
-                }
+                ImageSource img = IconHelper.GetImageSource(_directory);
 
                 string text = Path.GetFileName(_directory);
 
