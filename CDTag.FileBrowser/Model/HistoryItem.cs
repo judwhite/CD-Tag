@@ -16,5 +16,9 @@
         /// 	<c>true</c> if this instance represents the currently selected directory; otherwise, <c>false</c>.
         /// </value>
         public bool IsCurrent { get; set; }
+
+        /// <summary>Gets or sets the history offset.</summary>
+        /// <value>The history offset.</value>
+        public int HistoryOffset { get; set; }
     }
 }

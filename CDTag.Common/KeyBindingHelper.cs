@@ -52,7 +52,7 @@ namespace CDTag.Common
                                 {
                                     //KeyGestureConverter x = new KeyGestureConverter(); // TODO: Might be able to use this instead
                                     target.InputBindings.Add(new KeyBinding(menuItem.Command, key, modifiers));
-                                    Debug.WriteLine(String.Format("{0} = {1}+{2}", menuItem.Header, modifiers, key)); // TODO: Take out
+                                    //Debug.WriteLine(String.Format("{0} = {1}+{2}", menuItem.Header, modifiers, key)); // TODO: Take out
                                 }
                                 else
                                 {

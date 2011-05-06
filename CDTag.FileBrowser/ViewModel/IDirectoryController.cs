@@ -74,5 +74,9 @@ namespace CDTag.FileBrowser.ViewModel
 
         /// <summary>Gets the history.</summary>
         ObservableCollection<HistoryItem> History { get; }
+
+        /// <summary>Navigates to the specified history offset.</summary>
+        /// <param name="offset">The history offset.</param>
+        void Navigate(int offset);
     }
 }

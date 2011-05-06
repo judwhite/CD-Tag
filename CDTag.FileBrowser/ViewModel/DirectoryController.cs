@@ -48,7 +48,7 @@ namespace CDTag.FileBrowser.ViewModel
 
             GoBackCommand = new DelegateCommand(() => GoBack(), () => IsGoBackEnabled);
             GoForwardCommand = new DelegateCommand(() => GoForward(), () => IsGoForwardEnabled);
-            GoUpCommand = new DelegateCommand(GoUp, () => true /* TODO */);
+            GoUpCommand = new DelegateCommand(GoUp, () => CurrentDirectory != null && CurrentDirectory.Length > 3);
             SelectAllCommand = new DelegateCommand(SelectAll);
             InvertSelectionCommand = new DelegateCommand(InvertSelection);
 
@@ -422,6 +422,7 @@ namespace CDTag.FileBrowser.ViewModel
 
                 ((DelegateCommand)GoBackCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)GoForwardCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)GoUpCommand).RaiseCanExecuteChanged();
 
                 SendPropertyChanged("CurrentDirectory", oldValue: oldDirectory, newValue: CurrentDirectory);
             }
@@ -458,11 +459,15 @@ namespace CDTag.FileBrowser.ViewModel
 
             ObservableCollection<HistoryItem> history = new ObservableCollection<HistoryItem>();
 
-            foreach (var item in _forwardHistory)
-                history.Add(new HistoryItem { FileView = item });
-            history.Add(new HistoryItem { FileView = _directory, IsCurrent = true });
+            int forwardCount = _forwardHistory.Count;
+            foreach (var item in _forwardHistory.Reverse())
+                history.Add(new HistoryItem { FileView = item, HistoryOffset = forwardCount-- });
+            
+            history.Add(new HistoryItem { FileView = _directory, IsCurrent = true, HistoryOffset = 0});
+
+            int historyOffset = -1;
             foreach (var item in _backHistory)
-                history.Add(new HistoryItem { FileView = item });
+                history.Add(new HistoryItem { FileView = item, HistoryOffset = historyOffset-- });
 
             History = history;
         }
@@ -517,6 +522,7 @@ namespace CDTag.FileBrowser.ViewModel
 
             ((DelegateCommand)GoBackCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)GoForwardCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)GoUpCommand).RaiseCanExecuteChanged();
         }
 
         /// <summary>Gets the file collection.</summary>
@@ -584,6 +590,19 @@ namespace CDTag.FileBrowser.ViewModel
         {
             get { return Get<ObservableCollection<HistoryItem>>(); }
             set { Set(value); }
+        }
+
+        /// <summary>Navigates to the specified history offset.</summary>
+        /// <param name="offset">The history offset.</param>
+        public void Navigate(int offset)
+        {
+            if (offset == 0)
+                return;
+
+            if (offset < 0)
+                GoBack(offset * -1);
+            else
+                GoForward(offset);
         }
     }
 }

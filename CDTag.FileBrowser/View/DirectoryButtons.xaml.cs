@@ -56,7 +56,10 @@ namespace CDTag.FileBrowser.View
                         Menu menu;
                         GetMenuItem(curdir, directory, out menuItem, out menu);
 
-                        buttons.Add(menu);
+                        if (menu != null)
+                        {
+                            buttons.Add(menu);
+                        }
 
                         Button dirButton = new Button();
                         dirButton.Content = 
@@ -84,7 +87,6 @@ namespace CDTag.FileBrowser.View
                             };
                             menuItem.MouseEnter += delegate 
                             {
-                                Debug.WriteLine("Enter");
                                 if (!menuItem.IsSubmenuOpen)
                                 {
                                     VisualStateManager.GoToState(dirButton, "MouseOver", true);
@@ -197,6 +199,13 @@ namespace CDTag.FileBrowser.View
             {
                 subdirs = DriveInfo.GetDrives().Select(p => p.Name).ToArray();
                 isDrive = true;
+            }
+
+            if (subdirs.Length == 0)
+            {
+                menuItem = null;
+                menu = null;
+                return;
             }
 
             menuItem = new MenuItem();

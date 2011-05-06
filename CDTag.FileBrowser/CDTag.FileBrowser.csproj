@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behavior\RemoveSelectAllBehavior.cs" />
+    <Compile Include="Converters\HistoryConverter.cs" />
     <Compile Include="Converters\StatusBarConverter.cs" />
     <Compile Include="DriveTypeHelper.cs" />
     <Compile Include="Model\DirectoryTreeNode.cs" />

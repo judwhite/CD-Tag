@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using CDTag.Common;
 using CDTag.Common.Settings;
 
@@ -27,17 +28,7 @@ namespace CDTag.Views
             HandleEscape = true;
             ShowInTaskbar = false;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Windows.Window.SourceInitialized"/> event.
-        /// </summary>
-        /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-
-            GlassHelper.ExtendGlassFrame(this, new Thickness(-1));
+            Background = (Brush)Application.Current.Resources["WindowBackground"];
         }
 
         /// <summary>
