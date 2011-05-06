@@ -42,6 +42,12 @@
   <PropertyGroup>
     <ApplicationIcon>cdtag.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>cdtag.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -176,6 +182,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <None Include="cdtag.snk" />
     <None Include="Themes\Default\Backup\MenuRelated.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -339,6 +346,10 @@
     <ProjectReference Include="..\..\IdSharp\IdSharp.Tagging\IdSharp.Tagging.csproj">
       <Project>{A4BC39D2-FB08-4DCE-B485-0F49D21B106D}</Project>
       <Name>IdSharp.Tagging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.WebLookup\IdSharp.WebLookup.csproj">
+      <Project>{ECEAC3FF-2F1E-4E89-ADD5-2F048ECC5B2A}</Project>
+      <Name>IdSharp.WebLookup</Name>
     </ProjectReference>
     <ProjectReference Include="..\CDTag.Common\CDTag.Common.csproj">
       <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
