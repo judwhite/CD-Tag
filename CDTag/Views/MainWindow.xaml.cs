@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Common.Settings;
 using CDTag.Common.Settings.MainWindow;
+using CDTag.FileBrowser.Events;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.ViewModel.Tag;
 using System.Collections.Generic;
+using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.Views
 {
@@ -27,6 +31,14 @@ namespace CDTag.Views
             HandleEscape = false;
 
             Closed += MainWindow_Closed;
+            MouseMove += MainWindow_MouseMove;
+        }
+
+        private void MainWindow_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point p = e.GetPosition(this);
+            if (p.Y < -5 && (p.X > ActualWidth - 150 || p.X < 20))
+                Unity.Resolve<IEventAggregator>().GetEvent<CloseAddressTextBoxEvent>().Publish(null);
         }
 
         /// <summary>
@@ -68,7 +80,8 @@ namespace CDTag.Views
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoForwardCommand, Key.Right, ModifierKeys.Alt));
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoUpCommand, Key.Up, ModifierKeys.Alt));
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.SelectAllCommand, Key.A, ModifierKeys.Control));
-
+            InputBindings.Add(new KeyBinding(new DelegateCommand(_viewModel.DirectoryViewModel.FocusAddressTextBox), Key.D, ModifierKeys.Alt));
+            
             MainWindowSettings settings;
             if (SettingsFile.TryLoad("mainWindow.json", out settings))
             {

@@ -34,11 +34,10 @@
             </Grid.RowDefinitions>
             
             <View:Navigation Grid.Row="0" Grid.Column="0" Margin="4" />
-            <!--<ComboBox x:Name="DirectoryComboBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,4,0" ItemsSource="{Binding SubDirectories}" Text="{Binding TypingDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Tahoma" IsEditable="True" />-->
             <View:DirectoryButtons Grid.Row="0" Grid.Column="1" Margin="0,0,4,0" VerticalAlignment="Center" />
         </Grid>
 
-        <ContentControl x:Name="ToolbarContentControl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalContentAlignment="Stretch" />
+        <ContentControl x:Name="ToolbarContentControl" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalContentAlignment="Stretch" Focusable="False" IsTabStop="False" />
         
         <View:FolderTreeView x:Name="FolderTreeView" Grid.Row="2" Grid.Column="0" />
         <GridSplitter x:Name="gridSplitter" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" />

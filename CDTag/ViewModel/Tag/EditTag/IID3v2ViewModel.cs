@@ -1,29 +1,26 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using CDTag.Common;
+using CDTag.Model.Tag;
+using IdSharp.AudioInfo;
 using IdSharp.Tagging.ID3v2;
 
-namespace IdSharp.Tagging.Harness.Wpf.ViewModel.Interfaces
+namespace CDTag.ViewModel.Tag.EditTag
 {
     public interface IID3v2ViewModel : IViewModelBase
     {
-        string FileName { get; }
-        string Artist { get; set; }
-        string Title { get; set; }
-        string Album { get; set; }
-        string Genre { get; set; }
-        string Year { get; set; }
-        string Track { get; set; }
-        string Comment { get; set; }
-        decimal? PlayLength { get; }
-        decimal? Bitrate { get; }
-        string EncoderPreset { get; }
-        bool CanSave { get; }
         ObservableCollection<string> GenreCollection { get; }
         ObservableCollection<ID3v2TagVersion> ID3v2VersionCollection { get; }
-        ID3v2TagVersion? ID3v2Version { get; }
-        Picture CurrentPicture { get; set; }
-        ObservableCollection<Picture> PictureCollection { get; }
         ObservableCollection<PictureType> PictureTypeCollection { get; }
+        
+        string FullFileName { get; }
+        string ShortFileName { get; }
+
+        IID3v2Tag ID3v2 { get; }
+        IAudioFile AudioFile { get; }
+        ObservableCollection<Picture> PictureCollection { get; }
+        Picture CurrentPicture { get; }
+        
+        string EncoderPreset { get; }
+        bool CanSave { get; }
     }
 }

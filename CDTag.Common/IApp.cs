@@ -27,5 +27,7 @@ namespace CDTag.Common
         bool? ShowWindow<T>()
             where T : WindowViewBase;
 
+        /// <summary>Gets the main window.</summary>
+        Window MainWindow { get; }
     }
 }

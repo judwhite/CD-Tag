@@ -24,7 +24,7 @@ namespace CDTag.ViewModel.Tag
             AboutCommand = new DelegateCommand(() => Unity.App.ShowWindow<AboutWindow>());
             ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
             TagAlbumCommand = new DelegateCommand(() => Unity.App.ShowWindow<TagAlbumWindow>());
-            EditTagsCommand = new DelegateCommand(() => Unity.App.ShowWindow<EditTagWindow>());
+            EditTagsCommand = new DelegateCommand(() => Unity.App.ShowWindow<ID3v2Window>());
             MassTagCommand = new DelegateCommand(() => Unity.App.ShowWindow<MassTagWindow>());
             NewProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<NewProfileWindow>());
             EditProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<EditProfileWindow>());

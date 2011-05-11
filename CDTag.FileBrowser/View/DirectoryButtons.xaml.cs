@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using CDTag.Common;
+using CDTag.FileBrowser.Events;
 using CDTag.FileBrowser.Model;
 using CDTag.FileBrowser.ViewModel;
+using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.FileBrowser.View
 {
@@ -26,12 +30,44 @@ namespace CDTag.FileBrowser.View
             InitializeComponent();
 
             DataContextChanged += DirectoryButtons_DataContextChanged;
+
+            DirectoryTextBox.PreviewKeyDown += DirectoryTextBox_PreviewKeyDown;
+
+            Unity.Resolve<IEventAggregator>().GetEvent<CloseAddressTextBoxEvent>().Subscribe(o => HideDirectoryTextBox());
         }
 
         private void DirectoryButtons_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             _viewModel = (IDirectoryController)DataContext;
             _viewModel.EnhancedPropertyChanged += _viewModel_EnhancedPropertyChanged;
+            _viewModel.ClosePopupRequested += _viewModel_ClosePopupRequested;
+            _viewModel.FocusAddressTextBoxRequested += _viewModel_FocusAddressTextBoxRequested;
+            _viewModel.HideAddressTextBoxRequested += _viewModel_HideAddressTextBoxRequested;
+        }
+
+        private void _viewModel_HideAddressTextBoxRequested(object sender, EventArgs e)
+        {
+            HideDirectoryTextBox(navigate: false);
+        }
+
+        private void _viewModel_FocusAddressTextBoxRequested(object sender, EventArgs e)
+        {
+            if (DirectoryTextBoxMenu.Visibility == Visibility.Hidden)
+            {
+                ShowDirectoryTextBox();
+            }
+            else
+            {
+                DirectoryTextBox.Focus();
+                string text = DirectoryTextBox.Text;
+                if (!string.IsNullOrEmpty(text))
+                    DirectoryTextBox.SelectionStart = text.Length;
+            }
+        }
+
+        private void _viewModel_ClosePopupRequested(object sender, EventArgs e)
+        {
+            DirectoryTextBoxMenuItem.IsSubmenuOpen = false;
         }
 
         private void _viewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<IDirectoryController> e)
@@ -62,11 +98,11 @@ namespace CDTag.FileBrowser.View
                         }
 
                         Button dirButton = new Button();
-                        dirButton.Content = 
-                            new TextBlock 
-                            { 
-                                Text = curdir.Length <= 3 ? DriveTypeHelper.GetDescription(new DriveInfo(curdir.Substring(0, 2))) : Path.GetFileName(curdir), 
-                                Margin = new Thickness(2, 0, 2, 0) 
+                        dirButton.Content =
+                            new TextBlock
+                            {
+                                Text = curdir.Length <= 3 ? DriveTypeHelper.GetDescription(new DriveInfo(curdir.Substring(0, 2))) : Path.GetFileName(curdir),
+                                Margin = new Thickness(2, 0, 2, 0)
                             };
 
                         dirButton.VerticalAlignment = VerticalAlignment.Stretch;
@@ -78,14 +114,14 @@ namespace CDTag.FileBrowser.View
 
                         if (menuItem != null)
                         {
-                            dirButton.MouseEnter += delegate 
+                            dirButton.MouseEnter += delegate
                             {
                                 if (!menuItem.IsSubmenuOpen)
                                 {
                                     VisualStateManager.GoToState(menuItem, "MouseOver", true);
                                 }
                             };
-                            menuItem.MouseEnter += delegate 
+                            menuItem.MouseEnter += delegate
                             {
                                 if (!menuItem.IsSubmenuOpen)
                                 {
@@ -94,20 +130,20 @@ namespace CDTag.FileBrowser.View
                                 }
                             };
 
-                            dirButton.MouseLeave += delegate 
-                            { 
-                                if (!menuItem.IsMouseOver && !menuItem.IsSubmenuOpen) 
-                                { 
-                                    VisualStateManager.GoToState(menuItem, "Normal", true); 
-                                } 
+                            dirButton.MouseLeave += delegate
+                            {
+                                if (!menuItem.IsMouseOver && !menuItem.IsSubmenuOpen)
+                                {
+                                    VisualStateManager.GoToState(menuItem, "Normal", true);
+                                }
                             };
-                            menuItem.MouseLeave += delegate 
-                            { 
-                                if (!dirButton.IsMouseOver && !menuItem.IsSubmenuOpen) 
-                                { 
-                                    VisualStateManager.GoToState(dirButton, "Normal", true); 
-                                    VisualStateManager.GoToState(menuItem, "Normal", true); 
-                                } 
+                            menuItem.MouseLeave += delegate
+                            {
+                                if (!dirButton.IsMouseOver && !menuItem.IsSubmenuOpen)
+                                {
+                                    VisualStateManager.GoToState(dirButton, "Normal", true);
+                                    VisualStateManager.GoToState(menuItem, "Normal", true);
+                                }
                             };
 
                             menuItem.SubmenuOpened += delegate
@@ -172,7 +208,7 @@ namespace CDTag.FileBrowser.View
                     buttons.Add(rootMenu);
 
                     FileView currentFileView = new FileView(directory);
-                    buttons.Add(new Image { Source = currentFileView.ImageSource, Margin = new Thickness(3, 3, 3, 3), VerticalAlignment = VerticalAlignment.Center});
+                    buttons.Add(new Image { Source = currentFileView.ImageSource, Margin = new Thickness(3, 3, 3, 3), VerticalAlignment = VerticalAlignment.Center });
 
                     for (int i = buttons.Count - 1, j = 0; i >= 0; i--, j++)
                     {
@@ -224,10 +260,10 @@ namespace CDTag.FileBrowser.View
 
                 bool isCurrent = (directory.StartsWith(dir));
 
-                TextBlock header = new TextBlock 
-                    { 
-                        Text = isDrive ? DriveTypeHelper.GetDescription(new DriveInfo(dir)) : Path.GetFileName(dir), 
-                        FontWeight = isCurrent ? FontWeights.Bold : FontWeights.Normal 
+                TextBlock header = new TextBlock
+                    {
+                        Text = isDrive ? DriveTypeHelper.GetDescription(new DriveInfo(dir)) : Path.GetFileName(dir),
+                        FontWeight = isCurrent ? FontWeights.Bold : FontWeights.Normal
                     };
                 MenuItem subDirMenuItem = new MenuItem { Header = header, Icon = new Image { Source = new FileView(dir).ImageSource }, Tag = dir };
                 subDirMenuItem.Click += delegate { ((IDirectoryController)DataContext).CurrentDirectory = (string)subDirMenuItem.Tag; };
@@ -239,6 +275,72 @@ namespace CDTag.FileBrowser.View
             menu.VerticalContentAlignment = VerticalAlignment.Center;
             menu.Style = (Style)Application.Current.Resources["MenuStyle"];
             menu.Items.Add(menuItem);
+        }
+
+        private void ContainerBorder_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ShowDirectoryTextBox();
+        }
+
+        private void ShowDirectoryTextBox()
+        {
+            ButtonGrid.Visibility = Visibility.Collapsed;
+            DirectoryTextBoxMenu.Visibility = Visibility.Visible;
+            DirectoryTextBox.SelectAll();
+            DirectoryTextBox.Focus();
+            DirectoryTextBoxMenuItem.IsSubmenuOpen = false;
+        }
+
+        private void DirectoryTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            DirectoryTextBoxMenuItem.IsSubmenuOpen = true;
+
+            if (e.Key == Key.Enter)
+            {
+                HideDirectoryTextBox();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Tab)
+            {
+                HideDirectoryTextBox();
+            }
+            else if (e.Key == Key.Escape)
+            {
+                _viewModel.TypingDirectory = _viewModel.CurrentDirectory;
+                HideDirectoryTextBox();
+                e.Handled = true;
+            }
+        }
+
+        private void DirectoryTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            ObservableCollection<MenuItem> items = DirectoryTextBoxMenuItem.ItemsSource as ObservableCollection<MenuItem>;
+            if (items != null && items.Count > 0)
+            {
+                DirectoryTextBoxMenuItem.IsSubmenuOpen = true;
+
+                if (e.Key == Key.Down)
+                {
+                    items[0].Focus();
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                DirectoryTextBoxMenuItem.IsSubmenuOpen = false;
+            }
+        }
+
+        private void HideDirectoryTextBox(bool navigate = true)
+        {
+            if (DirectoryTextBoxMenu.Visibility == Visibility.Hidden)
+                return;
+
+            if (navigate && Directory.Exists(_viewModel.TypingDirectory))
+                _viewModel.CurrentDirectory = _viewModel.TypingDirectory;
+
+            ButtonGrid.Visibility = Visibility.Visible;
+            DirectoryTextBoxMenu.Visibility = Visibility.Hidden;
         }
     }
 }

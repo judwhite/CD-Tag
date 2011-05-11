@@ -105,6 +105,7 @@
     <Compile Include="Converters\PlayLengthConverter.cs" />
     <Compile Include="Events\GetDirectoryControllerEvent.cs" />
     <Compile Include="Model\About\ComponentInformation.cs" />
+    <Compile Include="Model\Tag\Picture.cs" />
     <Compile Include="ViewModel\About\AboutViewModel.cs" />
     <Compile Include="ViewModel\About\IAboutViewModel.cs" />
     <Compile Include="ViewModel\Checksum\ChecksumViewModel.cs" />
@@ -117,10 +118,8 @@
     <Compile Include="ViewModel\Profile\EditProfile\IEditProfileViewModel.cs" />
     <Compile Include="ViewModel\Profile\NewProfile\INewProfileViewModel.cs" />
     <Compile Include="ViewModel\Profile\NewProfile\NewProfileViewModel.cs" />
-    <Compile Include="ViewModel\Tag\EditTag\EditTagViewModel.cs" />
-    <Compile Include="ViewModel\Tag\EditTag\ID3v1ViewModel.cs" />
-    <Compile Include="ViewModel\Tag\EditTag\IEditTagViewModel.cs" />
-    <Compile Include="ViewModel\Tag\EditTag\IID3v1ViewModel.cs" />
+    <Compile Include="ViewModel\Tag\EditTag\ID3v2ViewModel.cs" />
+    <Compile Include="ViewModel\Tag\EditTag\IID3v2ViewModel.cs" />
     <Compile Include="ViewModel\Tag\ITagViewModel.cs" />
     <Compile Include="ViewModel\Tag\MassTag\IMassTagViewModel.cs" />
     <Compile Include="ViewModel\Tag\MassTag\MassTagViewModel.cs" />
@@ -150,11 +149,8 @@
     <Compile Include="Views\Profile\NewProfile\NewProfileWindow.xaml.cs">
       <DependentUpon>NewProfileWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Tag\EditTag\EditTagWindow.xaml.cs">
-      <DependentUpon>EditTagWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tag\EditTag\ID3v1View.xaml.cs">
-      <DependentUpon>ID3v1View.xaml</DependentUpon>
+    <Compile Include="Views\Tag\EditTag\ID3v2Window.xaml.cs">
+      <DependentUpon>ID3v2Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tag\MassTag\MassTagWindow.xaml.cs">
       <DependentUpon>MassTagWindow.xaml</DependentUpon>
@@ -267,11 +263,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Tag\EditTag\EditTagWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tag\EditTag\ID3v1View.xaml">
+    <Page Include="Views\Tag\EditTag\ID3v2Window.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -370,10 +362,7 @@
     <Resource Include="Resources\Images\TagToolbar\TagAlbum.png" />
     <Resource Include="Resources\Images\TagToolbar\Up.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Tag\EditTag\ID3v1\" />
-    <Folder Include="ViewModel\Tag\EditTag\ID3v2\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Images\About\cdtag.png" />
   </ItemGroup>

@@ -71,6 +71,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CollectionNavigator.cs" />
+    <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="DataGridUtil.cs" />
     <Compile Include="ErrorContainer.cs" />
     <Compile Include="GlassHelper.cs" />
@@ -101,6 +103,38 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cdtag.common.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.Common\IdSharp.Common.csproj">
+      <Project>{1C83FB63-E16E-4380-9DD0-26E1799C417D}</Project>
+      <Name>IdSharp.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Navigation\Disabled\Add.png" />
+    <Resource Include="Themes\Navigation\Disabled\Delete.png" />
+    <Resource Include="Themes\Navigation\Disabled\First.png" />
+    <Resource Include="Themes\Navigation\Disabled\Last.png" />
+    <Resource Include="Themes\Navigation\Disabled\Next.png" />
+    <Resource Include="Themes\Navigation\Disabled\Previous.png" />
+    <Resource Include="Themes\Navigation\Hot\Add.png" />
+    <Resource Include="Themes\Navigation\Hot\Delete.png" />
+    <Resource Include="Themes\Navigation\Hot\First.png" />
+    <Resource Include="Themes\Navigation\Hot\Last.png" />
+    <Resource Include="Themes\Navigation\Hot\Next.png" />
+    <Resource Include="Themes\Navigation\Hot\Previous.png" />
+    <Resource Include="Themes\Navigation\Regular\Add.png" />
+    <Resource Include="Themes\Navigation\Regular\Delete.png" />
+    <Resource Include="Themes\Navigation\Regular\First.png" />
+    <Resource Include="Themes\Navigation\Regular\Last.png" />
+    <Resource Include="Themes\Navigation\Regular\Next.png" />
+    <Resource Include="Themes\Navigation\Regular\Previous.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

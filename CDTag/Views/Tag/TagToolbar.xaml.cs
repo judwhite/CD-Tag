@@ -1,4 +1,5 @@
-﻿using CDTag.Common;
+﻿using System.Windows.Input;
+using CDTag.Common;
 using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag

@@ -27,15 +27,20 @@ namespace CDTag.FileBrowser.ViewModel
         private FileView _directory;
         private FileSystemWatcher _fsw;
 
-        /// <summary>
-        /// Occurs when navigating starts.
-        /// </summary>
+        /// <summary>Occurs when navigating starts.</summary>
         public event EventHandler Navigating;
 
-        /// <summary>
-        /// Occurs when navigation is complete.
-        /// </summary>
+        /// <summary>Occurs when navigation is complete.</summary>
         public event EventHandler NavigationComplete;
+
+        /// <summary>Occurs when a request is made to hide the address text box.</summary>
+        public event EventHandler HideAddressTextBoxRequested;
+
+        /// <summary>Occurs when a request is made to focus the address text box.</summary>
+        public event EventHandler FocusAddressTextBoxRequested;
+
+        /// <summary>Occurs when a request is made to close the popup.</summary>
+        public event EventHandler ClosePopupRequested;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectoryController"/> class.
@@ -297,11 +302,13 @@ namespace CDTag.FileBrowser.ViewModel
                 return;
             }
 
+            // Uppercase drive letter
             if (char.IsLower(directory[0]))
             {
                 directory = string.Format("{0}{1}", char.ToUpper(directory[0]), directory.Substring(1));
             }
 
+            // Remove trailing slash
             if (directory.EndsWith(@"\") && directory.Length > 3)
             {
                 directory = directory.Substring(0, directory.Length - 1);
@@ -337,6 +344,15 @@ namespace CDTag.FileBrowser.ViewModel
                             directory = @"C:\";
                         }
                     }
+                }
+
+                // Fix capitalization
+                string shortDirName = Path.GetFileName(directory);
+                DirectoryInfo dirInfo = new DirectoryInfo(directory);
+                if (dirInfo.Parent != null)
+                {
+                    dirInfo = dirInfo.Parent.GetDirectories(shortDirName)[0];
+                    directory = dirInfo.FullName;
                 }
 
                 if (_backHistory.Count > 0)
@@ -462,8 +478,8 @@ namespace CDTag.FileBrowser.ViewModel
             int forwardCount = _forwardHistory.Count;
             foreach (var item in _forwardHistory.Reverse())
                 history.Add(new HistoryItem { FileView = item, HistoryOffset = forwardCount-- });
-            
-            history.Add(new HistoryItem { FileView = _directory, IsCurrent = true, HistoryOffset = 0});
+
+            history.Add(new HistoryItem { FileView = _directory, IsCurrent = true, HistoryOffset = 0 });
 
             int historyOffset = -1;
             foreach (var item in _backHistory)
@@ -474,28 +490,48 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void GetSubDirectories(string directory)
         {
-            if (string.IsNullOrWhiteSpace(directory))
+            if (string.IsNullOrWhiteSpace(directory) || directory.Length < 3)
+            {
+                if (SubDirectories != null)
+                    SubDirectories.Clear();
                 return;
+            }
 
             Thread thread = new Thread(GetSubDirectoriesAsync);
             thread.Start(directory);
         }
 
-        private void GetSubDirectoriesAsync(object dir)
+        private void GetSubDirectoriesAsync(object baseDirectory)
         {
             try
             {
-                string directory = (string)dir;
+                string directory = (string)baseDirectory;
+                directory = char.ToUpper(directory[0]) + directory.Substring(1);
+                string origDirectory = directory;
                 string searchPattern = "*";
                 if (!Directory.Exists(directory) || !directory.EndsWith(@"\"))
                 {
-                    //searchPattern = Path.GetFileName(directory) + "*";
+                    searchPattern = Path.GetFileName(directory) + "*";
                     directory = Path.GetDirectoryName(directory);
                     if (!Directory.Exists(directory))
                         return;
                 }
 
-                ObservableCollection<string> subDirs = new ObservableCollection<string>(Directory.GetDirectories(directory, searchPattern));
+                string[] dirs = Directory.GetDirectories(directory, searchPattern);
+                if (dirs.Length == 1 && string.Compare(dirs[0], origDirectory, ignoreCase: true) == 0)
+                {
+                    GetSubDirectoriesAsync(origDirectory + @"\");
+                    return;
+                }
+
+                ObservableCollection<string> subDirs = new ObservableCollection<string>();
+                foreach (string dir in dirs)
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(dir);
+                    if (!directoryInfo.Attributes.HasFlag(FileAttributes.Hidden))
+                        subDirs.Add(directoryInfo.FullName);
+                }
+
                 Application.Current.Dispatcher.Invoke(new Action(() => SubDirectories = subDirs));
             }
             catch
@@ -603,6 +639,30 @@ namespace CDTag.FileBrowser.ViewModel
                 GoBack(offset * -1);
             else
                 GoForward(offset);
+        }
+
+        /// <summary>Focuses the address text box.</summary>
+        public void FocusAddressTextBox()
+        {
+            var handler = FocusAddressTextBoxRequested;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        /// <summary>Hides the address text box.</summary>
+        public void HideAddressTextBox()
+        {
+            var handler = HideAddressTextBoxRequested;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        /// <summary>Closes the popup.</summary>
+        public void ClosePopup()
+        {
+            var handler = ClosePopupRequested;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
     }
 }

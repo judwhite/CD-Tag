@@ -36,6 +36,15 @@ namespace CDTag.FileBrowser.ViewModel
         /// <summary>Occurs when navigation is complete.</summary>
         event EventHandler NavigationComplete;
 
+        /// <summary>Occurs when a request is made to hide the address text box.</summary>
+        event EventHandler HideAddressTextBoxRequested;
+        
+        /// <summary>Occurs when a request is made to focus the address text box.</summary>
+        event EventHandler FocusAddressTextBoxRequested;
+
+        /// <summary>Occurs when a request is made to close the popup.</summary>
+        event EventHandler ClosePopupRequested;
+
         /// <summary>Gets the current directory.</summary>
         /// <value>The current directory.</value>
         string CurrentDirectory { get; set; }
@@ -78,5 +87,14 @@ namespace CDTag.FileBrowser.ViewModel
         /// <summary>Navigates to the specified history offset.</summary>
         /// <param name="offset">The history offset.</param>
         void Navigate(int offset);
+
+        /// <summary>Focuses the address text box.</summary>
+        void FocusAddressTextBox();
+        
+        /// <summary>Hides the address text box.</summary>
+        void HideAddressTextBox();
+
+        /// <summary>Closes the popup.</summary>
+        void ClosePopup();
     }
 }

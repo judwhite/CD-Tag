@@ -63,7 +63,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
+    
     <Style x:Key="HistoryMenuItemStyle" TargetType="{x:Type MenuItem}">
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -75,6 +75,32 @@
             <Trigger Property="Role" Value="TopLevelHeader">
                 <Setter Property="Padding" Value="3" />
                 <Setter Property="Template" Value="{DynamicResource HistoryMenuHeader}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <!--<Setter Property="Padding" Value="7,2,8,3"/>-->
+                <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=TopLevelItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <!--<Setter Property="Padding" Value="2,3,2,3"/>-->
+                <Setter Property="Template" Value="{DynamicResource RightSubmenuHeader}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <!--<Setter Property="Padding" Value="2,3,2,3"/>-->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TypingDirectoryMenuItemStyle" TargetType="{x:Type MenuItem}">
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="Template" Value="{DynamicResource RegularMenuItem}"/>
+        <Style.Triggers>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Padding" Value="3" />
+                <Setter Property="Template" Value="{DynamicResource TypingDirectoryMenuHeader}"/>
             </Trigger>
             <Trigger Property="Role" Value="TopLevelItem">
                 <!--<Setter Property="Padding" Value="7,2,8,3"/>-->
@@ -557,6 +583,51 @@
                 <Trigger.ExitActions>
                     <StopStoryboard BeginStoryboardName="BeginIsSubmenuOpen" />
                 </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="#FF9A9A9A"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="TypingDirectoryMenuHeader" TargetType="{x:Type MenuItem}">
+
+        <Grid SnapsToDevicePixels="true" Margin="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <ContentPresenter ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+            <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="false" HorizontalOffset="1" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" VerticalOffset="6">
+                <!-- TODO: Remove system control -->
+                <Microsoft_Windows_Themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                    <ContentControl x:Name="SubMenuBorder" IsTabStop="false" Template="{DynamicResource {ComponentResourceKey ResourceId=SubmenuContent, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                        <ScrollViewer x:Name="SubMenuScrollViewer" CanContentScroll="true" MaxHeight="300" VerticalScrollBarVisibility="Auto">
+                            <Grid RenderOptions.ClearTypeHint="Enabled">
+                                <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                    <Rectangle Fill="White" Height="{Binding ActualHeight, ElementName=SubMenuBorder}" Width="{Binding ActualWidth, ElementName=SubMenuBorder}"/>
+                                </Canvas>
+                                <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </ContentControl>
+                </Microsoft_Windows_Themes:SystemDropShadowChrome>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
+            </Trigger>
+            <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                <Setter Property="Margin" TargetName="Shdw" Value="0,0,5,5"/>
+                <Setter Property="Color" TargetName="Shdw" Value="#71000000"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="true">
+                <!-- TODO: Edit BorderBrush/Background -->
+                <!--<Setter Property="BorderBrush" TargetName="scb" Value="#E0717070"/>
+					<Setter Property="Background" TargetName="Bg" Value="{StaticResource MenuItemPressedFill}"/>-->
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="#FF9A9A9A"/>

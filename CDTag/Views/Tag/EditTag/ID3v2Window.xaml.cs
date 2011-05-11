@@ -1,27 +1,22 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using CDTag.Model.Tag;
+using CDTag.ViewModel.Tag.EditTag;
 using IdSharp.Common.Events;
-using IdSharp.Tagging.Harness.Wpf.ViewModel;
-using IdSharp.Tagging.Harness.Wpf.ViewModel.Interfaces;
 using Microsoft.Win32;
-using CDTag.Views;
-using ViewBase = CDTag.Views.ViewBase;
 
-namespace IdSharp.Tagging.Harness.Wpf.View
+namespace CDTag.Views.Tag.EditTag
 {
     /// <summary>
-    /// Interaction logic for ID3v2View.xaml
+    /// Interaction logic for ID3v2Window.xaml
     /// </summary>
-    public partial class ID3v2View : ViewBase
+    public partial class ID3v2Window : WindowViewBase
     {
         private readonly OpenFileDialog _openFileDialog = new OpenFileDialog();
 
-        public ID3v2View(IID3v2ViewModel viewModel)
+        public ID3v2Window(IID3v2ViewModel viewModel)
             : base(viewModel)
         {
             InitializeComponent();
-
-            DataContext = new ID3v2ViewModel();
 
             CollectionNavigator.BeforeAdd += CollectionNavigator_BeforeAdd;
             CollectionNavigator.BeforeDelete += CollectionNavigator_BeforeDelete;
@@ -31,6 +26,7 @@ namespace IdSharp.Tagging.Harness.Wpf.View
 
         private static void CollectionNavigator_BeforeDelete(object sender, CancelDataEventArgs<object> e)
         {
+            // TODO: Localize
             if (MessageBox.Show("Delete picture?", "Delete picture", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 e.Cancel = true;

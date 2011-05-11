@@ -28,8 +28,7 @@ namespace CDTag
             
             Container.RegisterType(typeof(IDirectoryController), typeof(DirectoryController));
             Container.RegisterType(typeof(IAboutViewModel), typeof(AboutViewModel));
-            Container.RegisterType(typeof(IEditTagViewModel), typeof(EditTagViewModel));
-            Container.RegisterType(typeof(IID3v1ViewModel), typeof(ID3v1ViewModel));
+            Container.RegisterType(typeof(IID3v2ViewModel), typeof(ID3v2ViewModel));
             Container.RegisterType(typeof(ITagAlbumViewModel), typeof(TagAlbumViewModel));
             Container.RegisterType(typeof(IMassTagViewModel), typeof(MassTagViewModel));
             Container.RegisterType(typeof(IEditProfileViewModel), typeof(EditProfileViewModel));

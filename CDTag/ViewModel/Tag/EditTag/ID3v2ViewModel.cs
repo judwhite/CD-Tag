@@ -1,40 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using CDTag.Common;
+using CDTag.Model.Tag;
 using IdSharp.AudioInfo;
 using IdSharp.AudioInfo.Inspection;
-using IdSharp.Tagging.Harness.Wpf.ViewModel.Interfaces;
 using IdSharp.Tagging.ID3v1;
 using IdSharp.Tagging.ID3v2;
 using IdSharp.Tagging.ID3v2.Frames;
+using Microsoft.Practices.Prism.Events;
 
-namespace IdSharp.Tagging.Harness.Wpf.ViewModel
+namespace CDTag.ViewModel.Tag.EditTag
 {
     public class ID3v2ViewModel : ViewModelBase, IID3v2ViewModel
     {
         private static readonly ObservableCollection<string> _genreCollection;
         private static readonly ObservableCollection<ID3v2TagVersion> _id3v2VersionCollection;
         private static readonly ObservableCollection<PictureType> _pictureTypeCollection;
-
-        private IID3v2Tag _id3v2;
-        private string _fullFileName;
-        private string _fileName;
-        private string _artist;
-        private string _title;
-        private string _album;
-        private string _genre;
-        private string _year;
-        private string _track;
-        private string _comment;
-        private decimal? _playLength;
-        private decimal? _bitrate;
-        private string _encoderPreset;
-        private ID3v2TagVersion? _id3v2Version;
-        private Picture _currentPicture;
-        private ObservableCollection<Picture> _pictureCollection;
-        private bool _canSave;
 
         static ID3v2ViewModel()
         {
@@ -43,10 +25,9 @@ namespace IdSharp.Tagging.Harness.Wpf.ViewModel
             _pictureTypeCollection = new ObservableCollection<PictureType>(PictureTypeHelper.PictureTypes);
         }
 
-        public ID3v2ViewModel()
+        public ID3v2ViewModel(EventAggregator eventAggregator)
+            : base(eventAggregator)
         {
-            EventDispatcher.Subscribe<string>(EventType.LoadFile, OnLoadFile);
-            EventDispatcher.Subscribe(EventType.SaveFile, OnSaveFile);
         }
 
         public ObservableCollection<string> GenreCollection
@@ -54,173 +35,28 @@ namespace IdSharp.Tagging.Harness.Wpf.ViewModel
             get { return _genreCollection; }
         }
 
-        public ID3v2TagVersion? ID3v2Version
+        public string FullFileName
         {
-            get { return _id3v2Version; }
-            set
-            {
-                if (_id3v2Version != value)
-                {
-                    _id3v2Version = value;
-                    SendPropertyChanged("ID3v2Version");
-                }
-            }
+            get { return Get<string>(); }
+            private set { Set(value); }
         }
 
-        public string FileName
+        public string ShortFileName
         {
-            get { return _fileName; }
-            private set
-            {
-                if (_fileName != value)
-                {
-                    _fileName = value;
-                    SendPropertyChanged("FileName");
-                }
-            }
-        }
-
-        public string Artist
-        {
-            get { return _artist; }
-            set
-            {
-                if (_artist != value)
-                {
-                    _artist = value;
-                    SendPropertyChanged("Artist");
-                }
-            }
-        }
-
-        public string Title
-        {
-            get { return _title; }
-            set
-            {
-                if (_title != value)
-                {
-                    _title = value;
-                    SendPropertyChanged("Title");
-                }
-            }
-        }
-
-        public string Album
-        {
-            get { return _album; }
-            set
-            {
-                if (_album != value)
-                {
-                    _album = value;
-                    SendPropertyChanged("Album");
-                }
-            }
-        }
-
-        public string Genre
-        {
-            get { return _genre; }
-            set
-            {
-                if (_genre != value)
-                {
-                    _genre = value;
-                    SendPropertyChanged("Genre");
-                }
-            }
-        }
-
-        public string Year
-        {
-            get { return _year; }
-            set
-            {
-                if (_year != value)
-                {
-                    _year = value;
-                    SendPropertyChanged("Year");
-                }
-            }
-        }
-
-        public string Track
-        {
-            get { return _track; }
-            set
-            {
-                if (_track != value)
-                {
-                    _track = value;
-                    SendPropertyChanged("Track");
-                }
-            }
-        }
-
-        public string Comment
-        {
-            get { return _comment; }
-            set
-            {
-                if (_comment != value)
-                {
-                    _comment = value;
-                    SendPropertyChanged("Comment");
-                }
-            }
-        }
-
-        public decimal? PlayLength
-        {
-            get { return _playLength; }
-            private set
-            {
-                if (_playLength != value)
-                {
-                    _playLength = value;
-                    SendPropertyChanged("PlayLength");
-                }
-            }
-        }
-
-        public decimal? Bitrate
-        {
-            get { return _bitrate; }
-            private set
-            {
-                if (_bitrate != value)
-                {
-                    _bitrate = value;
-                    SendPropertyChanged("Bitrate");
-                }
-            }
+            get { return Get<string>(); }
+            private set { Set(value); }
         }
 
         public string EncoderPreset
         {
-            get { return _encoderPreset; }
-            private set
-            {
-                if (_encoderPreset != value)
-                {
-                    _encoderPreset = value;
-                    SendPropertyChanged("EncoderPreset");
-                }
-            }
+            get { return Get<string>("EncoderPreset"); }
+            private set { Set(value); }
         }
 
         public bool CanSave
         {
-            get { return _canSave; }
-            private set
-            {
-                if (_canSave != value)
-                {
-                    _canSave = value;
-                    SendPropertyChanged("CanSave");
-                }
-            }
+            get { return Get<bool>(); }
+            private set { Set(value); }
         }
 
         public ObservableCollection<ID3v2TagVersion> ID3v2VersionCollection
@@ -235,69 +71,60 @@ namespace IdSharp.Tagging.Harness.Wpf.ViewModel
 
         public ObservableCollection<Picture> PictureCollection
         {
-            get { return _pictureCollection; }
-            set
-            {
-                if (_pictureCollection != value)
-                {
-                    _pictureCollection = value;
-                    SendPropertyChanged("PictureCollection");
-                }
-            }
+            get { return Get<ObservableCollection<Picture>>(); }
+            set { Set(value); }
         }
 
         public Picture CurrentPicture
         {
-            get { return _currentPicture; }
-            set
-            {
-                if (_currentPicture != value)
-                {
-                    _currentPicture = value;
-                    SendPropertyChanged("CurrentPicture");
-                }
-            }
+            get { return Get<Picture>(); }
+            set { Set(value); }
+        }
+
+        public IID3v2Tag ID3v2
+        {
+            get { return Get<IID3v2Tag>(); }
+            set { Set(value); }
+        }
+
+        public IAudioFile AudioFile
+        {
+            get { return Get<IAudioFile>(); }
+            set { Set(value); }
         }
 
         private void OnLoadFile(string fileName)
         {
-            _id3v2 = new ID3v2Tag(fileName);
-            IAudioFile audioFile = AudioFile.Create(fileName, true);
-            DescriptiveLameTagReader lameTagReader = new DescriptiveLameTagReader(fileName);
+            FullFileName = fileName;
+            ShortFileName = Path.GetFileName(fileName);
 
-            _fullFileName = fileName;
-
-            FileName = Path.GetFileName(fileName);
-            Artist = _id3v2.Artist;
-            Title = _id3v2.Title;
-            Album = _id3v2.Album;
-            Genre = _id3v2.Genre;
-            Year = _id3v2.Year;
-            Track = _id3v2.TrackNumber;
-            ID3v2Version = _id3v2.Header.TagVersion;
-
-            if (_id3v2.PictureList == null || _id3v2.PictureList.Count == 0)
+            ID3v2 = new ID3v2Tag(fileName);
+            AudioFile = IdSharp.AudioInfo.AudioFile.Create(fileName, true);
+            
+            if (ID3v2.PictureList == null || ID3v2.PictureList.Count == 0)
             {
                 PictureCollection = new ObservableCollection<Picture>();
             }
             else
             {
                 var pictureCollection = new ObservableCollection<Picture>();
-                foreach (var apic in _id3v2.PictureList)
+                foreach (var apic in ID3v2.PictureList)
                 {
                     pictureCollection.Add(new Picture(apic));
                 }
                 PictureCollection = pictureCollection;
             }
 
-            Comment = null;
+            // TODO: Comments
+            /*Comment = null;
             if (_id3v2.CommentsList.Count > 0)
             {
                 Comment = _id3v2.CommentsList[0].Value;
-            }
+            }*/
 
-            PlayLength = audioFile.TotalSeconds;
-            Bitrate = audioFile.Bitrate;
+            //PlayLength = audioFile.TotalSeconds;
+            //Bitrate = audioFile.Bitrate;
+            DescriptiveLameTagReader lameTagReader = new DescriptiveLameTagReader(fileName);
             EncoderPreset = string.Format("{0} {1}", lameTagReader.LameTagInfoEncoder, lameTagReader.UsePresetGuess == UsePresetGuess.NotNeeded ? lameTagReader.Preset : lameTagReader.PresetGuess);
 
             CanSave = true;
@@ -305,15 +132,7 @@ namespace IdSharp.Tagging.Harness.Wpf.ViewModel
 
         private void OnSaveFile()
         {
-            _id3v2.Artist = Artist;
-            _id3v2.Title = Title;
-            _id3v2.Album = Album;
-            _id3v2.Genre = Genre;
-            _id3v2.Year = Year;
-            _id3v2.TrackNumber = Track;
-            _id3v2.Header.TagVersion = ID3v2Version.Value;
-
-            List<IAttachedPicture> deleteList = new List<IAttachedPicture>(_id3v2.PictureList);
+            List<IAttachedPicture> deleteList = new List<IAttachedPicture>(ID3v2.PictureList);
 
             foreach (var picture in PictureCollection)
             {
@@ -325,7 +144,7 @@ namespace IdSharp.Tagging.Harness.Wpf.ViewModel
                 }
                 else
                 {
-                    IAttachedPicture apic = _id3v2.PictureList.AddNew();
+                    IAttachedPicture apic = ID3v2.PictureList.AddNew();
                     apic.Description = picture.Description;
                     apic.PictureType = picture.PictureType;
                     apic.PictureData = picture.PictureBytes;
@@ -334,11 +153,12 @@ namespace IdSharp.Tagging.Harness.Wpf.ViewModel
 
             foreach (var deletePicture in deleteList)
             {
-                _id3v2.PictureList.Remove(deletePicture);
+                ID3v2.PictureList.Remove(deletePicture);
             }
 
-            IComments comments = _id3v2.CommentsList.FirstOrDefault();
-
+            // TODO: Multiple comments
+            /*IComments comments = _id3v2.CommentsList.FirstOrDefault();
+            
             if (!string.IsNullOrWhiteSpace(Comment))
             {
                 if (comments == null)
@@ -351,11 +171,9 @@ namespace IdSharp.Tagging.Harness.Wpf.ViewModel
             {
                 if (comments != null)
                     _id3v2.CommentsList.Remove(comments);
-            }
+            }*/
 
-            // TODO: Multiple comments
-
-            _id3v2.Save(_fullFileName);
+            ID3v2.Save(FullFileName);
         }
     }
 }

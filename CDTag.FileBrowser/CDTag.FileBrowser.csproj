@@ -50,6 +50,7 @@
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
       <HintPath>..\Libraries\Prism\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -68,9 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behavior\RemoveSelectAllBehavior.cs" />
+    <Compile Include="Converters\DirectoryMenuItemConverter.cs" />
     <Compile Include="Converters\HistoryConverter.cs" />
     <Compile Include="Converters\StatusBarConverter.cs" />
     <Compile Include="DriveTypeHelper.cs" />
+    <Compile Include="Events\CloseAddressTextBoxEvent.cs" />
     <Compile Include="Model\DirectoryTreeNode.cs" />
     <Compile Include="Model\FileCollection.cs" />
     <Compile Include="Model\FileView.cs" />
