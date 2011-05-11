@@ -1,4 +1,9 @@
-﻿using CDTag.Common;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using CDTag.Common;
 using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag
@@ -22,9 +27,17 @@ namespace CDTag.Views.Tag
 
             _tagToolbar = Unity.Resolve<TagToolbar>();
             FileExplorer.Toolbar = _tagToolbar;
+            FileExplorer.PreviewMouseDown += FileExplorer_PreviewMouseDown;
 
             // TODO: Move to ViewModel
             viewModel.DirectoryViewModel = FileExplorer.DirectoryController;
+        }
+
+        private void FileExplorer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Menu menu = Mouse.Captured as Menu;
+            if (menu == null)
+                Unity.App.CloseAddressTextBox();
         }
 
         public TagToolbar TagToolbar

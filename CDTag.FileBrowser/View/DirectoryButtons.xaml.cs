@@ -43,6 +43,7 @@ namespace CDTag.FileBrowser.View
             _viewModel.ClosePopupRequested += _viewModel_ClosePopupRequested;
             _viewModel.FocusAddressTextBoxRequested += _viewModel_FocusAddressTextBoxRequested;
             _viewModel.HideAddressTextBoxRequested += _viewModel_HideAddressTextBoxRequested;
+            _viewModel.NavigationComplete += delegate { HideDirectoryTextBox(navigate: false); };
         }
 
         private void _viewModel_HideAddressTextBoxRequested(object sender, EventArgs e)

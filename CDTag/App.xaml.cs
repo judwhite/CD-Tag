@@ -5,7 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using CDTag.Common;
 using CDTag.Controls;
+using CDTag.FileBrowser.Events;
 using CDTag.Views;
+using Microsoft.Practices.Prism.Events;
 
 namespace CDTag
 {
@@ -88,8 +90,15 @@ namespace CDTag
             get
             {
                 string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CD-Tag");
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
                 return directory;
             }
+        }
+
+        public void CloseAddressTextBox()
+        {
+            Unity.Resolve<IEventAggregator>().GetEvent<CloseAddressTextBoxEvent>().Publish(null);
         }
     }
 }

@@ -29,5 +29,8 @@ namespace CDTag.Common
 
         /// <summary>Gets the main window.</summary>
         Window MainWindow { get; }
+
+        /// <summary>Closes the address bar text box.</summary>
+        void CloseAddressTextBox();
     }
 }

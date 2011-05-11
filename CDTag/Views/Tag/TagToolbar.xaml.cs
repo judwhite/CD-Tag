@@ -18,6 +18,8 @@ namespace CDTag.Views.Tag
             : base(viewModel)
         {
             InitializeComponent();
+
+            wrenchMenu.GotFocus += delegate { Unity.App.CloseAddressTextBox(); };
         }
     }
 }
