@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using CDTag.Common;
 using CDTag.Events;
 using CDTag.FileBrowser.ViewModel;
@@ -55,20 +56,20 @@ namespace CDTag.ViewModel.Tag
 
         public IDirectoryController DirectoryViewModel
         {
-            get { return Get<IDirectoryController>(); }
-            set { Set(value); }
+            get { return Get<IDirectoryController>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public bool IsShowStatusBarChecked
         {
-            get { return Get<bool>(); }
-            set { Set(value); }
+            get { return Get<bool>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public bool IsShowNavigationPaneChecked
         {
-            get { return Get<bool>(); }
-            set { Set(value); }
+            get { return Get<bool>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Events;
 
@@ -60,8 +61,8 @@ namespace CDTag.Common
         /// <value>The error container.</value>
         public IErrorContainer ErrorContainer
         {
-            get { return Get<IErrorContainer>(); }
-            set { Set(value); }
+            get { return Get<IErrorContainer>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Shows the exception.</summary>
@@ -145,23 +146,21 @@ namespace CDTag.Common
         }
 
         /// <summary>Gets the specified property value.</summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type of the property.</typeparam>
+        /// <param name="method">The property method.</param>
         /// <returns>The property value.</returns>
-        protected T Get<T>()
+        protected T Get<T>(MethodBase method)
         {
-            StackFrame stackFrame = new StackFrame(skipFrames: 1);
-            string propertyName = stackFrame.GetMethod().Name.Substring(startIndex: 4);
-            return Get<T>(propertyName);
+            return Get<T>(method.Name.Substring(4));
         }
 
         /// <summary>Sets the specified property value.</summary>
         /// <typeparam name="T">The type of the property.</typeparam>
+        /// <param name="method">The property method.</param>
         /// <param name="value">The value.</param>
-        protected void Set<T>(T value)
+        protected void Set<T>(MethodBase method, T value)
         {
-            StackFrame stackFrame = new StackFrame(skipFrames: 1);
-            string propertyName = stackFrame.GetMethod().Name.Substring(startIndex: 4);
-            Set(propertyName, value);
+            Set(method.Name.Substring(4), value);
         }
     }
 }

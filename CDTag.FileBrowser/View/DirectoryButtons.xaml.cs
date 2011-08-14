@@ -259,7 +259,7 @@ namespace CDTag.FileBrowser.View
                         continue;
                 }
 
-                bool isCurrent = (directory.StartsWith(dir));
+                bool isCurrent = (directory == dir || directory.StartsWith(dir + "\\"));
 
                 TextBlock header = new TextBlock
                     {

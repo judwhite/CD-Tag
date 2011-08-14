@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -36,7 +37,7 @@ namespace CDTag.Common.Win32API
             ImageSource img = null;
             if (info.hIcon != IntPtr.Zero)
             {
-                using (System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(info.hIcon))
+                using (Icon icon = Icon.FromHandle(info.hIcon))
                 {
                     img = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, icon.Width, icon.Height), BitmapSizeOptions.FromEmptyOptions());
                 }

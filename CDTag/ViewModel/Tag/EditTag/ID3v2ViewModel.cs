@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
 using CDTag.Common;
 using CDTag.Model.Tag;
 using IdSharp.AudioInfo;
@@ -37,26 +38,26 @@ namespace CDTag.ViewModel.Tag.EditTag
 
         public string FullFileName
         {
-            get { return Get<string>(); }
-            private set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public string ShortFileName
         {
-            get { return Get<string>(); }
-            private set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public string EncoderPreset
         {
-            get { return Get<string>("EncoderPreset"); }
-            private set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public bool CanSave
         {
-            get { return Get<bool>(); }
-            private set { Set(value); }
+            get { return Get<bool>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public ObservableCollection<ID3v2TagVersion> ID3v2VersionCollection
@@ -71,26 +72,26 @@ namespace CDTag.ViewModel.Tag.EditTag
 
         public ObservableCollection<Picture> PictureCollection
         {
-            get { return Get<ObservableCollection<Picture>>(); }
-            set { Set(value); }
+            get { return Get<ObservableCollection<Picture>>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public Picture CurrentPicture
         {
-            get { return Get<Picture>(); }
-            set { Set(value); }
+            get { return Get<Picture>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public IID3v2Tag ID3v2
         {
-            get { return Get<IID3v2Tag>(); }
-            set { Set(value); }
+            get { return Get<IID3v2Tag>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public IAudioFile AudioFile
         {
-            get { return Get<IAudioFile>(); }
-            set { Set(value); }
+            get { return Get<IAudioFile>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         private void OnLoadFile(string fileName)

@@ -103,50 +103,50 @@ namespace CDTag.ViewModel.About
 
         public ICommand NavigateCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public string ReleaseNotes
         {
-            get { return Get<string>(); }
-            private set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public ObservableCollection<ComponentInformation> ComponentsCollection
         {
-            get { return Get<ObservableCollection<ComponentInformation>>(); }
-            private set { Set(value); }
+            get { return Get<ObservableCollection<ComponentInformation>>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public ICommand CopyComponentCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public ICommand CloseCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public string CopyrightText
         {
-            get { return Get<string>(); }
-            private set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public string VersionText
         {
-            get { return Get<string>(); }
-            private set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public DateTime ReleaseDate
         {
-            get { return Get<DateTime>(); }
-            private set { Set(value); }
+            get { return Get<DateTime>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -126,8 +127,8 @@ namespace CDTag.FileBrowser.ViewModel
         /// <value>The typing directory.</value>
         public string TypingDirectory
         {
-            get { return Get<string>(); }
-            set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Sets the initial directory.</summary>
@@ -470,8 +471,7 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void UpdateHistory()
         {
-            // TODO: This could be more efficient. It may make more sense to have back/forward history derive from this
-            // TODO: list rather than the way it is now.
+            // TODO: This could be more efficient. It may make more sense to have back/forward history derive from this list rather than the way it is now.
 
             ObservableCollection<HistoryItem> history = new ObservableCollection<HistoryItem>();
 
@@ -546,8 +546,8 @@ namespace CDTag.FileBrowser.ViewModel
         /// <value>The directory size in bytes.</value>
         public long DirectorySizeBytes
         {
-            get { return Get<long>(); }
-            private set { Set(value); }
+            get { return Get<long>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Clears the history.</summary>
@@ -564,43 +564,43 @@ namespace CDTag.FileBrowser.ViewModel
         /// <summary>Gets the file collection.</summary>
         public FileCollection FileCollection
         {
-            get { return Get<FileCollection>(); }
-            private set { Set(value); }
+            get { return Get<FileCollection>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Gets the go back command.</summary>
         public ICommand GoBackCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Gets the go forward command.</summary>
         public ICommand GoForwardCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Gets the go up command.</summary>
         public ICommand GoUpCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Gets the select all command.</summary>
         public ICommand SelectAllCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Gets the invert selection command.</summary>
         public ICommand InvertSelectionCommand
         {
-            get { return Get<ICommand>(); }
-            private set { Set(value); }
+            get { return Get<ICommand>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Gets the selected items.</summary>
@@ -617,15 +617,15 @@ namespace CDTag.FileBrowser.ViewModel
         /// </summary>
         public ObservableCollection<string> SubDirectories
         {
-            get { return Get<ObservableCollection<string>>(); }
-            set { Set(value); }
+            get { return Get<ObservableCollection<string>>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Gets the history.</summary>
         public ObservableCollection<HistoryItem> History
         {
-            get { return Get<ObservableCollection<HistoryItem>>(); }
-            set { Set(value); }
+            get { return Get<ObservableCollection<HistoryItem>>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         /// <summary>Navigates to the specified history offset.</summary>
