@@ -29,6 +29,8 @@ namespace CDTag.Common.Win32API
                 attr = (int)Win32.FILE_ATTRIBUTE_DIRECTORY;
             else if (File.Exists(path))
                 attr = (int)Win32.FILE_ATTRIBUTE_NORMAL;
+            else if (path.Length == 3) // drive not ready
+                attr = (int)Win32.FILE_ATTRIBUTE_DIRECTORY;
             else
                 return null;
 

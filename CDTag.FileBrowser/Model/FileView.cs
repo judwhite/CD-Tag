@@ -259,7 +259,7 @@ namespace CDTag.FileBrowser.Model
                 Size = null;
             }
 
-            if (driveInfo != null && driveInfo.IsReady)
+            if ((driveInfo != null && driveInfo.IsReady) || driveInfo == null)
             {
                 try
                 {
