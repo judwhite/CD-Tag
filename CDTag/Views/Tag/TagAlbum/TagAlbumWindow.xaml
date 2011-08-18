@@ -5,11 +5,71 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CDTag.Views;assembly=CDTag.Common"
     Title="Tag Album" 
-    Height="300"
-    Width="300"
+    Height="600"
+    Width="700"
 >
     <!-- TODO: Localize Title -->
-    <Grid>
-        
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Album information -->
+        <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="AlbumLabels" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="AlbumLabels" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- TODO: Localize -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="New folder" VerticalAlignment="Center" Margin="0,2,16,2" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Artist" VerticalAlignment="Center" Margin="0,2,16,2" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Album" VerticalAlignment="Center" Margin="0,2,16,2" />
+            <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Various artists" IsChecked="{Binding IsVariousArtists, Mode=TwoWay}" Margin="0,2" VerticalAlignment="Center" />
+
+            <TextBlock Grid.Row="1" Grid.Column="3" Text="Year" VerticalAlignment="Center" Margin="0,0,16,0" />
+            <TextBlock Grid.Row="2" Grid.Column="3" Text="Genre" VerticalAlignment="Center" Margin="0,0,16,0" />
+
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Margin="0,2" IsReadOnly="True" Text="{Binding NewFolderName, Mode=OneWay}" />
+            <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding Artist, Mode=TwoWay}" Margin="0,2" />
+            <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding Album, Mode=TwoWay}" Margin="0,2" />
+
+            <TextBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Stretch" Text="{Binding Year, Mode=TwoWay}" Margin="0,2" />
+            <ComboBox Grid.Row="2" Grid.Column="4" HorizontalAlignment="Stretch" Text="{Binding Genre, Mode=TwoWay}" Margin="0,2" IsEditable="True" />
+            <Button Grid.Row="3" Grid.Column="4" Content="freedb" HorizontalAlignment="Right" Command="{Binding FreeDBCommand}" Margin="0,2" VerticalAlignment="Center" Padding="7,2" />
+        </Grid>
+
+        <!-- Tracks -->
+        <DataGrid Grid.Row="1" Margin="0,8">
+
+        </DataGrid>
+
+        <!-- Buttons -->
+        <Grid Grid.Row="2" Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Preview NFO" Command="{Binding PreviewNFOCommand}" Margin="0,0,8,0" Padding="7,2"/>
+            <Button Grid.Column="2" Content="_Previous" Command="{Binding PreviousCommand}" Margin="8,0,0,0" Padding="7,2"/>
+            <Button Grid.Column="3" Content="_Finish" Command="{Binding FinishCommand}" Margin="8,0,0,0" Padding="7,2"/>
+        </Grid>
     </Grid>
 </Views:WindowViewBase>
