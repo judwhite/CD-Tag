@@ -382,6 +382,11 @@
     <Resource Include="Resources\Images\GeneralToolbar\wrench_16.png" />
     <Resource Include="Resources\Images\GeneralToolbar\wrench_plus_2_16.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Languages\english.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

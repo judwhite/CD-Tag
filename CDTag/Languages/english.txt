@@ -1,0 +1,113 @@
+; CD-Tag
+; English translation
+; by Jud White (jwhite@cdtag.com)
+;
+; Notes:
+;   Lines starting with ; are a comment and are ignored
+;   ### is a section, they are meaningful and the variables underneath belong to that section. Leave section names untranslated.
+;   \n is a new line
+;   _ is a shortcut key for menus and buttons, ex E_xit = "Exit" with the "x" underlined
+;   Text inside braces, example {0:#,0} is variable formatting and should generally not be altered
+
+### General
+
+Language                                          = English
+OKButton                                          = _OK
+CancelButton                                      = _Cancel
+
+### Tagging
+
+Artist                                            = Artist
+Title                                             = Title
+Album                                             = Album
+Genre                                             = Genre
+Year                                              = Year
+Track                                             = Track
+Comment                                           = Comment
+PlayLength                                        = Play length
+Bitrate                                           = Bitrate
+EncoderPreset                                     = Encoder/preset
+PictureType                                       = Picture type
+Description                                       = Description
+DeletePicture                                     = Delete picture
+DeletePicture_Message                             = Delete picture?
+
+### Main Toolbar
+
+TagAlbum                                          = Tag album
+EditTags                                          = Edit tags
+Checksum                                          = Checksum
+NewFolder                                         = New folder
+
+### Main Menu
+
+NewProfile                                        = _New profile
+EditProfile                                       = _Edit profile
+ActiveProfile                                     = Active _profile
+Tools                                             = _Tools
+Checksum                                          = _Checksum
+Go                                                = _Go
+Options                                           = _Options
+AboutCDTag                                        = _About CD-Tag
+Help                                              = _Help
+Exit                                              = E_xit
+TagAlbum                                          = T_ag album
+EditTags                                          = _Edit tags
+MassTag                                           = _Mass tag
+SplitCUESheet                                     = _Split CUE sheet
+EncodingInspector                                 = Encoding _inspector
+CreateChecksum                                    = _Create checksum
+VerifyChecksum                                    = _Verify checksum
+VerifyEACLogFile                                  = Verify _EAC log file
+Back                                              = _Back
+Forward                                           = _Forward
+Up                                                = _Up
+
+### File Explorer
+
+FoldersColumn                                     = Folders
+FileNameColumn                                    = Name
+FileSizeColumn                                    = Size
+FileTypeColumn                                    = Type
+FileDateModifiedColumn                            = Date modified
+LocalDisk                                         = Local Disk
+CDDVD                                             = CD/DVD
+RemovableDisk                                     = Removable Disk
+FileFolder                                        = File folder
+StatusBarSingleItem                               = {0} item
+StatusBarMultipleItems                            = {0:#,0} items
+StatusBarSizeKB                                   = ({0:#,0} KB)
+StatusBarSizeMB                                   = ({0:#,0.0} MB)
+StatusBarSizeGB                                   = ({0:#,0.0} GB)
+AccessDenied                                      = Access denied
+
+### About Window
+
+HomePage                                          = Home page
+SupportForum                                      = Support forum
+Email                                             = E-mail
+TollFree                                          = Toll free
+Version                                           = Version {0}.{1}.{2}.{3}
+Released                                          = Released {0:MMMM dd, yyyy}
+ReleaseNotes                                      = Release notes
+InstalledComponents                               = Installed components
+NameColumn                                        = Name
+VersionColumn                                     = Version
+CopyInfoButton                                    = _Copy Info
+CopyComponentInformation                          = Copy component information
+ComponentInformationCopiedToClipboard             = Component information copied to clipboard.
+
+### Exception Form
+
+Title                                             = Exception Handler
+IgnoreButton                                      = _Ignore
+ReportBugButton                                   = _Report bug
+ErrorMessageTab                                   = Error Message
+StackTraceTab                                     = Stack Trace
+ErrorOccurredDuringStartup                        = This error occurred during startup.
+WouldYouLikeAResponse_Message                     = Would you like a response when the bug is fixed?
+WouldYouLikeAResponse_Title                       = Submit bug
+HowCanWeContactYou_Message                        = How can we contact you? (email, website, etc)
+HowCanWeContactYou_Title                          = Submit bug
+SubmitBugSuccessful_Message                       = Thank you. This bug has been successfully submitted.
+SubmitBugError_Title                              = Error submitting bug
