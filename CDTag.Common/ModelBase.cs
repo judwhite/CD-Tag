@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace CDTag.Common
 {
@@ -99,26 +98,6 @@ namespace CDTag.Common
 
                 SendPropertyChanged(propertyName, oldValue, value);
             }
-        }
-
-        /// <summary>Gets the specified property value.</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns>The property value.</returns>
-        protected T Get<T>()
-        {
-            StackFrame stackFrame = new StackFrame(skipFrames: 1);
-            string propertyName = stackFrame.GetMethod().Name.Substring(startIndex: 4);
-            return Get<T>(propertyName);
-        }
-
-        /// <summary>Sets the specified property value.</summary>
-        /// <typeparam name="T">The type of the property.</typeparam>
-        /// <param name="value">The value.</param>
-        protected void Set<T>(T value)
-        {
-            StackFrame stackFrame = new StackFrame(skipFrames: 1);
-            string propertyName = stackFrame.GetMethod().Name.Substring(startIndex: 4);
-            Set(propertyName, value);
         }
     }
 }

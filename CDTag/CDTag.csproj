@@ -149,6 +149,8 @@
     <Compile Include="Converters\PlayLengthConverter.cs" />
     <Compile Include="Events\GetDirectoryControllerEvent.cs" />
     <Compile Include="Model\About\ComponentInformation.cs" />
+    <Compile Include="Model\Tag\Album.cs" />
+    <Compile Include="Model\Tag\AlbumTrack.cs" />
     <Compile Include="Model\Tag\Picture.cs" />
     <Compile Include="ViewModel\About\AboutViewModel.cs" />
     <Compile Include="ViewModel\About\IAboutViewModel.cs" />

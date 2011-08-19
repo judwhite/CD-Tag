@@ -68,32 +68,32 @@ namespace CDTag.Model.Tag
 
         public ImageSource ImageSource
         {
-            get { return Get<ImageSource>(); }
-            set { Set(value); }
+            get { return Get<ImageSource>("ImageSource"); }
+            set { Set("ImageSource", value); }
         }
 
         public string Description
         {
-            get { return Get<string>(); }
-            set { Set(value); }
+            get { return Get<string>("Description"); }
+            set { Set("Description", value); }
         }
 
         public PictureType PictureType
         {
-            get { return Get<PictureType>(); }
-            set { Set(value); }
+            get { return Get<PictureType>("PictureType"); }
+            set { Set("PictureType", value); }
         }
 
-        public byte[] PictureBytes 
+        public byte[] PictureBytes
         {
-            get { return Get<byte[]>(); }
-            private set { Set(value); }
+            get { return Get<byte[]>("PictureBytes"); }
+            private set { Set("PictureBytes", value); }
         }
 
         public IAttachedPicture AttachedPicture
         {
-            get { return Get<IAttachedPicture>(); }
-            private set { Set(value); }
+            get { return Get<IAttachedPicture>("AttachedPicture"); }
+            private set { Set("AttachedPicture", value); }
         }
     }
 }
