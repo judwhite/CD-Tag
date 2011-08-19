@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <!-- Album information -->
-        <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
+        <Grid x:Name="AlbumInfoGrid" Grid.Row="0" Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -33,7 +33,14 @@
                 <ColumnDefinition Width="32" />
                 <ColumnDefinition Width="Auto" SharedSizeGroup="AlbumLabels" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="7" BorderThickness="1" BorderBrush="Black" Margin="8,0,0,0">
+                <Image
+                    Width="105"
+                    Height="60" />
+            </Border>
 
             <!-- TODO: Localize -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="New folder" VerticalAlignment="Center" Margin="0,2,16,2" />
