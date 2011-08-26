@@ -57,6 +57,12 @@ namespace CDTag.Common
             _eventAggregator = eventAggregator;
         }
 
+        /// <summary>
+        /// Gets or sets the close window action.
+        /// </summary>
+        /// <value>The close window action.</value>
+        public Action CloseWindow { get; set; }
+
         /// <summary>Gets or sets the error container.</summary>
         /// <value>The error container.</value>
         public IErrorContainer ErrorContainer

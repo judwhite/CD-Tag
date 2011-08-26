@@ -41,6 +41,9 @@ namespace CDTag
             {
                 window = Unity.Resolve<T>();
                 window.Owner = MainWindow;
+                var viewModel = window.DataContext as IViewModelBase;
+                if (viewModel != null)
+                    viewModel.CloseWindow = () => window.Close();
             }
             finally
             {

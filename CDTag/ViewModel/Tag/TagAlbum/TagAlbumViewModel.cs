@@ -33,6 +33,8 @@ namespace CDTag.ViewModel.Tag.TagAlbum
         private void Finish()
         {
             Album.Finish();
+
+            CloseWindow();
         }
 
         private void PreviewNFO()

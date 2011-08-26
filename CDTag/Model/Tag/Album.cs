@@ -128,10 +128,13 @@ namespace CDTag.Model.Tag
                 {
                     string newFileName = string.Format("{0:00} - {1} - {2}{3}", int.Parse(track.TrackNumber), track.Artist, track.Title, ext);
                     newFileName = Path.Combine(OldDirectoryName, newFileName);
-                    if (string.Compare(track.OriginalFileName, newFileName, ignoreCase: false) != 0)
+                    if (string.Compare(track.OriginalFileName, newFileName, ignoreCase: false) == 0)
                     {
-                        File.Move(track.OriginalFileName, newFileName);
+                        newFileName = string.Format("{0:00} - {1}{2}", int.Parse(track.TrackNumber), track.Title, ext);
+                        newFileName = Path.Combine(OldDirectoryName, newFileName);
                     }
+
+                    File.Move(track.OriginalFileName, newFileName);
                 }
             }
         }

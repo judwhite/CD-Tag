@@ -89,6 +89,7 @@
     <Compile Include="Settings\MainWindow\MainWindowSettings.cs" />
     <Compile Include="Settings\SettingsFile.cs" />
     <Compile Include="Settings\WindowSettings.cs" />
+    <Compile Include="UIThreadHelper.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Views\WindowViewBase.cs" />

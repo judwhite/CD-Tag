@@ -244,6 +244,9 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Changed(object sender, FileSystemEventArgs e)
         {
+            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Changed(sender, e)))
+                return;
+            
             FileView fv = FileCollection.Find(e.Name);
 
             if (null != fv)
@@ -258,6 +261,9 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Created(object sender, FileSystemEventArgs e)
         {
+            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Created(sender, e)))
+                return;
+
             FileView fv = new FileView(GetFileSystemInfo(e.FullPath));
             DirectorySizeBytes += fv.Size ?? 0;
             FileCollection.Add(fv);
@@ -265,6 +271,9 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Deleted(object sender, FileSystemEventArgs e)
         {
+            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Deleted(sender, e)))
+                return;
+
             FileView fv = FileCollection.Find(e.Name);
 
             if (null != fv)
@@ -276,13 +285,16 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Renamed(object sender, RenamedEventArgs e)
         {
-            FileView fv = FileCollection.Find(e.OldName);
+            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Renamed(sender, e)))
+                return;
 
-            if (null != fv)
+            FileView fileView = FileCollection.Find(e.OldName);
+
+            if (fileView != null)
             {
-                long diff = 0 - fv.Size ?? 0;
-                fv.Refresh(GetFileSystemInfo(e.FullPath));
-                diff += fv.Size ?? 0;
+                long diff = 0 - fileView.Size ?? 0;
+                fileView.Refresh(GetFileSystemInfo(e.FullPath));
+                diff += fileView.Size ?? 0;
                 DirectorySizeBytes += diff;
                 //ResetItem(IndexOf(fv)); // TODO: This shouldn't be necessary with ObservableCollection
             }

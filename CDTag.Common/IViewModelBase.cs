@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace CDTag.Common
 {
@@ -10,6 +11,12 @@ namespace CDTag.Common
         /// <summary>Gets or sets the error container.</summary>
         /// <value>The error container.</value>
         IErrorContainer ErrorContainer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the close window action.
+        /// </summary>
+        /// <value>The close window action.</value>
+        Action CloseWindow { get; set; }
     }
 
     /// <summary>
