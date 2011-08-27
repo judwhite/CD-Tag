@@ -11,7 +11,6 @@ using CDTag.Common;
 using CDTag.FileBrowser.Events;
 using CDTag.FileBrowser.Model;
 using CDTag.FileBrowser.ViewModel;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.FileBrowser.View
 {

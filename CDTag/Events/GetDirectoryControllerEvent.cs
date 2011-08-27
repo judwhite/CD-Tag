@@ -1,6 +1,6 @@
 ﻿using System;
+using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.Events
 {

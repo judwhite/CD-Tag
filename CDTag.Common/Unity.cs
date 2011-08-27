@@ -1,6 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-
-namespace CDTag.Common
+﻿namespace CDTag.Common
 {
     /// <summary>
     /// Unity static class.
@@ -9,7 +7,7 @@ namespace CDTag.Common
     {
         /// <summary>Gets or sets the Unity container.</summary>
         /// <value>The Unity container.</value>
-        public static IUnityContainer Container { get; set; }
+        public static Container Container { get; set; }
 
         /// <summary>Resolves the specified type.</summary>
         /// <typeparam name="T">Type type.</typeparam>

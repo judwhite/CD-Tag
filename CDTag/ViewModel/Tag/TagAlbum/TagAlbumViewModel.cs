@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Events;
 using CDTag.Model.Tag;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.ViewModel.Tag.TagAlbum
 {

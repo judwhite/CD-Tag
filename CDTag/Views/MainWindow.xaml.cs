@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Common.Settings;
 using CDTag.Common.Settings.MainWindow;
-using CDTag.FileBrowser.Events;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.ViewModel.Tag;
 using System.Collections.Generic;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.Views
 {

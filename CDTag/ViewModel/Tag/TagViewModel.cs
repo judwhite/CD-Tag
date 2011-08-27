@@ -12,8 +12,6 @@ using CDTag.Views.Tag.EditTag;
 using CDTag.Views.Tag.MassTag;
 using CDTag.Views.Tag.TagAlbum;
 using CDTag.Views.Tools;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.ViewModel.Tag
 {
@@ -38,7 +36,7 @@ namespace CDTag.ViewModel.Tag
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 
-            eventAggregator.GetEvent<GetDirectoryControllerEvent>().Subscribe(OnGetDirectoryController);
+            eventAggregator.GetEvent<GetDirectoryControllerEvent>().Subscribe(o => OnGetDirectoryController((GetDirectoryControllerEventArgs)o));
         }
 
         private void OnGetDirectoryController(GetDirectoryControllerEventArgs e)

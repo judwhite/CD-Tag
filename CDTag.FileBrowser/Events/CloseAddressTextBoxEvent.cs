@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using CDTag.Common;
 
 namespace CDTag.FileBrowser.Events
 {

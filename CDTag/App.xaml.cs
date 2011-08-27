@@ -7,7 +7,6 @@ using CDTag.Common;
 using CDTag.Controls;
 using CDTag.FileBrowser.Events;
 using CDTag.Views;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag
 {

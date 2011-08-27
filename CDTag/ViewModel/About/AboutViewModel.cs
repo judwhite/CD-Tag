@@ -11,8 +11,6 @@ using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Model.About;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.ViewModel.About
 {

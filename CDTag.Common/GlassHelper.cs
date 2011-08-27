@@ -19,6 +19,11 @@ namespace CDTag.Common
 
         private struct MARGINS
         {
+            public int Left;
+            public int Right;
+            public int Top;
+            public int Bottom;
+
             public MARGINS(Thickness thickness)
             {
                 Left = (int)thickness.Left;
@@ -26,11 +31,6 @@ namespace CDTag.Common
                 Top = (int)thickness.Top;
                 Bottom = (int)thickness.Bottom;
             }
-
-            public int Left;
-            public int Right;
-            public int Top;
-            public int Bottom;
         }
 
         /// <summary>Extends the glass frame.</summary>

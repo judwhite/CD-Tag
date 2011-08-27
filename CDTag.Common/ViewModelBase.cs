@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Reflection;
-using System.Windows.Input;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.Common
 {

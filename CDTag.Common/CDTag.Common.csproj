@@ -43,16 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\Libraries\Prism\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
-      <HintPath>..\Libraries\Prism\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Unity\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Libraries\Json.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -71,13 +61,19 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandManagerHelper.cs" />
+    <Compile Include="CompositePresentationEvent.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="Controls\CollectionNavigator.cs" />
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="DataGridUtil.cs" />
+    <Compile Include="DelegateCommand.cs" />
     <Compile Include="ErrorContainer.cs" />
+    <Compile Include="EventAggregator.cs" />
     <Compile Include="GlassHelper.cs" />
     <Compile Include="IApp.cs" />
     <Compile Include="IErrorContainer.cs" />
+    <Compile Include="IEventAggregator.cs" />
     <Compile Include="IModelBase.cs" />
     <Compile Include="EnhancedPropertyChangedEventArgs.cs" />
     <Compile Include="IViewModelBase.cs" />

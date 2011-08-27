@@ -9,7 +9,6 @@ using IdSharp.AudioInfo.Inspection;
 using IdSharp.Tagging.ID3v1;
 using IdSharp.Tagging.ID3v2;
 using IdSharp.Tagging.ID3v2.Frames;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.ViewModel.Tag.EditTag
 {
@@ -26,7 +25,7 @@ namespace CDTag.ViewModel.Tag.EditTag
             _pictureTypeCollection = new ObservableCollection<PictureType>(PictureTypeHelper.PictureTypes);
         }
 
-        public ID3v2ViewModel(EventAggregator eventAggregator)
+        public ID3v2ViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
         }

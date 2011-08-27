@@ -10,8 +10,6 @@ using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.FileBrowser.Model;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.FileBrowser.ViewModel
 {
