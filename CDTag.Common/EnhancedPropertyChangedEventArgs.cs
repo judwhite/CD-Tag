@@ -51,8 +51,21 @@ namespace CDTag.Common
             if (propertyExpression == null)
                 throw new ArgumentNullException("propertyExpression");
 
-            MemberInfo property = ((MemberExpression)propertyExpression.Body).Member;
-            return (PropertyName == property.Name);
+            MemberExpression memberExpression = propertyExpression.Body as MemberExpression;
+            if (memberExpression != null)
+            {
+                MemberInfo property = memberExpression.Member;
+                return (PropertyName == property.Name);
+            }
+
+            UnaryExpression unaryExpression = propertyExpression.Body as UnaryExpression;
+            if (unaryExpression != null)
+            {
+                string propertyName = ((MemberExpression)unaryExpression.Operand).Member.Name;
+                return (PropertyName == propertyName);
+            }
+
+            throw new NotSupportedException(string.Format("Cannot determine property name by type '{0}'", propertyExpression.Body.GetType()));
         }
     }
 }

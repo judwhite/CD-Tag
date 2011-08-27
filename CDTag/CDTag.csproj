@@ -137,6 +137,7 @@
     <Compile Include="Converters\General\NotNullToVisibilityConverter.cs" />
     <Compile Include="Converters\General\NullableIntConverter.cs" />
     <Compile Include="Converters\PlayLengthConverter.cs" />
+    <Compile Include="Converters\ShortFileNameConverter.cs" />
     <Compile Include="Events\GetDirectoryControllerEvent.cs" />
     <Compile Include="Model\About\ComponentInformation.cs" />
     <Compile Include="Model\Tag\Album.cs" />

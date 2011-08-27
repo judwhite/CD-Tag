@@ -5,7 +5,7 @@ using CDTag.Model.Tag;
 
 namespace CDTag.ViewModel.Tag.TagAlbum
 {
-    public class TagAlbumViewModel : ViewModelBase, ITagAlbumViewModel
+    public class TagAlbumViewModel : ViewModelBase<TagAlbumViewModel>, ITagAlbumViewModel
     {
         private readonly DelegateCommand _finishCommand;
         private readonly DelegateCommand _previousCommand;
@@ -22,6 +22,16 @@ namespace CDTag.ViewModel.Tag.TagAlbum
             eventAggregator.GetEvent<GetDirectoryControllerEvent>().Publish(getDirectoryControllerEventArgs);
             string path = getDirectoryControllerEventArgs.DirectoryController.CurrentDirectory;
             Album = new Album(path);
+
+            EnhancedPropertyChanged += TagAlbumViewModel_EnhancedPropertyChanged;
+        }
+
+        private void TagAlbumViewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<TagAlbumViewModel> e)
+        {
+            if (e.IsProperty(p => p.SelectedTrackIndex))
+            {
+                SelectedTrack = Album.Tracks[SelectedTrackIndex];
+            }
         }
 
         private void Finish()
@@ -43,6 +53,18 @@ namespace CDTag.ViewModel.Tag.TagAlbum
         {
             get { return Get<Album>("Album"); }
             private set { Set("Album", value); }
+        }
+
+        public AlbumTrack SelectedTrack
+        {
+            get { return Get<AlbumTrack>("SelectedTrack"); }
+            set { Set("SelectedTrack", value); }
+        }
+
+        public int SelectedTrackIndex
+        {
+            get { return Get<int>("SelectedTrackIndex"); }
+            set { Set("SelectedTrackIndex", value); }
         }
 
         public ICommand FinishCommand

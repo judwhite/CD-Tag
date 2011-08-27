@@ -13,6 +13,7 @@
 
     <Views:WindowViewBase.Resources>
         <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Converters:ShortFileNameConverter x:Key="ShortFileNameConverter" />
     </Views:WindowViewBase.Resources>
 
     <Grid x:Name="LayoutRoot" Margin="8">
@@ -42,14 +43,21 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="7" BorderThickness="1" BorderBrush="Black" Margin="8,0,0,0" />
+            <Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="7" 
+                    BorderThickness="1" BorderBrush="Black" Margin="8,0,0,0"
+                    Width="100" Height="105"
+                    VerticalAlignment="Top"
+                >
 
-            <!-- TODO: Image placement off -->
-            <Image Grid.Row="0" Grid.Column="5" Grid.RowSpan="7"
-                   Width="105" Height="100"
-                   Source="{Binding Path=Album.Picture}"
-                   Margin="10,2,2,2"
-            />
+                <Image
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Stretch="Fill"
+                    Source="{Binding Path=Album.Picture}"
+                    Margin="0"
+                />
+
+            </Border>
 
             <!-- TODO: Localize -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="New folder" VerticalAlignment="Center" Margin="0,2,16,2" />
@@ -67,22 +75,35 @@
             <TextBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Stretch" Text="{Binding Path=Album.ReleaseDate, Mode=TwoWay}" Margin="0,2" />
             <ComboBox Grid.Row="2" Grid.Column="4" HorizontalAlignment="Stretch" Text="{Binding Path=Album.Genre, Mode=TwoWay}" Margin="0,2" IsEditable="True" />
             <Button Grid.Row="3" Grid.Column="4" Content="freedb" HorizontalAlignment="Right" Command="{Binding FreeDBCommand}" Margin="0,2" VerticalAlignment="Center" Padding="7,2" />
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Old file name" VerticalAlignment="Center" Margin="0,2,16,2" />
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="New file name" VerticalAlignment="Center" Margin="0,2,16,2" />
+
+            <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="5" IsReadOnly="True" Margin="0,2" VerticalAlignment="Center" Text="{Binding Path=SelectedTrack.OriginalFileName, Mode=OneWay, Converter={StaticResource ShortFileNameConverter}}" />
+            <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" IsReadOnly="True" Margin="0,2" VerticalAlignment="Center" Text="{Binding Path=SelectedTrack.NewFileName, Mode=OneWay, Converter={StaticResource ShortFileNameConverter}}" />
         </Grid>
 
         <!-- Tracks -->
         <DataGrid 
+            x:Name="TracksDataGrid"
+            AlternatingRowBackground="AliceBlue"
+            Background="Transparent"
             Grid.Row="1" 
             Margin="0,8" 
             ItemsSource="{Binding Path=Album.Tracks, Mode=OneWay}" 
             AutoGenerateColumns="False" 
             CanUserSortColumns="False"
+            CanUserDeleteRows="False"
+            CanUserAddRows="False"
+            SelectedIndex="{Binding Path=SelectedTrackIndex, Mode=TwoWay}"
+            SelectionMode="Single"
         >
             <DataGrid.Columns>
                 <!-- TODO: Localize column header -->
                 <DataGridTemplateColumn Header="Disc" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding DiscNumber}" />
+                            <TextBox Text="{Binding DiscNumber, Mode=TwoWay}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -91,7 +112,7 @@
                 <DataGridTemplateColumn Header="Track" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding TrackNumber}" />
+                            <TextBox Text="{Binding TrackNumber, Mode=TwoWay}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -101,7 +122,7 @@
                 <DataGridTemplateColumn Header="Artist" Width="*" Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.Album.IsVariousArtists, Converter={StaticResource BoolToVisibilityConverter}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Artist}" />
+                            <TextBox Text="{Binding Artist, Mode=TwoWay}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -110,7 +131,7 @@
                 <DataGridTemplateColumn Header="Title" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Title}" />
+                            <TextBox Text="{Binding Title, Mode=TwoWay}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
