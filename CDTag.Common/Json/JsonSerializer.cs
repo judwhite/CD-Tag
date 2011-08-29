@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
@@ -68,6 +70,10 @@ namespace CDTag.Common.Json
 
             object returnValue = ci.Invoke(null);
 
+            bool isDictionary = false;
+            if (returnValue is IDictionary)
+                isDictionary = true;
+
             while (json[i] != '}')
             {
                 while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n')
@@ -90,36 +96,56 @@ namespace CDTag.Common.Json
                 while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n')
                     i++;
 
-                PropertyInfo property = null;
-                foreach (PropertyInfo propertyInfo in expectedType.GetProperties(bf))
+                Type propertyType;
+                Action<object, object[]> setMethodInvoke;
+
+                if (!isDictionary)
                 {
-                    DataMemberAttribute[] dms = (DataMemberAttribute[])propertyInfo.GetCustomAttributes(typeof(DataMemberAttribute), false);
-                    if (dms != null && dms.Length != 0)
+                    PropertyInfo property = null;
+                    foreach (PropertyInfo propertyInfo in expectedType.GetProperties(bf))
                     {
-                        if (string.Compare(dms[0].Name, propertyName, ignoreCase: true) == 0)
+                        DataMemberAttribute[] dms = (DataMemberAttribute[])propertyInfo.GetCustomAttributes(typeof(DataMemberAttribute), false);
+                        if (dms != null && dms.Length != 0)
                         {
-                            property = propertyInfo;
-                            break;
+                            string name = dms[0].Name;
+                            if (string.IsNullOrEmpty(name))
+                                name = propertyInfo.Name;
+
+                            if (string.Compare(name, propertyName, ignoreCase: true) == 0)
+                            {
+                                property = propertyInfo;
+                                break;
+                            }
                         }
                     }
+
+                    if (property == null)
+                        throw new JsonInvalidDataException(string.Format("Property '{0}' not found on '{1}'.", propertyName, expectedType), json, i);
+
+                    MethodInfo setMethod = property.GetSetMethod();
+                    if (setMethod == null)
+                        throw new JsonInvalidDataException(string.Format("Property setter '{0}' not found on '{1}'.", propertyName, expectedType), json, i);
+
+                    MethodInfo getMethod = property.GetGetMethod();
+                    if (getMethod == null)
+                        throw new JsonInvalidDataException(string.Format("Property getter '{0}' not found on '{1}'.", propertyName, expectedType), json, i);
+
+                    setMethodInvoke = (o, p) => setMethod.Invoke(o, p);
+                    propertyType = getMethod.ReturnType;
+
+                    if (propertyType.Name.StartsWith("Nullable`1"))
+                        propertyType = propertyType.GetGenericArguments()[0];
+                }
+                else
+                {
+                    setMethodInvoke = (o, p) => ((IDictionary)returnValue).Add(propertyName, p[0]);
+                    propertyType = expectedType.GetGenericArguments()[1];
                 }
 
-                if (property == null)
-                    throw new JsonInvalidDataException(string.Format("Property '{0}' not found on '{1}'.", propertyName, expectedType), json, i);
-
-                MethodInfo setMethod = property.GetSetMethod();
-                if (setMethod == null)
-                    throw new JsonInvalidDataException(string.Format("Property setter '{0}' not found on '{1}'.", propertyName, expectedType), json, i);
-
-                MethodInfo getMethod = property.GetGetMethod();
-                if (getMethod == null)
-                    throw new JsonInvalidDataException(string.Format("Property getter '{0}' not found on '{1}'.", propertyName, expectedType), json, i);
-
-                Type propertyType = getMethod.ReturnType;
                 if (propertyType.IsEnum)
                 {
                     object value = ParseEnum(classType: expectedType, propertyName: propertyName, elementType: propertyType, json: json, i: ref i);
-                    setMethod.Invoke(returnValue, new[] { value });
+                    setMethodInvoke(returnValue, new[] { value });
                 }
                 else if (propertyType.IsArray)
                 {
@@ -161,7 +187,7 @@ namespace CDTag.Common.Json
                     for (int j = 0; j < value.Length; j++)
                         value.SetValue(list[j], j);
 
-                    setMethod.Invoke(returnValue, new object[] { value });
+                    setMethodInvoke(returnValue, new object[] { value });
 
                     while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n')
                         i++;
@@ -174,28 +200,43 @@ namespace CDTag.Common.Json
                 {
                     string value = GetValue(json, ref i);
 
-                    if (propertyType == typeof(int))
-                        setMethod.Invoke(returnValue, new object[] { int.Parse(value) });
-                    else if (propertyType == typeof(long))
-                        setMethod.Invoke(returnValue, new object[] { long.Parse(value) });
-                    else if (propertyType == typeof(double))
-                        setMethod.Invoke(returnValue, new object[] { double.Parse(value) });
-                    else if (propertyType == typeof(decimal))
-                        setMethod.Invoke(returnValue, new object[] { decimal.Parse(value) });
-                    else if (propertyType == typeof(bool))
-                        setMethod.Invoke(returnValue, new object[] { bool.Parse(value) });
-                    else if (propertyType == typeof(string))
-                        setMethod.Invoke(returnValue, new object[] { value });
-                    else if (propertyType == typeof(DateTime))
-                        setMethod.Invoke(returnValue, new object[] { DateTime.Parse(value) });
+                    object newValue;
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        newValue = null;
+                    }
                     else
                     {
-                        throw new JsonInvalidDataException(string.Format("Unsupport type '{0}'. Property '{1}' on '{2}'.", propertyType, propertyName, expectedType), json, i);
+                        if (propertyType == typeof(int))
+                            newValue = int.Parse(value);
+                        else if (propertyType == typeof(long))
+                            newValue = long.Parse(value);
+                        else if (propertyType == typeof(double))
+                            newValue = double.Parse(value);
+                        else if (propertyType == typeof(decimal))
+                            newValue = decimal.Parse(value);
+                        else if (propertyType == typeof(bool))
+                            newValue = bool.Parse(value);
+                        else if (propertyType == typeof(string))
+                            newValue = value;
+                        else if (propertyType == typeof(DateTime))
+                            newValue = DateTime.Parse(value);
+                        else
+                            throw new JsonInvalidDataException(string.Format("Unsupport type '{0}'. Property '{1}' on '{2}'.", propertyType, propertyName, expectedType), json, i);
                     }
+
+                    setMethodInvoke(returnValue, new[] { newValue });
                 }
                 else
                 {
-                    ParseClass(propertyType, json, ref i);
+                    object value = ParseClass(propertyType, json, ref i);
+
+                    setMethodInvoke(returnValue, new[] { value });
+                    
+                    while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n')
+                        i++;
+                    if (json[i] == ',')
+                        i++;
                 }
             }
             i++;
@@ -207,6 +248,11 @@ namespace CDTag.Common.Json
         {
             string value = GetValue(json, ref i);
 
+            bool hasIntValue = false;
+            int intValue;
+            if (int.TryParse(value, out intValue))
+                hasIntValue = true;
+
             foreach (var field in elementType.GetFields(BindingFlags.Static | BindingFlags.Public))
             {
                 EnumMemberAttribute[] dms = (EnumMemberAttribute[])field.GetCustomAttributes(typeof(EnumMemberAttribute), false);
@@ -216,6 +262,15 @@ namespace CDTag.Common.Json
                     {
                         object val = field.GetValue(null);
                         return val;
+                    }
+                }
+                else if (hasIntValue)
+                {
+                    object enumValue = field.GetValue(null);
+
+                    if (intValue == (int)enumValue)
+                    {
+                        return enumValue;
                     }
                 }
             }
