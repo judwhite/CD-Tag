@@ -3,15 +3,15 @@ using System.Windows;
 using CDTag.Common;
 using CDTag.Events;
 using CDTag.FileBrowser.ViewModel;
-using CDTag.Views.About;
-using CDTag.Views.Checksum;
-using CDTag.Views.Options;
-using CDTag.Views.Profile.EditProfile;
-using CDTag.Views.Profile.NewProfile;
-using CDTag.Views.Tag.EditTag;
-using CDTag.Views.Tag.MassTag;
-using CDTag.Views.Tag.TagAlbum;
-using CDTag.Views.Tools;
+using CDTag.View.Interfaces.About;
+using CDTag.View.Interfaces.Checksum;
+using CDTag.View.Interfaces.Options;
+using CDTag.View.Interfaces.Profile.EditProfile;
+using CDTag.View.Interfaces.Profile.NewProfile;
+using CDTag.View.Interfaces.Tag.EditTag;
+using CDTag.View.Interfaces.Tag.MassTag;
+using CDTag.View.Interfaces.Tag.TagAlbum;
+using CDTag.View.Interfaces.Tools;
 
 namespace CDTag.ViewModel.Tag
 {
@@ -20,19 +20,19 @@ namespace CDTag.ViewModel.Tag
         public TagViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            AboutCommand = new DelegateCommand(() => Unity.App.ShowWindow<AboutWindow>());
+            AboutCommand = new DelegateCommand(() => Unity.App.ShowWindow<IAboutWindow>());
             ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
-            TagAlbumCommand = new DelegateCommand(() => Unity.App.ShowWindow<TagAlbumWindow>());
-            EditTagsCommand = new DelegateCommand(() => Unity.App.ShowWindow<ID3v2Window>());
-            MassTagCommand = new DelegateCommand(() => Unity.App.ShowWindow<MassTagWindow>());
-            NewProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<NewProfileWindow>());
-            EditProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<EditProfileWindow>());
-            SplitCueSheetCommand = new DelegateCommand(() => Unity.App.ShowWindow<SplitCueWindow>());
-            EncodingInspectorCommand = new DelegateCommand(() => Unity.App.ShowWindow<EncodingInspectorWindow>());
-            OptionsCommand = new DelegateCommand(() => Unity.App.ShowWindow<OptionsWindow>());
-            CreateChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<ChecksumWindow>());
-            VerifyChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<ChecksumWindow>());
-            VerifyEACLogCommand = new DelegateCommand(() => Unity.App.ShowWindow<VerifyEACLogWindow>());
+            TagAlbumCommand = new DelegateCommand(() => Unity.App.ShowWindow<ITagAlbumWindow>());
+            EditTagsCommand = new DelegateCommand(() => Unity.App.ShowWindow<IEditTagWindow>());
+            MassTagCommand = new DelegateCommand(() => Unity.App.ShowWindow<IMassTagWindow>());
+            NewProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<INewProfileWindow>());
+            EditProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<IEditProfileWindow>());
+            SplitCueSheetCommand = new DelegateCommand(() => Unity.App.ShowWindow<ISplitCueWindow>());
+            EncodingInspectorCommand = new DelegateCommand(() => Unity.App.ShowWindow<IEncodingInspectorWindow>());
+            OptionsCommand = new DelegateCommand(() => Unity.App.ShowWindow<IOptionsWindow>());
+            CreateChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<IChecksumWindow>());
+            VerifyChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<IChecksumWindow>());
+            VerifyEACLogCommand = new DelegateCommand(() => Unity.App.ShowWindow<IVerifyEACLogWindow>());
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 

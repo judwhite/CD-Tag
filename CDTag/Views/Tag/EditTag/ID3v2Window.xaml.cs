@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CDTag.Model.Tag;
+using CDTag.View.Interfaces.Tag.EditTag;
 using CDTag.ViewModel.Tag.EditTag;
 using IdSharp.Common.Events;
 using Microsoft.Win32;
@@ -9,7 +10,7 @@ namespace CDTag.Views.Tag.EditTag
     /// <summary>
     /// Interaction logic for ID3v2Window.xaml
     /// </summary>
-    public partial class ID3v2Window : WindowViewBase
+    public partial class ID3v2Window : WindowViewBase, IEditTagWindow
     {
         private readonly OpenFileDialog _openFileDialog = new OpenFileDialog();
 

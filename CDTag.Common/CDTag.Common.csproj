@@ -88,7 +88,6 @@
     <Compile Include="UIThreadHelper.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="ViewModelBase.cs" />
-    <Compile Include="Views\WindowViewBase.cs" />
     <Compile Include="Win32API\Advapi32.cs" />
     <Compile Include="Win32API\Const.cs" />
     <Compile Include="Win32API\IconHelper.cs" />
@@ -105,6 +104,10 @@
     <ProjectReference Include="..\..\IdSharp\IdSharp.Common\IdSharp.Common.csproj">
       <Project>{1C83FB63-E16E-4380-9DD0-26E1799C417D}</Project>
       <Name>IdSharp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
+      <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
+      <Name>CDTag.View.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

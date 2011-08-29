@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using CDTag.Common;
 using CDTag.Events;
 using CDTag.FileBrowser.Model;
 using IdSharp.Tagging.ID3v1;
-using Microsoft.Practices.Prism.Events;
 
 namespace CDTag.ViewModel.Tag.EditTag
 {
@@ -45,8 +45,8 @@ namespace CDTag.ViewModel.Tag.EditTag
 
         public IID3v1Tag ID3v1
         {
-            get { return Get<IID3v1Tag>(); }
-            set { Set(value); }
+            get { return Get<IID3v1Tag>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public ObservableCollection<string> GenreCollection
@@ -56,14 +56,14 @@ namespace CDTag.ViewModel.Tag.EditTag
 
         public string FileName
         {
-            get { return Get<string>(); }
-            private set { Set(value); }
+            get { return Get<string>(MethodBase.GetCurrentMethod()); }
+            private set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public bool CanSave
         {
-            get { return Get<bool>(); }
-            set { Set(value); }
+            get { return Get<bool>(MethodBase.GetCurrentMethod()); }
+            set { Set(MethodBase.GetCurrentMethod(), value); }
         }
 
         public ObservableCollection<ID3v1TagVersion> ID3v1VersionCollection

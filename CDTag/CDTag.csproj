@@ -138,36 +138,6 @@
     <Compile Include="Converters\General\NullableIntConverter.cs" />
     <Compile Include="Converters\PlayLengthConverter.cs" />
     <Compile Include="Converters\ShortFileNameConverter.cs" />
-    <Compile Include="Events\GetDirectoryControllerEvent.cs" />
-    <Compile Include="Model\About\ComponentInformation.cs" />
-    <Compile Include="Model\Tag\Album.cs" />
-    <Compile Include="Model\Tag\AlbumTrack.cs" />
-    <Compile Include="Model\Tag\Picture.cs" />
-    <Compile Include="ViewModel\About\AboutViewModel.cs" />
-    <Compile Include="ViewModel\About\IAboutViewModel.cs" />
-    <Compile Include="ViewModel\Checksum\ChecksumViewModel.cs" />
-    <Compile Include="ViewModel\Checksum\IChecksumViewModel.cs" />
-    <Compile Include="ViewModel\Checksum\IVerifyEACLogViewModel.cs" />
-    <Compile Include="ViewModel\Checksum\VerifyEACLogViewModel.cs" />
-    <Compile Include="ViewModel\Options\IOptionsViewModel.cs" />
-    <Compile Include="ViewModel\Options\OptionsViewModel.cs" />
-    <Compile Include="ViewModel\Profile\EditProfile\EditProfileViewModel.cs" />
-    <Compile Include="ViewModel\Profile\EditProfile\IEditProfileViewModel.cs" />
-    <Compile Include="ViewModel\Profile\NewProfile\INewProfileViewModel.cs" />
-    <Compile Include="ViewModel\Profile\NewProfile\NewProfileViewModel.cs" />
-    <Compile Include="ViewModel\Tag\EditTag\ID3v2ViewModel.cs" />
-    <Compile Include="ViewModel\Tag\EditTag\IID3v2ViewModel.cs" />
-    <Compile Include="ViewModel\Tag\ITagViewModel.cs" />
-    <Compile Include="ViewModel\Tag\MassTag\IMassTagViewModel.cs" />
-    <Compile Include="ViewModel\Tag\MassTag\MassTagViewModel.cs" />
-    <Compile Include="ViewModel\Tag\TagAlbum\ITagAlbumViewModel.cs" />
-    <Compile Include="ViewModel\Tag\TagAlbum\TagAlbumViewModel.cs" />
-    <Compile Include="ViewModel\Tag\TagViewModel.Commands.cs" />
-    <Compile Include="ViewModel\Tag\TagViewModel.cs" />
-    <Compile Include="ViewModel\Tools\IEncodingInspectorViewModel.cs" />
-    <Compile Include="ViewModel\Tools\ISplitCueViewModel.cs" />
-    <Compile Include="ViewModel\Tools\EncodingInspectorViewModel.cs" />
-    <Compile Include="ViewModel\Tools\SplitCueViewModel.cs" />
     <Compile Include="Views\About\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -211,6 +181,7 @@
       <DependentUpon>SplitCueWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewBase.cs" />
+    <Compile Include="WindowViewBase.cs" />
     <Page Include="Themes\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -389,6 +360,18 @@
     <ProjectReference Include="..\CDTag.FileBrowser\CDTag.FileBrowser.csproj">
       <Project>{B72F279B-331E-4F26-9927-FFADB15B7395}</Project>
       <Name>CDTag.FileBrowser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.Model\CDTag.Model.csproj">
+      <Project>{24732BDC-95F9-497C-93A9-89634D8C1E06}</Project>
+      <Name>CDTag.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
+      <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
+      <Name>CDTag.View.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.ViewModel\CDTag.ViewModel.csproj">
+      <Project>{5B90F658-10CD-4829-BA0F-FD8B972733C2}</Project>
+      <Name>CDTag.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

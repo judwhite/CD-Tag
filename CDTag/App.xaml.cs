@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using CDTag.Common;
 using CDTag.Controls;
 using CDTag.FileBrowser.Events;
+using CDTag.View.Interfaces;
 using CDTag.Views;
 
 namespace CDTag
@@ -32,7 +33,7 @@ namespace CDTag
         }
 
         public bool? ShowWindow<T>()
-            where T : WindowViewBase
+            where T : IWindow
         {
             T window;
             MouseHelper.SetWaitCursor();

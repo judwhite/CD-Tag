@@ -1,11 +1,12 @@
-﻿using CDTag.ViewModel.Tools;
+﻿using CDTag.View.Interfaces.Tools;
+using CDTag.ViewModel.Tools;
 
 namespace CDTag.Views.Tools
 {
     /// <summary>
     /// Interaction logic for SplitCueWindow.xaml
     /// </summary>
-    public partial class SplitCueWindow : WindowViewBase
+    public partial class SplitCueWindow : WindowViewBase, ISplitCueWindow
     {
         public SplitCueWindow(ISplitCueViewModel viewModel)
             : base(viewModel)

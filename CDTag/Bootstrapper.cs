@@ -1,6 +1,15 @@
 ﻿using System.Windows;
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
+using CDTag.View.Interfaces.About;
+using CDTag.View.Interfaces.Checksum;
+using CDTag.View.Interfaces.Options;
+using CDTag.View.Interfaces.Profile.EditProfile;
+using CDTag.View.Interfaces.Profile.NewProfile;
+using CDTag.View.Interfaces.Tag.EditTag;
+using CDTag.View.Interfaces.Tag.MassTag;
+using CDTag.View.Interfaces.Tag.TagAlbum;
+using CDTag.View.Interfaces.Tools;
 using CDTag.ViewModel.About;
 using CDTag.ViewModel.Checksum;
 using CDTag.ViewModel.Options;
@@ -12,6 +21,15 @@ using CDTag.ViewModel.Tag.MassTag;
 using CDTag.ViewModel.Tag.TagAlbum;
 using CDTag.ViewModel.Tools;
 using CDTag.Views;
+using CDTag.Views.About;
+using CDTag.Views.Checksum;
+using CDTag.Views.Options;
+using CDTag.Views.Profile.EditProfile;
+using CDTag.Views.Profile.NewProfile;
+using CDTag.Views.Tag.EditTag;
+using CDTag.Views.Tag.MassTag;
+using CDTag.Views.Tag.TagAlbum;
+using CDTag.Views.Tools;
 
 namespace CDTag
 {
@@ -32,9 +50,24 @@ namespace CDTag
 
         protected void ConfigureContainer()
         {
+            // Instances
             Container.RegisterInstance<IApp>(Application.Current);
             Container.RegisterInstance<ITagViewModel>(Container.Resolve<TagViewModel>());
 
+            // Views
+            Container.RegisterType<IAboutWindow, AboutWindow>();
+            Container.RegisterType<IEditTagWindow, ID3v2Window>();
+            Container.RegisterType<ITagAlbumWindow, TagAlbumWindow>();
+            Container.RegisterType<IMassTagWindow, MassTagWindow>();
+            Container.RegisterType<IEditProfileWindow, EditProfileWindow>();
+            Container.RegisterType<INewProfileWindow, NewProfileWindow>();
+            Container.RegisterType<ISplitCueWindow, SplitCueWindow>();
+            Container.RegisterType<IEncodingInspectorWindow, EncodingInspectorWindow>();
+            Container.RegisterType<IOptionsWindow, OptionsWindow>();
+            Container.RegisterType<IChecksumWindow, ChecksumWindow>();
+            Container.RegisterType<IVerifyEACLogWindow, VerifyEACLogWindow>();
+
+            // View models
             Container.RegisterType<IDirectoryController, DirectoryController>();
             Container.RegisterType<IAboutViewModel, AboutViewModel>();
             Container.RegisterType<IID3v2ViewModel, ID3v2ViewModel>();

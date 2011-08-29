@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using CDTag.Views;
+using CDTag.View.Interfaces;
 
 namespace CDTag.Common
 {
@@ -25,7 +25,7 @@ namespace CDTag.Common
         /// <typeparam name="T">The window type.</typeparam>
         /// <returns>The result of <see cref="Window.ShowDialog()" />.</returns>
         bool? ShowWindow<T>()
-            where T : WindowViewBase;
+            where T : IWindow;
 
         /// <summary>Gets the main window.</summary>
         Window MainWindow { get; }

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5B90F658-10CD-4829-BA0F-FD8B972733C2}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CDTag.ViewModel</RootNamespace>
+    <AssemblyName>CDTag.ViewModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>cdtag.viewmodel.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About\AboutViewModel.cs" />
+    <Compile Include="About\IAboutViewModel.cs" />
+    <Compile Include="Checksum\ChecksumViewModel.cs" />
+    <Compile Include="Checksum\IChecksumViewModel.cs" />
+    <Compile Include="Checksum\IVerifyEACLogViewModel.cs" />
+    <Compile Include="Checksum\VerifyEACLogViewModel.cs" />
+    <Compile Include="Events\GetDirectoryControllerEvent.cs" />
+    <Compile Include="Options\IOptionsViewModel.cs" />
+    <Compile Include="Options\OptionsViewModel.cs" />
+    <Compile Include="Profile\EditProfile\EditProfileViewModel.cs" />
+    <Compile Include="Profile\EditProfile\IEditProfileViewModel.cs" />
+    <Compile Include="Profile\NewProfile\INewProfileViewModel.cs" />
+    <Compile Include="Profile\NewProfile\NewProfileViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Tag\EditTag\ID3v1ViewModel.cs" />
+    <Compile Include="Tag\EditTag\ID3v2ViewModel.cs" />
+    <Compile Include="Tag\EditTag\IID3v1ViewModel.cs" />
+    <Compile Include="Tag\EditTag\IID3v2ViewModel.cs" />
+    <Compile Include="Tag\ITagViewModel.cs" />
+    <Compile Include="Tag\MassTag\IMassTagViewModel.cs" />
+    <Compile Include="Tag\MassTag\MassTagViewModel.cs" />
+    <Compile Include="Tag\TagAlbum\ITagAlbumViewModel.cs" />
+    <Compile Include="Tag\TagAlbum\TagAlbumViewModel.cs" />
+    <Compile Include="Tag\TagViewModel.Commands.cs" />
+    <Compile Include="Tag\TagViewModel.cs" />
+    <Compile Include="Tools\EncodingInspectorViewModel.cs" />
+    <Compile Include="Tools\IEncodingInspectorViewModel.cs" />
+    <Compile Include="Tools\ISplitCueViewModel.cs" />
+    <Compile Include="Tools\SplitCueViewModel.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="cdtag.viewmodel.snk" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.AudioInfo\IdSharp.AudioInfo.csproj">
+      <Project>{136F9938-42FC-4C63-B76E-9DAAD3A63864}</Project>
+      <Name>IdSharp.AudioInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.Common\IdSharp.Common.csproj">
+      <Project>{1C83FB63-E16E-4380-9DD0-26E1799C417D}</Project>
+      <Name>IdSharp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.Tagging\IdSharp.Tagging.csproj">
+      <Project>{A4BC39D2-FB08-4DCE-B485-0F49D21B106D}</Project>
+      <Name>IdSharp.Tagging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.WebLookup\IdSharp.WebLookup.csproj">
+      <Project>{ECEAC3FF-2F1E-4E89-ADD5-2F048ECC5B2A}</Project>
+      <Name>IdSharp.WebLookup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.Common\CDTag.Common.csproj">
+      <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
+      <Name>CDTag.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.FileBrowser\CDTag.FileBrowser.csproj">
+      <Project>{B72F279B-331E-4F26-9927-FFADB15B7395}</Project>
+      <Name>CDTag.FileBrowser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.Model\CDTag.Model.csproj">
+      <Project>{24732BDC-95F9-497C-93A9-89634D8C1E06}</Project>
+      <Name>CDTag.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
+      <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
+      <Name>CDTag.View.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
