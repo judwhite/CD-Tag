@@ -96,9 +96,6 @@
     <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Libraries\Json.NET\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -124,7 +121,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Controls\ErrorNotification.cs" />
     <Compile Include="Converters\General\AllTrueConverter.cs" />
     <Compile Include="Converters\BitrateConverter.cs" />
     <Compile Include="Converters\General\BoolToVisibilityConverter.cs" />
@@ -356,6 +352,10 @@
     <ProjectReference Include="..\CDTag.Common\CDTag.Common.csproj">
       <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
       <Name>CDTag.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.Controls\CDTag.Controls.csproj">
+      <Project>{3FF588D9-76B6-42FC-9664-39E858A940FE}</Project>
+      <Name>CDTag.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\CDTag.FileBrowser\CDTag.FileBrowser.csproj">
       <Project>{B72F279B-331E-4F26-9927-FFADB15B7395}</Project>

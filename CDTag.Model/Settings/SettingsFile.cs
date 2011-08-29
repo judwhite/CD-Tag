@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using CDTag.Common.Json;
 
 namespace CDTag.Common.Settings
 {
@@ -23,7 +22,8 @@ namespace CDTag.Common.Settings
 
             fileName = GetFullFileName(fileName);
 
-            string json = JsonConvert.SerializeObject(settings, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            //string json = JsonSerializer.SerializeObject(settings, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            string json = JsonSerializer.SerializeObject(settings);
 
             using (Stream fileStream = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
             {
@@ -57,8 +57,11 @@ namespace CDTag.Common.Settings
 
             try
             {
-                string json = File.ReadAllText(fileName, Encoding.UTF8);
-                settings = JsonConvert.DeserializeObject<T>(json);
+                byte[] jsonBytes = File.ReadAllBytes(fileName);
+                using (MemoryStream memoryStream = new MemoryStream(jsonBytes))
+                {
+                    settings = JsonSerializer.ReadObject<T>(memoryStream);
+                }
             }
             catch
             {

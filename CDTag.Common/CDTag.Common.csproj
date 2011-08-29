@@ -43,9 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Libraries\Json.NET\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -64,8 +61,6 @@
     <Compile Include="CommandManagerHelper.cs" />
     <Compile Include="CompositePresentationEvent.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="Controls\CollectionNavigator.cs" />
-    <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="DataGridUtil.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ErrorContainer.cs" />
@@ -77,14 +72,12 @@
     <Compile Include="IModelBase.cs" />
     <Compile Include="EnhancedPropertyChangedEventArgs.cs" />
     <Compile Include="IViewModelBase.cs" />
+    <Compile Include="Json\JsonSerializer.cs" />
+    <Compile Include="Json\JsonInvalidDataException.cs" />
     <Compile Include="KeyBindingHelper.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="MouseHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\DataGridColumnSettings.cs" />
-    <Compile Include="Settings\MainWindow\MainWindowSettings.cs" />
-    <Compile Include="Settings\SettingsFile.cs" />
-    <Compile Include="Settings\WindowSettings.cs" />
     <Compile Include="UIThreadHelper.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="ViewModelBase.cs" />
@@ -110,32 +103,7 @@
       <Name>CDTag.View.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Themes\Navigation\Disabled\Add.png" />
-    <Resource Include="Themes\Navigation\Disabled\Delete.png" />
-    <Resource Include="Themes\Navigation\Disabled\First.png" />
-    <Resource Include="Themes\Navigation\Disabled\Last.png" />
-    <Resource Include="Themes\Navigation\Disabled\Next.png" />
-    <Resource Include="Themes\Navigation\Disabled\Previous.png" />
-    <Resource Include="Themes\Navigation\Hot\Add.png" />
-    <Resource Include="Themes\Navigation\Hot\Delete.png" />
-    <Resource Include="Themes\Navigation\Hot\First.png" />
-    <Resource Include="Themes\Navigation\Hot\Last.png" />
-    <Resource Include="Themes\Navigation\Hot\Next.png" />
-    <Resource Include="Themes\Navigation\Hot\Previous.png" />
-    <Resource Include="Themes\Navigation\Regular\Add.png" />
-    <Resource Include="Themes\Navigation\Regular\Delete.png" />
-    <Resource Include="Themes\Navigation\Regular\First.png" />
-    <Resource Include="Themes\Navigation\Regular\Last.png" />
-    <Resource Include="Themes\Navigation\Regular\Next.png" />
-    <Resource Include="Themes\Navigation\Regular\Previous.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

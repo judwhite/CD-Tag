@@ -5,7 +5,7 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:Controls="clr-namespace:CDTag.Controls" 
+    xmlns:Controls="clr-namespace:CDTag.Controls;assembly=CDTag.Controls" 
     mc:Ignorable="d"    
 >
 
