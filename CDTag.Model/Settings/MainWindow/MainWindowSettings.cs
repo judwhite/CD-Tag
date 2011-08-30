@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Windows;
+using CDTag.Common.Settings;
 
-namespace CDTag.Common.Settings.MainWindow
+namespace CDTag.Model.Settings.MainWindow
 {
     /// <summary>
     /// Settings for the application's main window.
@@ -13,7 +13,7 @@ namespace CDTag.Common.Settings.MainWindow
         /// <summary>Gets or sets the grid splitter position.</summary>
         /// <value>The grid splitter position.</value>
         [DataMember]
-        public GridLength GridSplitterPosition { get; set; }
+        public double GridSplitterPosition { get; set; }
 
         /// <summary>Gets or sets the initial directory.</summary>
         /// <value>The initial directory.</value>

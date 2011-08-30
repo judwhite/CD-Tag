@@ -2,28 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Windows;
 
 namespace CDTag.Common.Json
 {
     /// <summary>
     /// JsonSerializer
     /// </summary>
-    public class JsonSerializer
+    public static partial class JsonSerializer
     {
-        private readonly Type _type;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JsonSerializer"/> class.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        public JsonSerializer(Type type)
-        {
-            _type = type;
-        }
+        private const BindingFlags PublicInstanceBindingFlags = BindingFlags.Instance | BindingFlags.Public;
+        private const BindingFlags PublicStaticBindingFlags = BindingFlags.Static | BindingFlags.Public;
 
         /// <summary>
         /// Reads the object for the specified stream.
@@ -32,17 +24,6 @@ namespace CDTag.Common.Json
         /// <param name="stream">The stream.</param>
         /// <returns>The deserialized object.</returns>
         public static T ReadObject<T>(Stream stream)
-        {
-            object obj = new JsonSerializer(typeof(T)).ReadObject(stream);
-            return (T)obj;
-        }
-
-        /// <summary>
-        /// Reads the object for the specified stream.
-        /// </summary>
-        /// <param name="stream">The stream.</param>
-        /// <returns>The deserialized object.</returns>
-        public object ReadObject(Stream stream)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
@@ -54,13 +35,11 @@ namespace CDTag.Common.Json
             string json = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
 
             int i = 0;
-            return ParseClass(_type, json, ref i);
+            return (T)ParseClass(typeof(T), json, ref i);
         }
 
         private static object ParseClass(Type expectedType, string json, ref int i)
         {
-            const BindingFlags bf = BindingFlags.Instance | BindingFlags.Public;
-
             if (json[i++] != '{')
                 throw new JsonInvalidDataException("'{' expected", json, i - 1);
 
@@ -102,7 +81,7 @@ namespace CDTag.Common.Json
                 if (!isDictionary)
                 {
                     PropertyInfo property = null;
-                    foreach (PropertyInfo propertyInfo in expectedType.GetProperties(bf))
+                    foreach (PropertyInfo propertyInfo in expectedType.GetProperties(PublicInstanceBindingFlags))
                     {
                         DataMemberAttribute[] dms = (DataMemberAttribute[])propertyInfo.GetCustomAttributes(typeof(DataMemberAttribute), false);
                         if (dms != null && dms.Length != 0)
@@ -207,22 +186,39 @@ namespace CDTag.Common.Json
                     }
                     else
                     {
-                        if (propertyType == typeof(int))
+                        if (propertyType == typeof(int) || propertyType == typeof(int?))
                             newValue = int.Parse(value);
-                        else if (propertyType == typeof(long))
+                        else if (propertyType == typeof(short) || propertyType == typeof(short?))
+                            newValue = short.Parse(value);
+                        else if (propertyType == typeof(long) || propertyType == typeof(long?))
                             newValue = long.Parse(value);
-                        else if (propertyType == typeof(double))
+                        else if (propertyType == typeof(uint) || propertyType == typeof(uint?))
+                            newValue = uint.Parse(value);
+                        else if (propertyType == typeof(ushort) || propertyType == typeof(ushort?))
+                            newValue = ushort.Parse(value);
+                        else if (propertyType == typeof(ulong) || propertyType == typeof(ulong?))
+                            newValue = ulong.Parse(value);
+                        else if (propertyType == typeof(float) || propertyType == typeof(float?))
+                            newValue = float.Parse(value);
+                        else if (propertyType == typeof(double) || propertyType == typeof(double?))
                             newValue = double.Parse(value);
-                        else if (propertyType == typeof(decimal))
+                        else if (propertyType == typeof(decimal) || propertyType == typeof(decimal?))
                             newValue = decimal.Parse(value);
-                        else if (propertyType == typeof(bool))
-                            newValue = bool.Parse(value);
+                        else if (propertyType == typeof(bool) || propertyType == typeof(bool?))
+                        {
+                            if (value == "0")
+                                newValue = false;
+                            else if (value == "1")
+                                newValue = true;
+                            else
+                                newValue = bool.Parse(value);
+                        }
                         else if (propertyType == typeof(string))
                             newValue = value;
-                        else if (propertyType == typeof(DateTime))
+                        else if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
                             newValue = DateTime.Parse(value);
                         else
-                            throw new JsonInvalidDataException(string.Format("Unsupport type '{0}'. Property '{1}' on '{2}'.", propertyType, propertyName, expectedType), json, i);
+                            throw new JsonInvalidDataException(string.Format("Unsupported type '{0}'. Property '{1}' on '{2}'.", propertyType, propertyName, expectedType), json, i);
                     }
 
                     setMethodInvoke(returnValue, new[] { newValue });
@@ -232,7 +228,7 @@ namespace CDTag.Common.Json
                     object value = ParseClass(propertyType, json, ref i);
 
                     setMethodInvoke(returnValue, new[] { value });
-                    
+
                     while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n')
                         i++;
                     if (json[i] == ',')
@@ -253,7 +249,7 @@ namespace CDTag.Common.Json
             if (int.TryParse(value, out intValue))
                 hasIntValue = true;
 
-            foreach (var field in elementType.GetFields(BindingFlags.Static | BindingFlags.Public))
+            foreach (var field in elementType.GetFields(PublicStaticBindingFlags))
             {
                 EnumMemberAttribute[] dms = (EnumMemberAttribute[])field.GetCustomAttributes(typeof(EnumMemberAttribute), false);
                 if (dms != null && dms.Length != 0)
@@ -269,6 +265,16 @@ namespace CDTag.Common.Json
                     object enumValue = field.GetValue(null);
 
                     if (intValue == (int)enumValue)
+                    {
+                        return enumValue;
+                    }
+                }
+                else
+                {
+                    object enumValue = field.GetValue(null);
+                    string enumValueString = enumValue.ToString();
+
+                    if (string.Compare(value, enumValueString, ignoreCase: true) == 0)
                     {
                         return enumValue;
                     }
@@ -301,7 +307,7 @@ namespace CDTag.Common.Json
                 if (json[i] == '\\')
                 {
                     i++;
-                    if (json[i] != '\"')
+                    if (json[i] != '\"' && json[i] != '\\')
                         throw new JsonInvalidDataException(string.Format("Unknown escape character sequence '\\{0}'.", json[i]), json, i);
                 }
 
@@ -316,19 +322,6 @@ namespace CDTag.Common.Json
                 i++;
 
             return value;
-        }
-
-        /// <summary>
-        /// Serializes the object to a JSON string.
-        /// </summary>
-        /// <param name="obj">The object to serialize.</param>
-        /// <returns>The JSON string.</returns>
-        public static string SerializeObject(object obj)
-        {
-            if (obj == null)
-                throw new ArgumentNullException("obj");
-
-            throw new NotImplementedException();
         }
     }
 }

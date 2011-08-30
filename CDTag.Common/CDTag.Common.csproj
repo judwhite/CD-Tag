@@ -74,6 +74,7 @@
     <Compile Include="IViewModelBase.cs" />
     <Compile Include="Json\JsonSerializer.cs" />
     <Compile Include="Json\JsonInvalidDataException.cs" />
+    <Compile Include="Json\JsonSerializer.Serialize.cs" />
     <Compile Include="KeyBindingHelper.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="MouseHelper.cs" />

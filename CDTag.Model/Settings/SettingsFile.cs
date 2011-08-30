@@ -22,7 +22,6 @@ namespace CDTag.Common.Settings
 
             fileName = GetFullFileName(fileName);
 
-            //string json = JsonSerializer.SerializeObject(settings, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
             string json = JsonSerializer.SerializeObject(settings);
 
             using (Stream fileStream = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))

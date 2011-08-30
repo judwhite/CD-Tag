@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Common.Settings;
-using CDTag.Common.Settings.MainWindow;
 using CDTag.FileBrowser.ViewModel;
+using CDTag.Model.Settings.MainWindow;
 using CDTag.ViewModel.Tag;
 using System.Collections.Generic;
 
@@ -52,7 +53,7 @@ namespace CDTag.Views
         {
             // Splitter/InitialDirectory settings
             MainWindowSettings settings = new MainWindowSettings();
-            settings.GridSplitterPosition = tagView.FileExplorer.GridSplitterPosition;
+            settings.GridSplitterPosition = tagView.FileExplorer.GridSplitterPosition.Value;
             settings.Directory = tagView.FileExplorer.DirectoryController.CurrentDirectory;
 
             // Column settings
@@ -60,7 +61,12 @@ namespace CDTag.Views
             foreach (var item in tagView.FileExplorer.GetFileViewColumns())
             {
                 string name = item.GetValue(DataGridUtil.NameProperty).ToString();
-                settings.ColumnSettings.Add(name, new DataGridColumnSettings { Width = item.Width.IsAbsolute ? item.ActualWidth : item.Width, DisplayIndex = item.DisplayIndex });
+                // TODO: Need to account for IsStar, etc in item.Width
+                settings.ColumnSettings.Add(name, new DataGridColumnSettings { 
+                    Width = item.Width.IsAbsolute ? item.ActualWidth : item.Width.Value, 
+                    DisplayIndex = item.DisplayIndex,
+                    IsStar = item.Width.IsAbsolute ? false : true,
+                });
             }
 
             SettingsFile.Save("mainWindow.json", settings);
@@ -84,7 +90,7 @@ namespace CDTag.Views
                 try
                 {
                     // Splitter/InitialDirectory settings
-                    tagView.FileExplorer.GridSplitterPosition = settings.GridSplitterPosition;
+                    tagView.FileExplorer.GridSplitterPosition = new GridLength(settings.GridSplitterPosition);
 
                     IDirectoryController directoryController = tagView.FileExplorer.DirectoryController; // TODO: Need a better way to get this.
                     directoryController.InitialDirectory = settings.Directory;
@@ -99,7 +105,10 @@ namespace CDTag.Views
                         {
                             if (kvp.Key == name)
                             {
-                                column.Width = kvp.Value.Width;
+                                double width = kvp.Value.Width;
+                                bool isStar = kvp.Value.IsStar;
+
+                                column.Width = new DataGridLength(width, isStar ? DataGridLengthUnitType.Star : DataGridLengthUnitType.Pixel);
                                 column.DisplayIndex = kvp.Value.DisplayIndex;
                             }
                         }
