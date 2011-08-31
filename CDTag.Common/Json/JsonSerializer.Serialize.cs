@@ -38,6 +38,7 @@ namespace CDTag.Common.Json
             if (obj == null)
             {
                 json.AppendLine("null");
+                return;
             }
 
             Type classType = obj.GetType();
@@ -96,6 +97,30 @@ namespace CDTag.Common.Json
                 // TODO: Make use of EnumValue attribute
 
                 json.AppendFormat("\"{0}\"", obj);
+            }
+            else if (classType.IsArray)
+            {
+                // TODO
+                json.AppendLine("[");
+
+                IList array = (IList)obj;
+                int count = array.Cast<object>().Count();
+
+                for (int i = 0; i < count; i++)
+                {
+                    object item = array[i];
+
+                    json.Append(new string(' ', indentLevel * IndentSpacing));
+                    SerializeClass(item, json, indentLevel + 1);
+
+                    if (i == count - 1)
+                        json.AppendLine();
+                    else
+                        json.AppendLine(",");
+                }
+
+                json.Append(new string(' ', (indentLevel - 1) * IndentSpacing));
+                json.Append("]");
             }
             else if (classType.IsClass)
             {
