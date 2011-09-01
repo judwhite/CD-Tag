@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Json\JsonSerializerTest.cs" />
     <Compile Include="Json\Model\Address.cs" />
+    <Compile Include="Json\Model\ColorValue.cs" />
     <Compile Include="Json\Model\Person.cs" />
     <Compile Include="Json\Model\PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

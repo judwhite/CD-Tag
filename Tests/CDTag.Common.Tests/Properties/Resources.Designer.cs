@@ -61,6 +61,53 @@ namespace CDTag.Common.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [
+        ///	{
+        ///		color: &quot;red&quot;,
+        ///		value: &quot;#f00&quot;
+        ///	},
+        ///	{
+        ///		color: &quot;green&quot;,
+        ///		value: &quot;#0f0&quot;
+        ///	},
+        ///	{
+        ///		color: &quot;blue&quot;,
+        ///		value: &quot;#00f&quot;
+        ///	},
+        ///	{
+        ///		color: &quot;cyan&quot;,
+        ///		value: &quot;#0ff&quot;
+        ///	},
+        ///	{
+        ///		color: &quot;magenta&quot;,
+        ///		value: &quot;#f0f&quot;
+        ///	},
+        ///	{
+        ///		color: &quot;yellow&quot;,
+        ///		value: &quot;#ff0&quot;
+        ///	},
+        ///	{
+        ///		color: &quot;black&quot;,
+        ///		value: &quot;#000&quot;
+        ///	}
+        ///].
+        /// </summary>
+        internal static string class_array_json {
+            get {
+                return ResourceManager.GetString("class_array_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [ 100, 500, 300, 200, 400 ].
+        /// </summary>
+        internal static string int_array_json {
+            get {
+                return ResourceManager.GetString("int_array_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {
         ///     &quot;firstName&quot;: &quot;John&quot;,
         ///     &quot;lastName&quot;: &quot;Smith&quot;,

@@ -117,6 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="class_array_json" xml:space="preserve">
+    <value>[
+	{
+		color: "red",
+		value: "#f00"
+	},
+	{
+		color: "green",
+		value: "#0f0"
+	},
+	{
+		color: "blue",
+		value: "#00f"
+	},
+	{
+		color: "cyan",
+		value: "#0ff"
+	},
+	{
+		color: "magenta",
+		value: "#f0f"
+	},
+	{
+		color: "yellow",
+		value: "#ff0"
+	},
+	{
+		color: "black",
+		value: "#000"
+	}
+]</value>
+  </data>
+  <data name="int_array_json" xml:space="preserve">
+    <value>[ 100, 500, 300, 200, 400 ]</value>
+  </data>
   <data name="person_json" xml:space="preserve">
     <value>{
      "firstName": "John",
