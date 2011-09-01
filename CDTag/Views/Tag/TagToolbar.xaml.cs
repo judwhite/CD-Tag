@@ -10,7 +10,7 @@ namespace CDTag.Views.Tag
     public partial class TagToolbar : ViewBase
     {
         public TagToolbar()
-            : this(Unity.Resolve<ITagViewModel>())
+            : this(IoC.Resolve<ITagViewModel>())
         {
         }
 
@@ -19,7 +19,7 @@ namespace CDTag.Views.Tag
         {
             InitializeComponent();
 
-            wrenchMenu.GotFocus += delegate { Unity.App.CloseAddressTextBox(); };
+            wrenchMenu.GotFocus += delegate { IoC.Resolve<IApp>().CloseAddressTextBox(); };
         }
     }
 }

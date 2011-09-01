@@ -9,7 +9,7 @@ namespace CDTag.Views.Tag
     public partial class TagMenu : ViewBase
     {
         public TagMenu()
-            : this(Unity.Resolve<ITagViewModel>())
+            : this(IoC.Resolve<ITagViewModel>())
         {
         }
      

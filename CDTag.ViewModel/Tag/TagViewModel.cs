@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Windows;
 using CDTag.Common;
 using CDTag.Events;
 using CDTag.FileBrowser.ViewModel;
@@ -20,19 +19,21 @@ namespace CDTag.ViewModel.Tag
         public TagViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            AboutCommand = new DelegateCommand(() => Unity.App.ShowWindow<IAboutWindow>());
-            ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
-            TagAlbumCommand = new DelegateCommand(() => Unity.App.ShowWindow<ITagAlbumWindow>());
-            EditTagsCommand = new DelegateCommand(() => Unity.App.ShowWindow<IEditTagWindow>());
-            MassTagCommand = new DelegateCommand(() => Unity.App.ShowWindow<IMassTagWindow>());
-            NewProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<INewProfileWindow>());
-            EditProfileCommand = new DelegateCommand(() => Unity.App.ShowWindow<IEditProfileWindow>());
-            SplitCueSheetCommand = new DelegateCommand(() => Unity.App.ShowWindow<ISplitCueWindow>());
-            EncodingInspectorCommand = new DelegateCommand(() => Unity.App.ShowWindow<IEncodingInspectorWindow>());
-            OptionsCommand = new DelegateCommand(() => Unity.App.ShowWindow<IOptionsWindow>());
-            CreateChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<IChecksumWindow>());
-            VerifyChecksumCommand = new DelegateCommand(() => Unity.App.ShowWindow<IChecksumWindow>());
-            VerifyEACLogCommand = new DelegateCommand(() => Unity.App.ShowWindow<IVerifyEACLogWindow>());
+            IApp app = IoC.Resolve<IApp>();
+
+            AboutCommand = new DelegateCommand(() => app.ShowWindow<IAboutWindow>());
+            ExitCommand = new DelegateCommand(() => app.MainWindow.Close());
+            TagAlbumCommand = new DelegateCommand(() => app.ShowWindow<ITagAlbumWindow>());
+            EditTagsCommand = new DelegateCommand(() => app.ShowWindow<IEditTagWindow>());
+            MassTagCommand = new DelegateCommand(() => app.ShowWindow<IMassTagWindow>());
+            NewProfileCommand = new DelegateCommand(() => app.ShowWindow<INewProfileWindow>());
+            EditProfileCommand = new DelegateCommand(() => app.ShowWindow<IEditProfileWindow>());
+            SplitCueSheetCommand = new DelegateCommand(() => app.ShowWindow<ISplitCueWindow>());
+            EncodingInspectorCommand = new DelegateCommand(() => app.ShowWindow<IEncodingInspectorWindow>());
+            OptionsCommand = new DelegateCommand(() => app.ShowWindow<IOptionsWindow>());
+            CreateChecksumCommand = new DelegateCommand(() => app.ShowWindow<IChecksumWindow>());
+            VerifyChecksumCommand = new DelegateCommand(() => app.ShowWindow<IChecksumWindow>());
+            VerifyEACLogCommand = new DelegateCommand(() => app.ShowWindow<IVerifyEACLogWindow>());
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 

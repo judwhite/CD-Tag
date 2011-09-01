@@ -35,7 +35,7 @@ namespace CDTag.Views
         {
             Point p = e.GetPosition(this);
             if (p.Y < -5 && (p.X > ActualWidth - 150 || p.X < 20))
-                Unity.App.CloseAddressTextBox();
+                IoC.Resolve<IApp>().CloseAddressTextBox();
         }
 
         /// <summary>

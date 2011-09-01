@@ -39,7 +39,7 @@ namespace CDTag
             MouseHelper.SetWaitCursor();
             try
             {
-                window = Unity.Resolve<T>();
+                window = IoC.Resolve<T>();
                 window.Owner = MainWindow;
                 var viewModel = window.DataContext as IViewModelBase;
                 if (viewModel != null)
@@ -101,7 +101,7 @@ namespace CDTag
 
         public void CloseAddressTextBox()
         {
-            Unity.Resolve<IEventAggregator>().GetEvent<CloseAddressTextBoxEvent>().Publish(null);
+            IoC.Resolve<IEventAggregator>().GetEvent<CloseAddressTextBoxEvent>().Publish(null);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace CDTag.Views.Tag
         private readonly TagToolbar _tagToolbar;
 
         public TagView()
-            : this(Unity.Resolve<ITagViewModel>())
+            : this(IoC.Resolve<ITagViewModel>())
         {
         }
 
@@ -25,7 +25,7 @@ namespace CDTag.Views.Tag
         {
             InitializeComponent();
 
-            _tagToolbar = Unity.Resolve<TagToolbar>();
+            _tagToolbar = IoC.Resolve<TagToolbar>();
             FileExplorer.Toolbar = _tagToolbar;
             FileExplorer.PreviewMouseDown += FileExplorer_PreviewMouseDown;
 
@@ -37,7 +37,7 @@ namespace CDTag.Views.Tag
         {
             Menu menu = Mouse.Captured as Menu;
             if (menu == null)
-                Unity.App.CloseAddressTextBox();
+                IoC.Resolve<IApp>().CloseAddressTextBox();
         }
 
         public TagToolbar TagToolbar

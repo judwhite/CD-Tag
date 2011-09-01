@@ -6,17 +6,18 @@ using System.Reflection;
 namespace CDTag.Common
 {
     /// <summary>
-    /// Type/Instance Container
+    /// Inversion of Control
     /// </summary>
-    public class Container
+    public static class IoC
     {
-        private readonly Dictionary<Type, ConstructorInfo> _types = new Dictionary<Type, ConstructorInfo>();
-        private readonly Dictionary<Type, object> _instances = new Dictionary<Type, object>();
+        private static readonly Dictionary<Type, ConstructorInfo> _types = new Dictionary<Type, ConstructorInfo>();
+        private static readonly Dictionary<Type, object> _instances = new Dictionary<Type, object>();
+        private static readonly object _locker = new object();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Container"/> class.
+        /// Initializes the <see cref="IoC"/> class.
         /// </summary>
-        public Container()
+        static IoC()
         {
             RegisterInstance<IEventAggregator>(new EventAggregator());
         }
@@ -26,9 +27,12 @@ namespace CDTag.Common
         /// </summary>
         /// <typeparam name="T">The type.</typeparam>
         /// <param name="instance">The instance.</param>
-        public void RegisterInstance<T>(object instance)
+        public static void RegisterInstance<T>(object instance)
         {
-            _instances.Add(typeof(T), instance);
+            lock (_locker)
+            {
+                _instances.Add(typeof (T), instance);
+            }
         }
 
         /// <summary>
@@ -36,9 +40,12 @@ namespace CDTag.Common
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="instance">The instance.</param>
-        public void RegisterInstance(Type type, object instance)
+        public static void RegisterInstance(Type type, object instance)
         {
-            _instances.Add(type, instance);
+            lock (_locker)
+            {
+                _instances.Add(type, instance);
+            }
         }
 
         /// <summary>
@@ -46,7 +53,7 @@ namespace CDTag.Common
         /// </summary>
         /// <typeparam name="TInterface">The type of the interface.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
-        public void RegisterType<TInterface, TImplementation>()
+        public static void RegisterType<TInterface, TImplementation>()
             where TImplementation : TInterface
         {
             RegisterType(typeof(TInterface), typeof(TImplementation));
@@ -57,7 +64,7 @@ namespace CDTag.Common
         /// </summary>
         /// <param name="interfaceType">Type of the interface.</param>
         /// <param name="implementationType">Type of the implementation.</param>
-        public void RegisterType(Type interfaceType, Type implementationType)
+        public static void RegisterType(Type interfaceType, Type implementationType)
         {
             ConstructorInfo[] ctors = implementationType.GetConstructors();
             if (ctors.Length != 1)
@@ -66,7 +73,11 @@ namespace CDTag.Common
                 if (ctors.Length != 1)
                     throw new Exception(string.Format("Type '{0}' must contain only one public constructor.", implementationType));
             }
-            _types.Add(interfaceType, ctors[0]);
+
+            lock (_locker)
+            {
+                _types.Add(interfaceType, ctors[0]);
+            }
         }
 
         /// <summary>
@@ -74,31 +85,34 @@ namespace CDTag.Common
         /// </summary>
         /// <typeparam name="T">The type to resolve.</typeparam>
         /// <returns>An instance of the type.</returns>
-        public T Resolve<T>()
+        public static T Resolve<T>()
         {
             return (T)Resolve(typeof(T));
         }
 
-        private object Resolve(Type interfaceType)
+        private static object Resolve(Type interfaceType)
         {
-            if (_instances.ContainsKey(interfaceType))
-                return _instances[interfaceType];
-
-            if (_types.ContainsKey(interfaceType))
+            lock (_locker)
             {
-                ConstructorInfo ctor = _types[interfaceType];
-                ParameterInfo[] parameters = ctor.GetParameters();
-                if (parameters == null || parameters.Length == 0)
-                    return ctor.Invoke(null);
+                if (_instances.ContainsKey(interfaceType))
+                    return _instances[interfaceType];
 
-                object[] paramValues = new object[parameters.Length];
-                for (int i = 0; i < parameters.Length; i++)
+                if (_types.ContainsKey(interfaceType))
                 {
-                    ParameterInfo parameter = parameters[i];
-                    paramValues[i] = Resolve(parameter.ParameterType);
-                }
+                    ConstructorInfo ctor = _types[interfaceType];
+                    ParameterInfo[] parameters = ctor.GetParameters();
+                    if (parameters == null || parameters.Length == 0)
+                        return ctor.Invoke(null);
 
-                return ctor.Invoke(paramValues);
+                    object[] paramValues = new object[parameters.Length];
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        ParameterInfo parameter = parameters[i];
+                        paramValues[i] = Resolve(parameter.ParameterType);
+                    }
+
+                    return ctor.Invoke(paramValues);
+                }
             }
 
             if (interfaceType.IsClass)

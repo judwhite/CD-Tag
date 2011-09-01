@@ -35,13 +35,6 @@ namespace CDTag
 {
     public class Bootstrapper
     {
-        public Container Container { get; set; }
-
-        public Bootstrapper()
-        {
-            Container = new Container();
-        }
-
         public void Run()
         {
             ConfigureContainer();
@@ -51,42 +44,40 @@ namespace CDTag
         protected void ConfigureContainer()
         {
             // Instances
-            Container.RegisterInstance<IApp>(Application.Current);
-            Container.RegisterInstance<ITagViewModel>(Container.Resolve<TagViewModel>());
+            IoC.RegisterInstance<IApp>(Application.Current);
+            IoC.RegisterInstance<ITagViewModel>(IoC.Resolve<TagViewModel>());
 
             // Views
-            Container.RegisterType<IAboutWindow, AboutWindow>();
-            Container.RegisterType<IEditTagWindow, ID3v2Window>();
-            Container.RegisterType<ITagAlbumWindow, TagAlbumWindow>();
-            Container.RegisterType<IMassTagWindow, MassTagWindow>();
-            Container.RegisterType<IEditProfileWindow, EditProfileWindow>();
-            Container.RegisterType<INewProfileWindow, NewProfileWindow>();
-            Container.RegisterType<ISplitCueWindow, SplitCueWindow>();
-            Container.RegisterType<IEncodingInspectorWindow, EncodingInspectorWindow>();
-            Container.RegisterType<IOptionsWindow, OptionsWindow>();
-            Container.RegisterType<IChecksumWindow, ChecksumWindow>();
-            Container.RegisterType<IVerifyEACLogWindow, VerifyEACLogWindow>();
+            IoC.RegisterType<IAboutWindow, AboutWindow>();
+            IoC.RegisterType<IEditTagWindow, ID3v2Window>();
+            IoC.RegisterType<ITagAlbumWindow, TagAlbumWindow>();
+            IoC.RegisterType<IMassTagWindow, MassTagWindow>();
+            IoC.RegisterType<IEditProfileWindow, EditProfileWindow>();
+            IoC.RegisterType<INewProfileWindow, NewProfileWindow>();
+            IoC.RegisterType<ISplitCueWindow, SplitCueWindow>();
+            IoC.RegisterType<IEncodingInspectorWindow, EncodingInspectorWindow>();
+            IoC.RegisterType<IOptionsWindow, OptionsWindow>();
+            IoC.RegisterType<IChecksumWindow, ChecksumWindow>();
+            IoC.RegisterType<IVerifyEACLogWindow, VerifyEACLogWindow>();
 
             // View models
-            Container.RegisterType<IDirectoryController, DirectoryController>();
-            Container.RegisterType<IAboutViewModel, AboutViewModel>();
-            Container.RegisterType<IID3v2ViewModel, ID3v2ViewModel>();
-            Container.RegisterType<ITagAlbumViewModel, TagAlbumViewModel>();
-            Container.RegisterType<IMassTagViewModel, MassTagViewModel>();
-            Container.RegisterType<IEditProfileViewModel, EditProfileViewModel>();
-            Container.RegisterType<INewProfileViewModel, NewProfileViewModel>();
-            Container.RegisterType<ISplitCueViewModel, SplitCueViewModel>();
-            Container.RegisterType<IEncodingInspectorViewModel, EncodingInspectorViewModel>();
-            Container.RegisterType<IOptionsViewModel, OptionsViewModel>();
-            Container.RegisterType<IChecksumViewModel, ChecksumViewModel>();
-            Container.RegisterType<IVerifyEACLogViewModel, VerifyEACLogViewModel>();
-
-            Unity.Container = Container;
+            IoC.RegisterType<IDirectoryController, DirectoryController>();
+            IoC.RegisterType<IAboutViewModel, AboutViewModel>();
+            IoC.RegisterType<IID3v2ViewModel, ID3v2ViewModel>();
+            IoC.RegisterType<ITagAlbumViewModel, TagAlbumViewModel>();
+            IoC.RegisterType<IMassTagViewModel, MassTagViewModel>();
+            IoC.RegisterType<IEditProfileViewModel, EditProfileViewModel>();
+            IoC.RegisterType<INewProfileViewModel, NewProfileViewModel>();
+            IoC.RegisterType<ISplitCueViewModel, SplitCueViewModel>();
+            IoC.RegisterType<IEncodingInspectorViewModel, EncodingInspectorViewModel>();
+            IoC.RegisterType<IOptionsViewModel, OptionsViewModel>();
+            IoC.RegisterType<IChecksumViewModel, ChecksumViewModel>();
+            IoC.RegisterType<IVerifyEACLogViewModel, VerifyEACLogViewModel>();
         }
 
         protected DependencyObject CreateShell()
         {
-            MainWindow shell = Container.Resolve<MainWindow>();
+            MainWindow shell = IoC.Resolve<MainWindow>();
             shell.Show();
 
             return shell;

@@ -21,7 +21,7 @@ namespace CDTag.FileBrowser.View
         {
             InitializeComponent();
 
-            _directoryController = Unity.Resolve<IDirectoryController>();
+            _directoryController = IoC.Resolve<IDirectoryController>();
             DataContext = _directoryController;
 
             PreviewMouseDown += FileExplorer_PreviewMouseDown;

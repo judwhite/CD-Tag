@@ -74,9 +74,9 @@ namespace CDTag.Common
         {
             IErrorContainer errorContainer = ErrorContainer;
             if (errorContainer == null)
-                Unity.App.ShowError(exception);
+                IoC.Resolve<IApp>().ShowError(exception);
             else
-                Unity.App.ShowError(exception, errorContainer);
+                IoC.Resolve<IApp>().ShowError(exception, errorContainer);
         }
 
         /// <summary>Occurs when a property value changes.</summary>
