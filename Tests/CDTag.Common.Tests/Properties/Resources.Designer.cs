@@ -99,6 +99,75 @@ namespace CDTag.Common.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {
+        ///	color: &quot;red&quot;,
+        ///	value: &quot;#f00&quot;
+        ///}.
+        /// </summary>
+        internal static string colorvalue_json {
+            get {
+                return ResourceManager.GetString("colorvalue_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///	&quot;items&quot;:
+        ///		{
+        ///			&quot;item&quot;:
+        ///				[
+        ///					{
+        ///						&quot;id&quot;: &quot;0001&quot;,
+        ///						&quot;type&quot;: &quot;donut&quot;,
+        ///						&quot;name&quot;: &quot;Cake&quot;,
+        ///						&quot;ppu&quot;: 0.55,
+        ///						&quot;batters&quot;:
+        ///							{
+        ///								&quot;batter&quot;:
+        ///									[
+        ///										{ &quot;id&quot;: &quot;1001&quot;, &quot;type&quot;: &quot;Regular&quot; },
+        ///										{ &quot;id&quot;: &quot;1002&quot;, &quot;type&quot;: &quot;Chocolate&quot; },
+        ///										{ &quot;id&quot;: &quot;1003&quot;, &quot;type&quot;: &quot;Blueberry&quot; },
+        ///										{ &quot;id&quot;: &quot;1004&quot;, &quot;type&quot;: &quot;Devil&apos;s Food&quot; }
+        ///									]
+        ///							},
+        ///						&quot;topping&quot;:
+        ///							[
+        ///								{ &quot;id&quot;: &quot;5001&quot;, &quot;type&quot;: &quot;None&quot; },
+        ///								{ &quot;id&quot;: &quot;5002&quot;, &quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string donuts_json {
+            get {
+                return ResourceManager.GetString("donuts_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///	&quot;id&quot;: &quot;0001&quot;,
+        ///	&quot;type&quot;: &quot;donut&quot;,
+        ///	&quot;name&quot;: &quot;Cake&quot;,
+        ///	&quot;image&quot;:
+        ///		{
+        ///			&quot;url&quot;: &quot;images/0001.jpg&quot;,
+        ///			&quot;width&quot;: 200,
+        ///			&quot;height&quot;: 200
+        ///		},
+        ///	&quot;thumbnail&quot;:
+        ///		{
+        ///			&quot;url&quot;: &quot;images/thumbnails/0001.jpg&quot;,
+        ///			&quot;width&quot;: 32,
+        ///			&quot;height&quot;: 32
+        ///		}
+        ///}.
+        /// </summary>
+        internal static string image_thumbnail_json {
+            get {
+                return ResourceManager.GetString("image_thumbnail_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [ 100, 500, 300, 200, 400 ].
         /// </summary>
         internal static string int_array_json {
@@ -135,6 +204,67 @@ namespace CDTag.Common.Tests.Properties {
         internal static string person_json {
             get {
                 return ResourceManager.GetString("person_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
+        ///	{
+        ///		&quot;id&quot;: &quot;0001&quot;,
+        ///		&quot;type&quot;: &quot;donut&quot;,
+        ///		&quot;name&quot;: &quot;Cake&quot;,
+        ///		&quot;ppu&quot;: 0.55,
+        ///		&quot;batters&quot;:
+        ///			{
+        ///				&quot;batter&quot;:
+        ///					[
+        ///						{ &quot;id&quot;: &quot;1001&quot;, &quot;type&quot;: &quot;Regular&quot; },
+        ///						{ &quot;id&quot;: &quot;1002&quot;, &quot;type&quot;: &quot;Chocolate&quot; },
+        ///						{ &quot;id&quot;: &quot;1003&quot;, &quot;type&quot;: &quot;Blueberry&quot; },
+        ///						{ &quot;id&quot;: &quot;1004&quot;, &quot;type&quot;: &quot;Devil&apos;s Food&quot; }
+        ///					]
+        ///			},
+        ///		&quot;topping&quot;:
+        ///			[
+        ///				{ &quot;id&quot;: &quot;5001&quot;, &quot;type&quot;: &quot;None&quot; },
+        ///				{ &quot;id&quot;: &quot;5002&quot;, &quot;type&quot;: &quot;Glazed&quot; },
+        ///				{ &quot;id&quot;: &quot;5005&quot;, &quot;type&quot;: &quot;Sugar&quot; },
+        ///				{ &quot;id&quot;: &quot;5007&quot;, &quot;type&quot;: &quot;Powdered Sugar&quot; },
+        ///		 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string recipe_array_json {
+            get {
+                return ResourceManager.GetString("recipe_array_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///	&quot;id&quot;: &quot;0001&quot;,
+        ///	&quot;type&quot;: &quot;donut&quot;,
+        ///	&quot;name&quot;: &quot;Cake&quot;,
+        ///	&quot;ppu&quot;: 0.55,
+        ///	&quot;batters&quot;:
+        ///		{
+        ///			&quot;batter&quot;:
+        ///				[
+        ///					{ &quot;id&quot;: &quot;1001&quot;, &quot;type&quot;: &quot;Regular&quot; },
+        ///					{ &quot;id&quot;: &quot;1002&quot;, &quot;type&quot;: &quot;Chocolate&quot; },
+        ///					{ &quot;id&quot;: &quot;1003&quot;, &quot;type&quot;: &quot;Blueberry&quot; },
+        ///					{ &quot;id&quot;: &quot;1004&quot;, &quot;type&quot;: &quot;Devil&apos;s Food&quot; }
+        ///				]
+        ///		},
+        ///	&quot;topping&quot;:
+        ///		[
+        ///			{ &quot;id&quot;: &quot;5001&quot;, &quot;type&quot;: &quot;None&quot; },
+        ///			{ &quot;id&quot;: &quot;5002&quot;, &quot;type&quot;: &quot;Glazed&quot; },
+        ///			{ &quot;id&quot;: &quot;5005&quot;, &quot;type&quot;: &quot;Sugar&quot; },
+        ///			{ &quot;id&quot;: &quot;5007&quot;, &quot;type&quot;: &quot;Powdered Sugar&quot; },
+        ///			{ &quot;id&quot;: &quot;5006&quot;, &quot;type&quot;: [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string recipe_json {
+            get {
+                return ResourceManager.GetString("recipe_json", resourceCulture);
             }
         }
     }

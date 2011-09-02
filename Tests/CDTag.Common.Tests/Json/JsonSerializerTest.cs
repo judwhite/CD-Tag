@@ -10,6 +10,46 @@ namespace CDTag.Common.Tests.Json
     public class JsonSerializerTest
     {
         [Test]
+        public void DeserializeClass()
+        {
+            ColorValue colorValue = JsonSerializer.ReadObject<ColorValue>(Properties.Resources.colorvalue_json);
+
+            // TODO: Assert
+        }
+
+        [Test]
+        public void DeserializeNested()
+        {
+            Recipe recipe = JsonSerializer.ReadObject<Recipe>(Properties.Resources.recipe_json);
+
+            // TODO: Assert
+        }
+
+        [Test]
+        public void DeserializeArrayOfClasses()
+        {
+            Recipe[] recipes = JsonSerializer.ReadObject<Recipe[]>(Properties.Resources.recipe_array_json);
+
+            // TODO: Assert
+        }
+
+        [Test]
+        public void DeserializeClass2()
+        {
+            Recipe recipe = JsonSerializer.ReadObject<Recipe>(Properties.Resources.image_thumbnail_json);
+
+            // TODO: Assert
+        }
+
+        [Test]
+        public void DeserializeLargeNested()
+        {
+            RecipeBook book = JsonSerializer.ReadObject<RecipeBook>(Properties.Resources.donuts_json);
+
+            // TODO: Assert
+        }
+
+        [Test]
         public void DeserializeIntArray()
         {
             int[] intArray = JsonSerializer.ReadObject<int[]>(Properties.Resources.int_array_json);
