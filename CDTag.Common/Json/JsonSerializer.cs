@@ -51,7 +51,15 @@ namespace CDTag.Common.Json
         private static object ParseArray(Type expectedType, string json, ref int i)
         {
             if (json[i] != '[')
+            {
+                if (json.Substring(i, 4) == "null")
+                {
+                    i += 4;
+                    return null;
+                }
+
                 throw new JsonInvalidDataException("'[' expected", json, i);
+            }
 
             i++;
 
@@ -104,7 +112,15 @@ namespace CDTag.Common.Json
         private static object ParseClass(Type expectedType, string json, ref int i)
         {
             if (json[i] != '{' && json[i] != '[')
+            {
+                if (json.Substring(i, 4) == "null")
+                {
+                    i += 4;
+                    return null;
+                }
+
                 throw new JsonInvalidDataException("'{' or '[' expected", json, i);
+            }
 
             if (json[i] == '[')
                 return ParseArray(expectedType, json, ref i);
@@ -358,7 +374,7 @@ namespace CDTag.Common.Json
             if (json[i] == ',')
                 i++;
 
-            return value;
+            return value == "null" ? null : value;
         }
     }
 }

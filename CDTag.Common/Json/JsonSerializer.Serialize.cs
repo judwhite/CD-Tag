@@ -37,7 +37,7 @@ namespace CDTag.Common.Json
 
             if (obj == null)
             {
-                json.AppendLine("null");
+                json.Append("null");
                 return;
             }
 
