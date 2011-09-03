@@ -53,7 +53,7 @@ namespace CDTag.Common.Json
                     string key = keys[i];
 
                     json.Append(new string(' ', indentLevel * IndentSpacing));
-                    json.Append(string.Format("\"{0}\": ", key.Replace("\"", "\\\"")));
+                    json.Append(string.Format("\"{0}\": ", key.Replace("\\", "\\\\").Replace("\"", "\\\"")));
                     SerializeClass(dict[key], json, indentLevel + 1);
                     if (i == keys.Length - 1)
                         json.AppendLine();
@@ -66,7 +66,7 @@ namespace CDTag.Common.Json
             }
             else if (obj is string)
             {
-                json.Append(string.Format("\"{0}\"", ((string)obj).Replace("\"", "\\\"").Replace("\\", "\\\\")));
+                json.Append(string.Format("\"{0}\"", ((string)obj).Replace("\\", "\\\\").Replace("\"", "\\\"")));
             }
             else if (
                 obj is int || obj is int? ||

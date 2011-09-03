@@ -41,6 +41,7 @@
     <Compile Include="Json\JsonSerializerTest.cs" />
     <Compile Include="Json\Model\Address.cs" />
     <Compile Include="Json\Model\BatterItems.cs" />
+    <Compile Include="Json\Model\EveryType.cs" />
     <Compile Include="Json\Model\Filling.cs" />
     <Compile Include="Json\Model\FillingItems.cs" />
     <Compile Include="Json\Model\Image.cs" />

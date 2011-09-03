@@ -5,7 +5,6 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Windows;
 
 namespace CDTag.Common.Json
 {
@@ -142,7 +141,7 @@ namespace CDTag.Common.Json
                 while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n' || json[i] == '\t')
                     i++;
                 string propertyName = GetValue(json, ref i);
-                
+
                 if (json[i++] != ':')
                     throw new JsonInvalidDataException("':' expected", json, i - 1);
                 while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n' || json[i] == '\t')
@@ -335,6 +334,9 @@ namespace CDTag.Common.Json
 
         private static string GetValue(string json, ref int i)
         {
+            while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n' || json[i] == '\t')
+                i++;
+
             bool isQuoted = (json[i] == '"');
             if (isQuoted)
                 i++;
@@ -355,6 +357,8 @@ namespace CDTag.Common.Json
                 if (json[i] == ']' && !isQuoted)
                     break;
                 if (json[i] == ':' && !isQuoted)
+                    break;
+                if ((json[i] == '\r' || json[i] == '\n') && !isQuoted)
                     break;
 
                 if (json[i] == '\\')
