@@ -5,10 +5,82 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CDTag.Views" 
     Title="New Profile" 
-    Height="300" 
-    Width="300"
+    MinHeight="500" 
+    MinWidth="600"
 >
-    <Grid>
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Name profile -->
+            <Grid Grid.Row="1" HorizontalAlignment="Center" Visibility="{Binding PageIndex, Converter={StaticResource IsEqualToVisibilityConverter}, ConverterParameter=0}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Name your profile" />
+                <TextBox Grid.Row="1" Text="{Binding ProfileName, Mode=TwoWay}" Width="350" Margin="0,8,0,16" />
+                <CheckBox Grid.Row="2" Content="Create NFO when _tagging an album" Margin="0,0,0,2" IsChecked="{Binding CreateNFO, Mode=TwoWay}" VerticalContentAlignment="Center" HorizontalAlignment="Left" />
+                <RadioButton Grid.Row="3" Content="Create a _sample NFO for me" Margin="16,2,0,2" IsChecked="{Binding CreateSampleNFO, Mode=TwoWay}" IsEnabled="{Binding CreateNFO, Mode=OneWay}" HorizontalAlignment="Left" />
+                <RadioButton Grid.Row="4" Content="I already _have an NFO ready" Margin="16,2,0,2" IsChecked="{Binding HasExistingNFO, Mode=TwoWay}" IsEnabled="{Binding CreateNFO, Mode=OneWay}" HorizontalAlignment="Left" />
+            </Grid>
+
+            <!-- File/directory naming -->
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{Binding PageIndex, Converter={StaticResource IsEqualToVisibilityConverter}, ConverterParameter=1}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.05*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.05*" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="Directory" Margin="0,2" />
+                <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" Height="150" Margin="0,2" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="Audio files" Margin="0,8,0,2" />
+                <DataGrid Grid.Row="3" Grid.Column="1" AutoGenerateColumns="False" Height="120" Margin="0,2" />
+                <CheckBox Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" Content="Use _underscores instead of spaces" IsChecked="{Binding UseUnderscores, Mode=TwoWay}" Margin="0,8,0,2" HorizontalAlignment="Left" />
+                <CheckBox Grid.Row="5" Grid.Column="1" VerticalContentAlignment="Center" Content="Only _allow characters A-Z a-z 0-9 - _ . ()" IsChecked="{Binding UseStandardCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />
+                <CheckBox Grid.Row="6" Grid.Column="1" VerticalContentAlignment="Center" Content="Convert _regional characters to A-Z" IsChecked="{Binding UseLatinCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />
+            </Grid>
+            
+        </Grid>
         
+        <Path Grid.Row="1" Data="M0,0 L1,0" Stroke="#CCCCCC" Stretch="Fill" Margin="0,8" />
+
+        <Grid Grid.Row="2" Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" MinWidth="80" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" MinWidth="80" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" MinWidth="80" />
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0" Content="_Cancel" IsCancel="True" Padding="7,2" Margin="0,0,8,0" />
+            
+            <Button Grid.Column="2" Content="_Previous" Padding="7,2" Margin="8,0,0,0" Command="{Binding PreviousCommand}" />
+            <Button Grid.Column="3" Content="_Next" Padding="7,2" Margin="8,0,0,0" Command="{Binding NextCommand}" />
+        </Grid>
     </Grid>
 </Views:WindowViewBase>

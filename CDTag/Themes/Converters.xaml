@@ -17,5 +17,6 @@
     <Converters:NotNullToBoolConverter x:Key="NotNullToBoolConverter" />
     <Converters:ID3v1GenreIndexToTextConverter x:Key="ID3v1GenreIndexToTextConverter" />
     <General:MultiplicationConverter x:Key="MultiplicationConverter" />
+    <General:IsEqualToVisibilityConverter x:Key="IsEqualToVisibilityConverter" />
 
 </ResourceDictionary>
