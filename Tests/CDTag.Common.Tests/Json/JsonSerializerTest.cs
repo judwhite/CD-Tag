@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using CDTag.Common.Json;
 using CDTag.Common.Tests.Json.Model;
 using NUnit.Framework;
@@ -704,93 +706,136 @@ namespace CDTag.Common.Tests.Json
         }
 
         [Test]
-        public void EveryType()
+        public void EveryType_String()
         {
-            // TODO: Test nullable types
-
             // Arrange
-            EveryType obj = new EveryType
-            {
-                String = "Hello \"World\"!",
-                Int16 = 2,
-                UInt16 = UInt16.MaxValue,
-                Int32 = -5,
-                UInt32 = 42,
-                Int64 = 99,
-                UInt64 = 9234032984,
-                Single = 0.5f,
-                Double = 4.5d,
-                Decimal = 9.9m,
-                StringArray = new[] { "Hello", "\"World\"", ",testing," },
-                Int16Array = new short[] { 3, 4, 5 },
-                UInt16Array = new ushort[] { 1, 2, 9 },
-                Int32Array = new[] { -1, -8, -7, 0, 1 },
-                UInt32Array = new uint[] { 7, 8, 9 },
-                Int64Array = new long[] { -1232384, 120989123, -1293813 },
-                UInt64Array = new ulong[] { 239874, 982347, 9237489 },
-                SingleArray = new[] { 1.1f, -2.2f, 3.3f },
-                DoubleArray = new[] { 4.4d, -5.5d, 6.6d },
-                DecimalArray = new[] { 0.12345678m, 123123.123123m, -129380.12313m },
-                StringDictionary = new Dictionary<string, string>(),
-                Int16Dictionary = new Dictionary<string, short>(),
-                UInt16Dictionary = new Dictionary<string, ushort>(),
-                Int32Dictionary = new Dictionary<string, int>(),
-                UInt32Dictionary = new Dictionary<string, uint>(),
-                Int64Dictionary = new Dictionary<string, long>(),
-                UInt64Dictionary = new Dictionary<string, ulong>(),
-                SingleDictionary = new Dictionary<string, float>(),
-                DoubleDictionary = new Dictionary<string, double>(),
-                DecimalDictionary = new Dictionary<string, decimal>(),
-                Enum = TestEnum.Two,
-                EnumArray = new[] { TestEnum.One, TestEnum.Three },
-                EnumDictionary = new Dictionary<string, TestEnum>(),
-                Class = new TestClass { Name = "foo" },
-                ClassArray = new[] { new TestClass { Name = "bar" }, new TestClass { Name = "2000" } },
-                ClassDictionary = new Dictionary<string, TestClass>()
-            };
-
-            obj.StringDictionary.Add("one", "hello");
-            obj.StringDictionary.Add("two", "wo\\\"rld]");
-
-            obj.Int16Dictionary.Add("three", -3);
-            obj.Int16Dictionary.Add("four", 4);
-
-            obj.UInt16Dictionary.Add("five", 5123);
-            obj.UInt16Dictionary.Add("six", 13213);
-
-            obj.Int32Dictionary.Add("one", -123);
-            obj.Int32Dictionary.Add("\"", 1234);
-
-            obj.UInt32Dictionary.Add("asdf", 4444445);
-            obj.UInt32Dictionary.Add("\\", 555);
-
-            obj.Int64Dictionary.Add("'", 109823424);
-            obj.Int64Dictionary.Add("\"\"", 8972234);
-
-            obj.UInt64Dictionary.Add("one", 982374987234);
-            obj.UInt64Dictionary.Add("two", 823982748234);
-
-            obj.SingleDictionary.Add("uno", 0.543f);
-            obj.SingleDictionary.Add("dos", -0.599f);
-
-            obj.DoubleDictionary.Add("three", 9.999d);
-            obj.DoubleDictionary.Add("four", -99.999d);
-
-            obj.DecimalDictionary.Add("five", 1231313.12313123m);
-            obj.DecimalDictionary.Add("six", -2908234.23847924m);
-
-            obj.EnumDictionary.Add("[]", TestEnum.Three);
-            obj.EnumDictionary.Add("][", TestEnum.One);
-            obj.EnumDictionary.Add("abc", TestEnum.Two);
-            obj.EnumDictionary.Add("xyz", TestEnum.One);
-
-            obj.ClassDictionary.Add("class1", new TestClass { Name = "name 1" });
-            obj.ClassDictionary.Add("class2", new TestClass { Name = "{}[]\"\\" });
+            EveryType obj = ArrangeEveryType();
 
             // Act
             string json = JsonSerializer.SerializeObject(obj);
             EveryType newEveryType = JsonSerializer.ReadObject<EveryType>(json);
 
+            // Assert
+            AssertEveryType(obj, newEveryType);
+        }
+
+        [Test]
+        public void EveryType_Stream()
+        {
+            // Arrange
+            EveryType obj = ArrangeEveryType();
+
+            // Act
+            string json = JsonSerializer.SerializeObject(obj);
+            EveryType newEveryType;
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+            {
+                newEveryType = JsonSerializer.ReadObject<EveryType>(stream);
+            }
+
+            // Assert
+            AssertEveryType(obj, newEveryType);
+        }
+
+        private static EveryType ArrangeEveryType()
+        {
+            // Arrange
+            EveryType everyType = new EveryType
+                                {
+                                    String = "Hello \"World\"!",
+                                    NullString = null,
+                                    Boolean = true,
+                                    DateTime = new DateTime(2004, 3, 2),
+                                    Int16 = 2,
+                                    UInt16 = UInt16.MaxValue,
+                                    Int32 = -5,
+                                    UInt32 = 42,
+                                    Int64 = 99,
+                                    UInt64 = 9234032984,
+                                    Single = 0.5f,
+                                    Double = 4.5d,
+                                    Decimal = 9.9m,
+                                    BooleanArray = new[] { true, true, false, true, false },
+                                    DateTimeArray = new[] { new DateTime(2011, 6, 29), new DateTime(1776, 7, 4) },
+                                    StringArray = new[] { "Hello", "\"World\"", ",testing,", null },
+                                    Int16Array = new short[] { 3, 4, 5 },
+                                    UInt16Array = new ushort[] { 1, 2, 9 },
+                                    Int32Array = new[] { -1, -8, -7, 0, 1 },
+                                    UInt32Array = new uint[] { 7, 8, 9 },
+                                    Int64Array = new long[] { -1232384, 120989123, -1293813 },
+                                    UInt64Array = new ulong[] { 239874, 982347, 9237489 },
+                                    SingleArray = new[] { 1.1f, -2.2f, 3.3f },
+                                    DoubleArray = new[] { 4.4d, -5.5d, 6.6d },
+                                    DecimalArray = new[] { 0.12345678m, 123123.123123m, -129380.12313m },
+                                    BooleanDictionary = new Dictionary<string,bool>(),
+                                    DateTimeDictionary = new Dictionary<string,DateTime>(),
+                                    StringDictionary = new Dictionary<string, string>(),
+                                    Int16Dictionary = new Dictionary<string, short>(),
+                                    UInt16Dictionary = new Dictionary<string, ushort>(),
+                                    Int32Dictionary = new Dictionary<string, int>(),
+                                    UInt32Dictionary = new Dictionary<string, uint>(),
+                                    Int64Dictionary = new Dictionary<string, long>(),
+                                    UInt64Dictionary = new Dictionary<string, ulong>(),
+                                    SingleDictionary = new Dictionary<string, float>(),
+                                    DoubleDictionary = new Dictionary<string, double>(),
+                                    DecimalDictionary = new Dictionary<string, decimal>(),
+                                    Enum = TestEnum.Two,
+                                    EnumArray = new[] { TestEnum.One, TestEnum.Three },
+                                    EnumDictionary = new Dictionary<string, TestEnum>(),
+                                    Class = new TestClass { Name = "foo" },
+                                    ClassArray = new[] { new TestClass { Name = "bar" }, new TestClass { Name = "2000" } },
+                                    ClassDictionary = new Dictionary<string, TestClass>()
+                                };
+
+            everyType.BooleanDictionary.Add("isPassing", true);
+            everyType.BooleanDictionary.Add("isFailing", false);
+
+            everyType.DateTimeDictionary.Add("anniversary", new DateTime(2008, 11, 1));
+            everyType.DateTimeDictionary.Add("herBirthday", new DateTime(1980, 2, 6));
+
+            everyType.StringDictionary.Add("one", "hello");
+            everyType.StringDictionary.Add("two", "wo\\\"rld]");
+
+            everyType.Int16Dictionary.Add("three", -3);
+            everyType.Int16Dictionary.Add("four", 4);
+
+            everyType.UInt16Dictionary.Add("five", 5123);
+            everyType.UInt16Dictionary.Add("six", 13213);
+
+            everyType.Int32Dictionary.Add("one", -123);
+            everyType.Int32Dictionary.Add("\"", 1234);
+
+            everyType.UInt32Dictionary.Add("asdf", 4444445);
+            everyType.UInt32Dictionary.Add("\\", 555);
+
+            everyType.Int64Dictionary.Add("'", 109823424);
+            everyType.Int64Dictionary.Add("\"\"", 8972234);
+
+            everyType.UInt64Dictionary.Add("one", 982374987234);
+            everyType.UInt64Dictionary.Add("two", 823982748234);
+
+            everyType.SingleDictionary.Add("uno", 0.543f);
+            everyType.SingleDictionary.Add("dos", -0.599f);
+
+            everyType.DoubleDictionary.Add("three", 9.999d);
+            everyType.DoubleDictionary.Add("four", -99.999d);
+
+            everyType.DecimalDictionary.Add("five", 1231313.12313123m);
+            everyType.DecimalDictionary.Add("six", -2908234.23847924m);
+
+            everyType.EnumDictionary.Add("[]", TestEnum.Three);
+            everyType.EnumDictionary.Add("][", TestEnum.One);
+            everyType.EnumDictionary.Add("abc", TestEnum.Two);
+            everyType.EnumDictionary.Add("xyz", TestEnum.One);
+
+            everyType.ClassDictionary.Add("class1", new TestClass { Name = "name 1" });
+            everyType.ClassDictionary.Add("class2", new TestClass { Name = "{}[]\"\\" });
+
+            return everyType;
+        }
+
+        private static void AssertEveryType(EveryType oldEveryType, EveryType newEveryType)
+        {
             // Assert
             Assert.IsNotNull(newEveryType);
 
@@ -820,139 +865,162 @@ namespace CDTag.Common.Tests.Json
             Assert.IsNotNull(newEveryType.ClassArray);
             Assert.IsNotNull(newEveryType.ClassDictionary);
 
-            Assert.AreEqual(obj.String, newEveryType.String);
-            Assert.AreEqual(obj.Int16, newEveryType.Int16);
-            Assert.AreEqual(obj.UInt16, newEveryType.UInt16);
-            Assert.AreEqual(obj.Int32, newEveryType.Int32);
-            Assert.AreEqual(obj.UInt32, newEveryType.UInt32);
-            Assert.AreEqual(obj.Int64, newEveryType.Int64);
-            Assert.AreEqual(obj.UInt64, newEveryType.UInt64);
-            Assert.AreEqual(obj.Single, newEveryType.Single);
-            Assert.AreEqual(obj.Double, newEveryType.Double);
-            Assert.AreEqual(obj.Decimal, newEveryType.Decimal);
-            Assert.AreEqual(obj.Enum, newEveryType.Enum);
+            Assert.AreEqual(oldEveryType.String, newEveryType.String);
+            Assert.IsNull(newEveryType.NullString);
+            Assert.AreEqual(oldEveryType.Boolean, newEveryType.Boolean);
+            Assert.AreEqual(oldEveryType.DateTime, newEveryType.DateTime);
+            Assert.AreEqual(oldEveryType.Int16, newEveryType.Int16);
+            Assert.AreEqual(oldEveryType.UInt16, newEveryType.UInt16);
+            Assert.AreEqual(oldEveryType.Int32, newEveryType.Int32);
+            Assert.AreEqual(oldEveryType.UInt32, newEveryType.UInt32);
+            Assert.AreEqual(oldEveryType.Int64, newEveryType.Int64);
+            Assert.AreEqual(oldEveryType.UInt64, newEveryType.UInt64);
+            Assert.AreEqual(oldEveryType.Single, newEveryType.Single);
+            Assert.AreEqual(oldEveryType.Double, newEveryType.Double);
+            Assert.AreEqual(oldEveryType.Decimal, newEveryType.Decimal);
+            Assert.AreEqual(oldEveryType.Enum, newEveryType.Enum);
 
-            Assert.AreEqual(obj.Class.Name, newEveryType.Class.Name);
+            Assert.AreEqual(oldEveryType.Class.Name, newEveryType.Class.Name);
 
-            Assert.AreEqual(obj.StringDictionary.Count, newEveryType.StringDictionary.Count);
-            foreach (var kvp in obj.StringDictionary)
+            Assert.AreEqual(oldEveryType.BooleanDictionary.Count, newEveryType.BooleanDictionary.Count);
+            foreach (var kvp in oldEveryType.BooleanDictionary)
+            {
+                Assert.AreEqual(kvp.Value, newEveryType.BooleanDictionary[kvp.Key]);
+            }
+
+            Assert.AreEqual(oldEveryType.DateTimeDictionary.Count, newEveryType.DateTimeDictionary.Count);
+            foreach (var kvp in oldEveryType.DateTimeDictionary)
+            {
+                Assert.AreEqual(kvp.Value, newEveryType.DateTimeDictionary[kvp.Key]);
+            }
+
+            Assert.AreEqual(oldEveryType.StringDictionary.Count, newEveryType.StringDictionary.Count);
+            foreach (var kvp in oldEveryType.StringDictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.StringDictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.Int16Dictionary.Count, newEveryType.Int16Dictionary.Count);
-            foreach (var kvp in obj.Int16Dictionary)
+            Assert.AreEqual(oldEveryType.Int16Dictionary.Count, newEveryType.Int16Dictionary.Count);
+            foreach (var kvp in oldEveryType.Int16Dictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.Int16Dictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.UInt16Dictionary.Count, newEveryType.UInt16Dictionary.Count);
-            foreach (var kvp in obj.UInt16Dictionary)
+            Assert.AreEqual(oldEveryType.UInt16Dictionary.Count, newEveryType.UInt16Dictionary.Count);
+            foreach (var kvp in oldEveryType.UInt16Dictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.UInt16Dictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.Int32Dictionary.Count, newEveryType.Int32Dictionary.Count);
-            foreach (var kvp in obj.Int32Dictionary)
+            Assert.AreEqual(oldEveryType.Int32Dictionary.Count, newEveryType.Int32Dictionary.Count);
+            foreach (var kvp in oldEveryType.Int32Dictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.Int32Dictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.UInt32Dictionary.Count, newEveryType.UInt32Dictionary.Count);
-            foreach (var kvp in obj.UInt32Dictionary)
+            Assert.AreEqual(oldEveryType.UInt32Dictionary.Count, newEveryType.UInt32Dictionary.Count);
+            foreach (var kvp in oldEveryType.UInt32Dictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.UInt32Dictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.Int64Dictionary.Count, newEveryType.Int64Dictionary.Count);
-            foreach (var kvp in obj.Int64Dictionary)
+            Assert.AreEqual(oldEveryType.Int64Dictionary.Count, newEveryType.Int64Dictionary.Count);
+            foreach (var kvp in oldEveryType.Int64Dictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.Int64Dictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.UInt64Dictionary.Count, newEveryType.UInt64Dictionary.Count);
-            foreach (var kvp in obj.UInt64Dictionary)
+            Assert.AreEqual(oldEveryType.UInt64Dictionary.Count, newEveryType.UInt64Dictionary.Count);
+            foreach (var kvp in oldEveryType.UInt64Dictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.UInt64Dictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.SingleDictionary.Count, newEveryType.SingleDictionary.Count);
-            foreach (var kvp in obj.SingleDictionary)
+            Assert.AreEqual(oldEveryType.SingleDictionary.Count, newEveryType.SingleDictionary.Count);
+            foreach (var kvp in oldEveryType.SingleDictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.SingleDictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.DoubleDictionary.Count, newEveryType.DoubleDictionary.Count);
-            foreach (var kvp in obj.DoubleDictionary)
+            Assert.AreEqual(oldEveryType.DoubleDictionary.Count, newEveryType.DoubleDictionary.Count);
+            foreach (var kvp in oldEveryType.DoubleDictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.DoubleDictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.DecimalDictionary.Count, newEveryType.DecimalDictionary.Count);
-            foreach (var kvp in obj.DecimalDictionary)
+            Assert.AreEqual(oldEveryType.DecimalDictionary.Count, newEveryType.DecimalDictionary.Count);
+            foreach (var kvp in oldEveryType.DecimalDictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.DecimalDictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.EnumDictionary.Count, newEveryType.EnumDictionary.Count);
-            foreach (var kvp in obj.EnumDictionary)
+            Assert.AreEqual(oldEveryType.EnumDictionary.Count, newEveryType.EnumDictionary.Count);
+            foreach (var kvp in oldEveryType.EnumDictionary)
             {
                 Assert.AreEqual(kvp.Value, newEveryType.EnumDictionary[kvp.Key]);
             }
 
-            Assert.AreEqual(obj.ClassDictionary.Count, newEveryType.ClassDictionary.Count);
-            foreach (var kvp in obj.ClassDictionary)
+            Assert.AreEqual(oldEveryType.ClassDictionary.Count, newEveryType.ClassDictionary.Count);
+            foreach (var kvp in oldEveryType.ClassDictionary)
             {
                 Assert.AreEqual(kvp.Value.Name, newEveryType.ClassDictionary[kvp.Key].Name);
             }
 
-            Assert.AreEqual(obj.StringArray.Length, newEveryType.StringArray.Length);
-            for (int i = 0; i < obj.StringArray.Length; i++)
-                Assert.AreEqual(obj.StringArray[i], newEveryType.StringArray[i]);
+            Assert.AreEqual(oldEveryType.BooleanArray.Length, newEveryType.BooleanArray.Length);
+            for (int i = 0; i < oldEveryType.BooleanArray.Length; i++)
+                Assert.AreEqual(oldEveryType.BooleanArray[i], newEveryType.BooleanArray[i]);
 
-            Assert.AreEqual(obj.Int16Array.Length, newEveryType.Int16Array.Length);
-            for (int i = 0; i < obj.Int16Array.Length; i++)
-                Assert.AreEqual(obj.Int16Array[i], newEveryType.Int16Array[i]);
+            Assert.AreEqual(oldEveryType.DateTimeArray.Length, newEveryType.DateTimeArray.Length);
+            for (int i = 0; i < oldEveryType.DateTimeArray.Length; i++)
+                Assert.AreEqual(oldEveryType.DateTimeArray[i], newEveryType.DateTimeArray[i]);
 
-            Assert.AreEqual(obj.UInt16Array.Length, newEveryType.UInt16Array.Length);
-            for (int i = 0; i < obj.UInt16Array.Length; i++)
-                Assert.AreEqual(obj.UInt16Array[i], newEveryType.UInt16Array[i]);
+            Assert.AreEqual(oldEveryType.StringArray.Length, newEveryType.StringArray.Length);
+            for (int i = 0; i < oldEveryType.StringArray.Length; i++)
+                Assert.AreEqual(oldEveryType.StringArray[i], newEveryType.StringArray[i]);
 
-            Assert.AreEqual(obj.Int32Array.Length, newEveryType.Int32Array.Length);
-            for (int i = 0; i < obj.Int32Array.Length; i++)
-                Assert.AreEqual(obj.Int32Array[i], newEveryType.Int32Array[i]);
+            Assert.AreEqual(oldEveryType.Int16Array.Length, newEveryType.Int16Array.Length);
+            for (int i = 0; i < oldEveryType.Int16Array.Length; i++)
+                Assert.AreEqual(oldEveryType.Int16Array[i], newEveryType.Int16Array[i]);
 
-            Assert.AreEqual(obj.UInt32Array.Length, newEveryType.UInt32Array.Length);
-            for (int i = 0; i < obj.UInt32Array.Length; i++)
-                Assert.AreEqual(obj.UInt32Array[i], newEveryType.UInt32Array[i]);
+            Assert.AreEqual(oldEveryType.UInt16Array.Length, newEveryType.UInt16Array.Length);
+            for (int i = 0; i < oldEveryType.UInt16Array.Length; i++)
+                Assert.AreEqual(oldEveryType.UInt16Array[i], newEveryType.UInt16Array[i]);
 
-            Assert.AreEqual(obj.Int64Array.Length, newEveryType.Int64Array.Length);
-            for (int i = 0; i < obj.Int64Array.Length; i++)
-                Assert.AreEqual(obj.Int64Array[i], newEveryType.Int64Array[i]);
+            Assert.AreEqual(oldEveryType.Int32Array.Length, newEveryType.Int32Array.Length);
+            for (int i = 0; i < oldEveryType.Int32Array.Length; i++)
+                Assert.AreEqual(oldEveryType.Int32Array[i], newEveryType.Int32Array[i]);
 
-            Assert.AreEqual(obj.UInt64Array.Length, newEveryType.UInt64Array.Length);
-            for (int i = 0; i < obj.UInt64Array.Length; i++)
-                Assert.AreEqual(obj.UInt64Array[i], newEveryType.UInt64Array[i]);
+            Assert.AreEqual(oldEveryType.UInt32Array.Length, newEveryType.UInt32Array.Length);
+            for (int i = 0; i < oldEveryType.UInt32Array.Length; i++)
+                Assert.AreEqual(oldEveryType.UInt32Array[i], newEveryType.UInt32Array[i]);
 
-            Assert.AreEqual(obj.SingleArray.Length, newEveryType.SingleArray.Length);
-            for (int i = 0; i < obj.SingleArray.Length; i++)
-                Assert.AreEqual(obj.SingleArray[i], newEveryType.SingleArray[i]);
+            Assert.AreEqual(oldEveryType.Int64Array.Length, newEveryType.Int64Array.Length);
+            for (int i = 0; i < oldEveryType.Int64Array.Length; i++)
+                Assert.AreEqual(oldEveryType.Int64Array[i], newEveryType.Int64Array[i]);
 
-            Assert.AreEqual(obj.DoubleArray.Length, newEveryType.DoubleArray.Length);
-            for (int i = 0; i < obj.DoubleArray.Length; i++)
-                Assert.AreEqual(obj.DoubleArray[i], newEveryType.DoubleArray[i]);
+            Assert.AreEqual(oldEveryType.UInt64Array.Length, newEveryType.UInt64Array.Length);
+            for (int i = 0; i < oldEveryType.UInt64Array.Length; i++)
+                Assert.AreEqual(oldEveryType.UInt64Array[i], newEveryType.UInt64Array[i]);
 
-            Assert.AreEqual(obj.DecimalArray.Length, newEveryType.DecimalArray.Length);
-            for (int i = 0; i < obj.DecimalArray.Length; i++)
-                Assert.AreEqual(obj.DecimalArray[i], newEveryType.DecimalArray[i]);
+            Assert.AreEqual(oldEveryType.SingleArray.Length, newEveryType.SingleArray.Length);
+            for (int i = 0; i < oldEveryType.SingleArray.Length; i++)
+                Assert.AreEqual(oldEveryType.SingleArray[i], newEveryType.SingleArray[i]);
 
-            Assert.AreEqual(obj.EnumArray.Length, newEveryType.EnumArray.Length);
-            for (int i = 0; i < obj.EnumArray.Length; i++)
-                Assert.AreEqual(obj.EnumArray[i], newEveryType.EnumArray[i]);
+            Assert.AreEqual(oldEveryType.DoubleArray.Length, newEveryType.DoubleArray.Length);
+            for (int i = 0; i < oldEveryType.DoubleArray.Length; i++)
+                Assert.AreEqual(oldEveryType.DoubleArray[i], newEveryType.DoubleArray[i]);
 
-            Assert.AreEqual(obj.ClassArray.Length, newEveryType.ClassArray.Length);
-            for (int i = 0; i < obj.ClassArray.Length; i++)
-                Assert.AreEqual(obj.ClassArray[i].Name, newEveryType.ClassArray[i].Name);
+            Assert.AreEqual(oldEveryType.DecimalArray.Length, newEveryType.DecimalArray.Length);
+            for (int i = 0; i < oldEveryType.DecimalArray.Length; i++)
+                Assert.AreEqual(oldEveryType.DecimalArray[i], newEveryType.DecimalArray[i]);
+
+            Assert.AreEqual(oldEveryType.EnumArray.Length, newEveryType.EnumArray.Length);
+            for (int i = 0; i < oldEveryType.EnumArray.Length; i++)
+                Assert.AreEqual(oldEveryType.EnumArray[i], newEveryType.EnumArray[i]);
+
+            Assert.AreEqual(oldEveryType.ClassArray.Length, newEveryType.ClassArray.Length);
+            for (int i = 0; i < oldEveryType.ClassArray.Length; i++)
+                Assert.AreEqual(oldEveryType.ClassArray[i].Name, newEveryType.ClassArray[i].Name);
         }
     }
 }

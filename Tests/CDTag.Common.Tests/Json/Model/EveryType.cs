@@ -13,6 +13,15 @@ namespace CDTag.Common.Tests.Json.Model
         public string String { get; set; }
 
         [DataMember]
+        public string NullString { get; set; }
+
+        [DataMember]
+        public bool Boolean { get; set; }
+
+        [DataMember]
+        public DateTime DateTime { get; set; }
+
+        [DataMember]
         public int Int32 { get; set; }
 
         [DataMember]
@@ -38,6 +47,12 @@ namespace CDTag.Common.Tests.Json.Model
 
         [DataMember]
         public decimal Decimal { get; set; }
+
+        [DataMember]
+        public bool[] BooleanArray { get; set; }
+
+        [DataMember]
+        public DateTime[] DateTimeArray { get; set; }
 
         [DataMember]
         public string[] StringArray { get; set; }
@@ -68,6 +83,12 @@ namespace CDTag.Common.Tests.Json.Model
 
         [DataMember]
         public decimal[] DecimalArray { get; set; }
+
+        [DataMember]
+        public Dictionary<string, bool> BooleanDictionary { get; set; }
+
+        [DataMember]
+        public Dictionary<string, DateTime> DateTimeDictionary { get; set; }
 
         [DataMember]
         public Dictionary<string, string> StringDictionary { get; set; }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Windows;
 
 namespace CDTag.Common.Json
 {
@@ -25,7 +23,7 @@ namespace CDTag.Common.Json
             StringBuilder json = new StringBuilder();
             SerializeClass(obj, json, indentLevel: 1);
 
-            return json.ToString();
+            return json.Replace("\r\n,\r\n", ",\r\n").Replace("\r\n\r\n", "\r\n").ToString();
         }
 
         private static void SerializeClass(object obj, StringBuilder json, int indentLevel)
@@ -90,7 +88,7 @@ namespace CDTag.Common.Json
             }
             else if (obj is DateTime || obj is DateTime?)
             {
-                json.Append(string.Format("\"{0:yyyy-MM-dd} {0:hh:MM:ss}\"", obj));
+                json.Append(string.Format("\"{0:yyyy-MM-dd} {0:HH:mm:ss}\"", obj));
             }
             else if (classType.IsEnum)
             {
@@ -106,17 +104,32 @@ namespace CDTag.Common.Json
                 IList array = (IList)obj;
                 int count = array.Cast<object>().Count();
 
-                for (int i = 0; i < count; i++)
+                if (count > 0)
                 {
-                    object item = array[i];
+                    bool isSimpleType = IsSimpeType(array[0].GetType());
 
-                    json.Append(new string(' ', indentLevel * IndentSpacing));
-                    SerializeClass(item, json, indentLevel + 1);
+                    for (int i = 0; i < count; i++)
+                    {
+                        object item = array[i];
 
-                    if (i == count - 1)
-                        json.AppendLine();
-                    else
-                        json.AppendLine(",");
+                        if (i == 0 || !isSimpleType)
+                            json.Append(new string(' ', indentLevel * IndentSpacing));
+                        else
+                            json.Append(' ');
+
+                        SerializeClass(item, json, indentLevel + 1);
+
+                        if (i == count - 1)
+                        {
+                            json.AppendLine();
+                        }
+                        else
+                        {
+                            json.Append(",");
+                            if (!isSimpleType)
+                                json.AppendLine();
+                        }
+                    }
                 }
 
                 json.Append(new string(' ', (indentLevel - 1) * IndentSpacing));
@@ -148,6 +161,30 @@ namespace CDTag.Common.Json
             {
                 throw new Exception(string.Format("Type '{0}' not supported for serialization.", classType));
             }
+        }
+
+        private static bool IsSimpeType(Type type)
+        {
+            if (
+                type == typeof(string) ||
+                type == typeof(int) || type == typeof(int?) ||
+                type == typeof(short) || type == typeof(short?) ||
+                type == typeof(long) || type == typeof(long?) ||
+                type == typeof(uint) || type == typeof(uint?) ||
+                type == typeof(ushort) || type == typeof(ushort?) ||
+                type == typeof(ulong) || type == typeof(ulong?) ||
+                type == typeof(float) || type == typeof(float?) ||
+                type == typeof(double) || type == typeof(double?) ||
+                type == typeof(decimal) || type == typeof(decimal?) ||
+                type == typeof(bool) || type == typeof(bool?) ||
+                type == typeof(DateTime) || type == typeof(DateTime?) ||
+                type.IsEnum
+            )
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
