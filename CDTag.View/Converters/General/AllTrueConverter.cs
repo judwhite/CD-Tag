@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace CDTag.Converters
 {
-    class AllTrueConverter : IMultiValueConverter
+    public class AllTrueConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

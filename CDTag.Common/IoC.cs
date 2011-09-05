@@ -31,7 +31,7 @@ namespace CDTag.Common
         {
             lock (_locker)
             {
-                _instances.Add(typeof (T), instance);
+                _instances.Add(typeof(T), (T)instance);
             }
         }
 

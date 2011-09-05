@@ -9,7 +9,7 @@ namespace CDTag.Views.Tag.EditTag
     public partial class ID3v1View : ViewBase
     {
         public ID3v1View()
-            : this(Unity.Resolve<IID3v1ViewModel>())
+            : this(IoC.Resolve<IID3v1ViewModel>())
         {
         }
 

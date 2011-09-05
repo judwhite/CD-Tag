@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using CDTag.Common;
+using CDTag.View;
 using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag
@@ -19,7 +20,7 @@ namespace CDTag.Views.Tag
         {
             InitializeComponent();
 
-            wrenchMenu.GotFocus += delegate { IoC.Resolve<IApp>().CloseAddressTextBox(); };
+            wrenchMenu.GotFocus += delegate { IoC.Resolve<IDialogService>().CloseAddressTextBox(); };
         }
     }
 }

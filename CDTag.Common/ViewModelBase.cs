@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using CDTag.View;
 using CDTag.View.Interfaces;
 
 namespace CDTag.Common
@@ -86,9 +87,9 @@ namespace CDTag.Common
         {
             IErrorContainer errorContainer = ErrorContainer;
             if (errorContainer == null)
-                IoC.Resolve<IApp>().ShowError(exception);
+                IoC.Resolve<IDialogService>().ShowError(exception);
             else
-                IoC.Resolve<IApp>().ShowError(exception, errorContainer);
+                IoC.Resolve<IDialogService>().ShowError(exception, errorContainer);
         }
 
         /// <summary>Occurs when a property value changes.</summary>

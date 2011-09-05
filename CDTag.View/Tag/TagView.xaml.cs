@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.View;
 using CDTag.ViewModel.Tag;
 
 namespace CDTag.Views.Tag
@@ -37,7 +38,7 @@ namespace CDTag.Views.Tag
         {
             Menu menu = Mouse.Captured as Menu;
             if (menu == null)
-                IoC.Resolve<IApp>().CloseAddressTextBox();
+                IoC.Resolve<IDialogService>().CloseAddressTextBox();
         }
 
         public TagToolbar TagToolbar

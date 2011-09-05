@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows;
+using CDTag.Common;
 using CDTag.View.Interfaces;
 
-namespace CDTag.Common
+namespace CDTag.View
 {
     /// <summary>
-    /// IApp
+    /// IDialogService
     /// </summary>
-    public interface IApp
+    public interface IDialogService
     {
         /// <summary>Shows the error on the main window.</summary>
         /// <param name="exception">The exception.</param>
@@ -27,8 +28,8 @@ namespace CDTag.Common
         bool? ShowWindow<T>()
             where T : IWindow;
 
-        /// <summary>Gets the main window.</summary>
-        Window MainWindow { get; }
+        /*/// <summary>Gets the main window.</summary>
+        Window MainWindow { get; }*/
 
         /// <summary>Closes the address bar text box.</summary>
         void CloseAddressTextBox();

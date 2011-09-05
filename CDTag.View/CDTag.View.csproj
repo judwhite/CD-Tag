@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>cdtag.view.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -51,6 +57,42 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Checksum\ChecksumWindow.xaml.cs">
+      <DependentUpon>ChecksumWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Checksum\VerifyEACLogWindow.xaml.cs">
+      <DependentUpon>VerifyEACLogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BitrateConverter.cs" />
+    <Compile Include="Converters\General\AllTrueConverter.cs" />
+    <Compile Include="Converters\General\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\General\EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\General\IsEnumEqualConverter.cs" />
+    <Compile Include="Converters\General\IsEqualToVisibilityConverter.cs" />
+    <Compile Include="Converters\General\MultiplicationConverter.cs" />
+    <Compile Include="Converters\General\NotBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\General\NotNullToVisibilityConverter.cs" />
+    <Compile Include="Converters\General\NullableIntConverter.cs" />
+    <Compile Include="Converters\ID3v1CommentLengthConverter.cs" />
+    <Compile Include="Converters\ID3v1GenreIndexToTextConverter.cs" />
+    <Compile Include="Converters\PlayLengthConverter.cs" />
+    <Compile Include="Converters\ShortFileNameConverter.cs" />
+    <Compile Include="DialogService.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Options\OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\EditProfile\EditProfileWindow.xaml.cs">
+      <DependentUpon>EditProfileWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\NewProfile\NewProfileWindow.xaml.cs">
+      <DependentUpon>NewProfileWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,15 +106,145 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Tag\EditTag\ID3v1View.xaml.cs">
+      <DependentUpon>ID3v1View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tag\EditTag\ID3v2Window.xaml.cs">
+      <DependentUpon>ID3v2Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tag\MassTag\MassTagWindow.xaml.cs">
+      <DependentUpon>MassTagWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tag\TagAlbum\TagAlbumWindow.xaml.cs">
+      <DependentUpon>TagAlbumWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tag\TagMenu.xaml.cs">
+      <DependentUpon>TagMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tag\TagToolbar.xaml.cs">
+      <DependentUpon>TagToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tag\TagView.xaml.cs">
+      <DependentUpon>TagView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\EncodingInspectorWindow.xaml.cs">
+      <DependentUpon>EncodingInspectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\SplitCueWindow.xaml.cs">
+      <DependentUpon>SplitCueWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewBase.cs" />
+    <Compile Include="WindowViewBase.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="cdtag.view.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="About\AboutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Checksum\ChecksumWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Checksum\VerifyEACLogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Options\OptionsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Profile\EditProfile\EditProfileWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Profile\NewProfile\NewProfileWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tag\EditTag\ID3v1View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tag\EditTag\ID3v2Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tag\MassTag\MassTagWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tag\TagAlbum\TagAlbumWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tag\TagMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tag\TagToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tag\TagView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tools\EncodingInspectorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tools\SplitCueWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.Common\IdSharp.Common.csproj">
+      <Project>{1C83FB63-E16E-4380-9DD0-26E1799C417D}</Project>
+      <Name>IdSharp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IdSharp\IdSharp.Tagging\IdSharp.Tagging.csproj">
+      <Project>{A4BC39D2-FB08-4DCE-B485-0F49D21B106D}</Project>
+      <Name>IdSharp.Tagging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.Common\CDTag.Common.csproj">
+      <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
+      <Name>CDTag.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.Controls\CDTag.Controls.csproj">
+      <Project>{3FF588D9-76B6-42FC-9664-39E858A940FE}</Project>
+      <Name>CDTag.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.FileBrowser\CDTag.FileBrowser.csproj">
+      <Project>{B72F279B-331E-4F26-9927-FFADB15B7395}</Project>
+      <Name>CDTag.FileBrowser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.Model\CDTag.Model.csproj">
+      <Project>{24732BDC-95F9-497C-93A9-89634D8C1E06}</Project>
+      <Name>CDTag.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
+      <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
+      <Name>CDTag.View.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.ViewModel\CDTag.ViewModel.csproj">
+      <Project>{5B90F658-10CD-4829-BA0F-FD8B972733C2}</Project>
+      <Name>CDTag.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

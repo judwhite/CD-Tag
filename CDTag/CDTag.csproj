@@ -121,64 +121,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Converters\General\AllTrueConverter.cs" />
-    <Compile Include="Converters\BitrateConverter.cs" />
-    <Compile Include="Converters\General\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\General\EnumDescriptionConverter.cs" />
-    <Compile Include="Converters\General\IsEqualToVisibilityConverter.cs" />
-    <Compile Include="Converters\General\MultiplicationConverter.cs" />
-    <Compile Include="Converters\ID3v1GenreIndexToTextConverter.cs" />
-    <Compile Include="Converters\ID3v1CommentLengthConverter.cs" />
-    <Compile Include="Converters\General\IsEnumEqualConverter.cs" />
-    <Compile Include="Converters\General\NotBoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\General\NotNullToVisibilityConverter.cs" />
-    <Compile Include="Converters\General\NullableIntConverter.cs" />
-    <Compile Include="Converters\PlayLengthConverter.cs" />
-    <Compile Include="Converters\ShortFileNameConverter.cs" />
-    <Compile Include="Views\About\AboutWindow.xaml.cs">
-      <DependentUpon>AboutWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Checksum\ChecksumWindow.xaml.cs">
-      <DependentUpon>ChecksumWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Checksum\VerifyEACLogWindow.xaml.cs">
-      <DependentUpon>VerifyEACLogWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Options\OptionsWindow.xaml.cs">
-      <DependentUpon>OptionsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Profile\EditProfile\EditProfileWindow.xaml.cs">
-      <DependentUpon>EditProfileWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Profile\NewProfile\NewProfileWindow.xaml.cs">
-      <DependentUpon>NewProfileWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tag\EditTag\ID3v2Window.xaml.cs">
-      <DependentUpon>ID3v2Window.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tag\MassTag\MassTagWindow.xaml.cs">
-      <DependentUpon>MassTagWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tag\TagAlbum\TagAlbumWindow.xaml.cs">
-      <DependentUpon>TagAlbumWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tag\TagMenu.xaml.cs">
-      <DependentUpon>TagMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tag\TagToolbar.xaml.cs">
-      <DependentUpon>TagToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tag\TagView.xaml.cs">
-      <DependentUpon>TagView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tools\EncodingInspectorWindow.xaml.cs">
-      <DependentUpon>EncodingInspectorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tools\SplitCueWindow.xaml.cs">
-      <DependentUpon>SplitCueWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ViewBase.cs" />
-    <Compile Include="WindowViewBase.cs" />
     <Page Include="Themes\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -234,74 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\About\AboutWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Checksum\ChecksumWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Checksum\VerifyEACLogWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\Options\OptionsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Profile\EditProfile\EditProfileWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Profile\NewProfile\NewProfileWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tag\EditTag\ID3v2Window.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Tag\MassTag\MassTagWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tag\TagAlbum\TagAlbumWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tag\TagMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tag\TagToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tag\TagView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tools\EncodingInspectorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tools\SplitCueWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -373,6 +251,10 @@
     <ProjectReference Include="..\CDTag.ViewModel\CDTag.ViewModel.csproj">
       <Project>{5B90F658-10CD-4829-BA0F-FD8B972733C2}</Project>
       <Name>CDTag.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDTag.View\CDTag.View.csproj">
+      <Project>{0AFCD01F-7FCE-4396-9F3A-13B4EC1C7FBF}</Project>
+      <Name>CDTag.View</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

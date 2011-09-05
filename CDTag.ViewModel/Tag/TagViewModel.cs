@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using System.Windows;
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
+using CDTag.View;
 using CDTag.View.Interfaces.About;
 using CDTag.View.Interfaces.Checksum;
 using CDTag.View.Interfaces.Options;
@@ -19,10 +21,10 @@ namespace CDTag.ViewModel.Tag
         public TagViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            IApp app = IoC.Resolve<IApp>();
+            IDialogService app = IoC.Resolve<IDialogService>();
 
             AboutCommand = new DelegateCommand(() => app.ShowWindow<IAboutWindow>());
-            ExitCommand = new DelegateCommand(() => app.MainWindow.Close());
+            ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
             TagAlbumCommand = new DelegateCommand(() => app.ShowWindow<ITagAlbumWindow>());
             EditTagsCommand = new DelegateCommand(() => app.ShowWindow<IEditTagWindow>());
             MassTagCommand = new DelegateCommand(() => app.ShowWindow<IMassTagWindow>());

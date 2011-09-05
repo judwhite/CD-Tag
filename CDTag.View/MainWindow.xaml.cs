@@ -6,6 +6,7 @@ using CDTag.Common;
 using CDTag.Common.Settings;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.Model.Settings.MainWindow;
+using CDTag.View;
 using CDTag.ViewModel.Tag;
 using System.Collections.Generic;
 
@@ -35,7 +36,7 @@ namespace CDTag.Views
         {
             Point p = e.GetPosition(this);
             if (p.Y < -5 && (p.X > ActualWidth - 150 || p.X < 20))
-                IoC.Resolve<IApp>().CloseAddressTextBox();
+                IoC.Resolve<IDialogService>().CloseAddressTextBox();
         }
 
         /// <summary>
