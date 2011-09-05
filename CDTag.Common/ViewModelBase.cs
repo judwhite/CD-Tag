@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using CDTag.View.Interfaces;
 
 namespace CDTag.Common
 {
@@ -52,6 +53,17 @@ namespace CDTag.Common
         protected ViewModelBase(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the view.
+        /// </summary>
+        /// <value>The view.</value>
+        public IWindow View
+        {
+            get { return Get<IWindow>("View"); }
+            set { Set("View", value); }
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using CDTag.View.Interfaces;
 
 namespace CDTag.Common
 {
@@ -8,6 +9,12 @@ namespace CDTag.Common
     /// </summary>
     public interface IViewModelBase : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Gets or sets the view.
+        /// </summary>
+        /// <value>The view.</value>
+        IWindow View { get; set; }
+
         /// <summary>Gets or sets the error container.</summary>
         /// <value>The error container.</value>
         IErrorContainer ErrorContainer { get; set; }

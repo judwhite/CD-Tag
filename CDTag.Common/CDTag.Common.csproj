@@ -59,15 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandManagerHelper.cs" />
-    <Compile Include="CompositeEvent.cs" />
-    <Compile Include="CompositePresentationEvent.cs" />
     <Compile Include="DataGridUtil.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ErrorContainer.cs" />
     <Compile Include="EventAggregator.cs" />
     <Compile Include="GlassHelper.cs" />
     <Compile Include="IApp.cs" />
-    <Compile Include="ICompositeEvent.cs" />
     <Compile Include="IErrorContainer.cs" />
     <Compile Include="IEventAggregator.cs" />
     <Compile Include="IModelBase.cs" />

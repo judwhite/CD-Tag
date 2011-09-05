@@ -5,13 +5,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CDTag.Common;
 using CDTag.Common.Settings;
+using CDTag.View.Interfaces;
 
 namespace CDTag.Views
 {
     /// <summary>
     /// WindowViewBase. Handles generic window settings.
     /// </summary>
-    public class WindowViewBase : Window
+    public class WindowViewBase : Window, IWindow
     {
         private bool _settingsLoaded;
 
@@ -22,6 +23,7 @@ namespace CDTag.Views
         protected WindowViewBase(IViewModelBase viewModel)
         {
             DataContext = viewModel;
+            viewModel.View = this;
 
             PreviewKeyDown += WindowViewBase_PreviewKeyDown;
             Closed += WindowViewBase_Closed;

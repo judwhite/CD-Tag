@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace CDTag.Common
 {
@@ -9,10 +8,17 @@ namespace CDTag.Common
     public interface IEventAggregator
     {
         /// <summary>
-        /// Gets the specified event.
+        /// Subscribes a handler to message with the specified payload type.
         /// </summary>
-        /// <typeparam name="T">The event type.</typeparam>
-        /// <returns>The specified event.</returns>
-        ICompositeEvent GetEvent<T>();
+        /// <typeparam name="T">The payload type.</typeparam>
+        /// <param name="handler">The handler.</param>
+        void Subscribe<T>(Action<T> handler);
+
+        /// <summary>
+        /// Publishes the specified payload.
+        /// </summary>
+        /// <typeparam name="T">The payload type.</typeparam>
+        /// <param name="payload">The payload.</param>
+        void Publish<T>(T payload);
     }
 }

@@ -5,21 +5,36 @@ namespace CDTag.Common
 {
     internal class EventAggregator : IEventAggregator
     {
-        private readonly Dictionary<Type, ICompositeEvent> _events = new Dictionary<Type, ICompositeEvent>();
-        private readonly object _eventsLocker = new object();
+        private readonly Dictionary<Type, List<Action<object>>> _handlers = new Dictionary<Type, List<Action<object>>>();
+        private readonly object _handlersLocker = new object();
 
-        public ICompositeEvent GetEvent<T>()
+        public void Subscribe<T>(Action<T> handler)
         {
-            Type type = typeof(T);
-
-            lock (_eventsLocker)
+            lock (_handlersLocker)
             {
-                if (_events.ContainsKey(type))
-                    return _events[type];
+                List<Action<object>> list;
+                if (!_handlers.TryGetValue(typeof(T), out list))
+                {
+                    list = new List<Action<object>>();
+                    _handlers.Add(typeof(T), list);
+                }
 
-                var compositeEvent = new CompositeEvent();
-                _events.Add(type, compositeEvent);
-                return compositeEvent;
+                list.Add(o => handler((T)o));
+            }
+        }
+
+        public void Publish<T>(T payload)
+        {
+            lock (_handlersLocker)
+            {
+                List<Action<object>> list;
+                if (!_handlers.TryGetValue(typeof(T), out list))
+                    return;
+
+                foreach (var handler in list)
+                {
+                    handler(payload);
+                }
             }
         }
     }

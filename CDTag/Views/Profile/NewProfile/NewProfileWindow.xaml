@@ -57,9 +57,14 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="Directory" Margin="0,2" />
-                <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" Height="150" Margin="0,2" />
+                <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" Height="150" Margin="0,2">
+                    
+                </DataGrid>
+                
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="Audio files" Margin="0,8,0,2" />
-                <DataGrid Grid.Row="3" Grid.Column="1" AutoGenerateColumns="False" Height="120" Margin="0,2" />
+                <DataGrid Grid.Row="3" Grid.Column="1" AutoGenerateColumns="False" Height="120" Margin="0,2">
+                </DataGrid>
+
                 <CheckBox Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" Content="Use _underscores instead of spaces" IsChecked="{Binding UseUnderscores, Mode=TwoWay}" Margin="0,8,0,2" HorizontalAlignment="Left" />
                 <CheckBox Grid.Row="5" Grid.Column="1" VerticalContentAlignment="Center" Content="Only _allow characters A-Z a-z 0-9 - _ . ()" IsChecked="{Binding UseStandardCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />
                 <CheckBox Grid.Row="6" Grid.Column="1" VerticalContentAlignment="Center" Content="Convert _regional characters to A-Z" IsChecked="{Binding UseLatinCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />

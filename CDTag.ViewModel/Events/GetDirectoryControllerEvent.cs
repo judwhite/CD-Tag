@@ -1,14 +1,8 @@
-﻿using System;
-using CDTag.Common;
-using CDTag.FileBrowser.ViewModel;
+﻿using CDTag.FileBrowser.ViewModel;
 
-namespace CDTag.Events
+namespace CDTag.ViewModel.Events
 {
-    public class GetDirectoryControllerEvent : CompositePresentationEvent<GetDirectoryControllerEventArgs>
-    {
-    }
-
-    public class GetDirectoryControllerEventArgs : EventArgs
+    public class GetDirectoryControllerEvent
     {
         public IDirectoryController DirectoryController { get; set; }
     }

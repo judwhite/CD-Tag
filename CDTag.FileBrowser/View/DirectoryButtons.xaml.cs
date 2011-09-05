@@ -32,7 +32,7 @@ namespace CDTag.FileBrowser.View
 
             DirectoryTextBox.PreviewKeyDown += DirectoryTextBox_PreviewKeyDown;
 
-            IoC.Resolve<IEventAggregator>().GetEvent<CloseAddressTextBoxEvent>().Subscribe(o => HideDirectoryTextBox());
+            IoC.Resolve<IEventAggregator>().Subscribe<CloseAddressTextBoxEvent>(o => HideDirectoryTextBox());
         }
 
         private void DirectoryButtons_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

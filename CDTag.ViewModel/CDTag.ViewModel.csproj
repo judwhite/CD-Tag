@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -56,6 +58,7 @@
     <Compile Include="Checksum\IVerifyEACLogViewModel.cs" />
     <Compile Include="Checksum\VerifyEACLogViewModel.cs" />
     <Compile Include="Events\GetDirectoryControllerEvent.cs" />
+    <Compile Include="Events\MessageBoxEvent.cs" />
     <Compile Include="Options\IOptionsViewModel.cs" />
     <Compile Include="Options\OptionsViewModel.cs" />
     <Compile Include="Profile\EditProfile\EditProfileViewModel.cs" />

@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using CDTag.Common;
-using CDTag.Events;
 using CDTag.FileBrowser.Model;
+using CDTag.ViewModel.Events;
 using IdSharp.Tagging.ID3v1;
 
 namespace CDTag.ViewModel.Tag.EditTag
@@ -23,8 +23,8 @@ namespace CDTag.ViewModel.Tag.EditTag
         public ID3v1ViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            GetDirectoryControllerEventArgs args = new GetDirectoryControllerEventArgs();
-            eventAggregator.GetEvent<GetDirectoryControllerEvent>().Publish(args);
+            GetDirectoryControllerEvent args = new GetDirectoryControllerEvent();
+            eventAggregator.Publish(args);
 
             var file = args.DirectoryController.SelectedItems.Where(p => Path.GetExtension(p.FullName).ToLower() == ".mp3").FirstOrDefault();
 

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.View.Interfaces;
+using CDTag.ViewModel.Events;
 
 namespace CDTag.ViewModel.Profile.NewProfile
 {
@@ -9,13 +12,16 @@ namespace CDTag.ViewModel.Profile.NewProfile
         private readonly DelegateCommand _nextCommand;
         private readonly DelegateCommand _previousCommand;
 
+        private bool _storedCreateSampleNFO = true;
+        private bool _storedHasExistingNFO;
+
         public NewProfileViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
             _nextCommand = new DelegateCommand(Next, () => PageIndex < 1);
             _previousCommand = new DelegateCommand(Previous, () => PageIndex > 0);
 
-            EnhancedPropertyChanged += new EnhancedPropertyChangedEventHandler<NewProfileViewModel>(NewProfileViewModel_EnhancedPropertyChanged);
+            EnhancedPropertyChanged += NewProfileViewModel_EnhancedPropertyChanged;
         }
 
         private void NewProfileViewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<NewProfileViewModel> e)
@@ -24,26 +30,63 @@ namespace CDTag.ViewModel.Profile.NewProfile
             {
                 if (!CreateNFO)
                 {
+                    _storedCreateSampleNFO = CreateSampleNFO;
+                    _storedHasExistingNFO = HasExistingNFO;
+
                     CreateSampleNFO = false;
                     HasExistingNFO = false;
                 }
                 else
                 {
-                    if (!CreateSampleNFO && !HasExistingNFO)
-                        CreateSampleNFO = true;
+                    CreateSampleNFO = _storedCreateSampleNFO;
+                    HasExistingNFO = _storedHasExistingNFO;
                 }
             }
         }
 
         private void Next()
         {
+            if (PageIndex == 0)
+            {
+                if (!ValidateProfileName())
+                    return;
+            }
+
             PageIndex += 1;
+        }
+
+        private bool ValidateProfileName()
+        {
+            if (string.IsNullOrWhiteSpace(ProfileName))
+            {
+                // TODO: Localize
+                MessageBoxEvent messageBoxEvent = new MessageBoxEvent
+                {
+                    Owner = View as IWindow,
+                    MessageBoxText = "Please enter a name for your profile.",
+                    Caption = "New profile",
+                    MessageBoxButton = MessageBoxButton.OK,
+                    MessageBoxImage = MessageBoxImage.Information
+                };
+
+                _eventAggregator.Publish(messageBoxEvent);
+                return false;
+            }
+
+            // TODO
+            return true;
         }
 
         private void Previous()
         {
             if (PageIndex > 0)
                 PageIndex -= 1;
+        }
+
+        public string ProfileName
+        {
+            get { return Get<string>("ProfileName"); }
+            set { Set("ProfileName", value); }
         }
 
         public bool CreateNFO

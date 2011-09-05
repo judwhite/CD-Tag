@@ -12,6 +12,7 @@ using CDTag.View.Interfaces.Tag.TagAlbum;
 using CDTag.View.Interfaces.Tools;
 using CDTag.ViewModel.About;
 using CDTag.ViewModel.Checksum;
+using CDTag.ViewModel.Events;
 using CDTag.ViewModel.Options;
 using CDTag.ViewModel.Profile.EditProfile;
 using CDTag.ViewModel.Profile.NewProfile;
@@ -73,6 +74,20 @@ namespace CDTag
             IoC.RegisterType<IOptionsViewModel, OptionsViewModel>();
             IoC.RegisterType<IChecksumViewModel, ChecksumViewModel>();
             IoC.RegisterType<IVerifyEACLogViewModel, VerifyEACLogViewModel>();
+
+            // Events
+            IoC.Resolve<IEventAggregator>().Subscribe<MessageBoxEvent>(ShowMessageBox);
+        }
+
+        private static void ShowMessageBox(MessageBoxEvent messageBox)
+        {
+            MessageBox.Show(
+                owner: messageBox.Owner as Window,
+                messageBoxText: messageBox.MessageBoxText,
+                caption: messageBox.Caption,
+                button: messageBox.MessageBoxButton,
+                icon: messageBox.MessageBoxImage
+            );
         }
 
         protected DependencyObject CreateShell()

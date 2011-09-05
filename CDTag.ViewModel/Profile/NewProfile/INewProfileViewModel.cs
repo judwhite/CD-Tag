@@ -5,6 +5,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
 {
     public interface INewProfileViewModel : IViewModelBase
     {
+        string ProfileName { get; set; }
         bool CreateNFO { get; set; }
         bool CreateSampleNFO { get; set; }
         bool HasExistingNFO { get; set; }

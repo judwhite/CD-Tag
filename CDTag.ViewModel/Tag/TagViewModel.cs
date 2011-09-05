@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using CDTag.Common;
-using CDTag.Events;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.View.Interfaces.About;
 using CDTag.View.Interfaces.Checksum;
@@ -11,6 +10,7 @@ using CDTag.View.Interfaces.Tag.EditTag;
 using CDTag.View.Interfaces.Tag.MassTag;
 using CDTag.View.Interfaces.Tag.TagAlbum;
 using CDTag.View.Interfaces.Tools;
+using CDTag.ViewModel.Events;
 
 namespace CDTag.ViewModel.Tag
 {
@@ -37,10 +37,10 @@ namespace CDTag.ViewModel.Tag
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 
-            eventAggregator.GetEvent<GetDirectoryControllerEvent>().Subscribe(o => OnGetDirectoryController((GetDirectoryControllerEventArgs)o));
+            eventAggregator.Subscribe<GetDirectoryControllerEvent>(OnGetDirectoryController);
         }
 
-        private void OnGetDirectoryController(GetDirectoryControllerEventArgs e)
+        private void OnGetDirectoryController(GetDirectoryControllerEvent e)
         {
             e.DirectoryController = DirectoryViewModel;
         }

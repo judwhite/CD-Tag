@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{24732BDC-95F9-497C-93A9-89634D8C1E06}</ProjectGuid>
+    <ProjectGuid>{0AFCD01F-7FCE-4396-9F3A-13B4EC1C7FBF}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CDTag.Model</RootNamespace>
-    <AssemblyName>CDTag.Model</AssemblyName>
+    <RootNamespace>CDTag.View</RootNamespace>
+    <AssemblyName>CDTag.View</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -35,15 +35,14 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>cdtag.model.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -52,7 +51,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About\ComponentInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -66,45 +64,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Settings\DataGridColumnSettings.cs" />
-    <Compile Include="Settings\MainWindow\MainWindowSettings.cs" />
-    <Compile Include="Settings\SettingsFile.cs" />
-    <Compile Include="Settings\WindowSettings.cs" />
-    <Compile Include="Tag\Album.cs" />
-    <Compile Include="Tag\AlbumTrack.cs" />
-    <Compile Include="Tag\Picture.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="cdtag.model.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\IdSharp\IdSharp.AudioInfo\IdSharp.AudioInfo.csproj">
-      <Project>{136F9938-42FC-4C63-B76E-9DAAD3A63864}</Project>
-      <Name>IdSharp.AudioInfo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\IdSharp\IdSharp.Common\IdSharp.Common.csproj">
-      <Project>{1C83FB63-E16E-4380-9DD0-26E1799C417D}</Project>
-      <Name>IdSharp.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\IdSharp\IdSharp.Tagging\IdSharp.Tagging.csproj">
-      <Project>{A4BC39D2-FB08-4DCE-B485-0F49D21B106D}</Project>
-      <Name>IdSharp.Tagging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CDTag.Common\CDTag.Common.csproj">
-      <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
-      <Name>CDTag.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
-      <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
-      <Name>CDTag.View.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

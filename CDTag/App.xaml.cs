@@ -20,7 +20,7 @@ namespace CDTag
         {
             // Note: Known bug with App.xaml having no StartupUri and the theme speicified in XAML's Application.Resources
             Resources = (ResourceDictionary)LoadComponent(new Uri("/Themes/Default/Theme.xaml", UriKind.RelativeOrAbsolute));
-            
+
             DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 
@@ -40,7 +40,7 @@ namespace CDTag
             try
             {
                 window = IoC.Resolve<T>();
-                window.Owner = MainWindow;
+                window.Owner = MainWindow; // TODO ?
                 var viewModel = window.DataContext as IViewModelBase;
                 if (viewModel != null)
                     viewModel.CloseWindow = () => window.Close();
@@ -101,7 +101,7 @@ namespace CDTag
 
         public void CloseAddressTextBox()
         {
-            IoC.Resolve<IEventAggregator>().GetEvent<CloseAddressTextBoxEvent>().Publish(null);
+            IoC.Resolve<IEventAggregator>().Publish<CloseAddressTextBoxEvent>(null);
         }
     }
 }

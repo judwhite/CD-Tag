@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using CDTag.Common;
-using CDTag.Events;
 using CDTag.Model.Tag;
+using CDTag.ViewModel.Events;
 
 namespace CDTag.ViewModel.Tag.TagAlbum
 {
@@ -18,9 +18,9 @@ namespace CDTag.ViewModel.Tag.TagAlbum
             _previewNFOCommand = new DelegateCommand(PreviewNFO);
             _previousCommand = new DelegateCommand(Previous);
 
-            var getDirectoryControllerEventArgs = new GetDirectoryControllerEventArgs();
-            eventAggregator.GetEvent<GetDirectoryControllerEvent>().Publish(getDirectoryControllerEventArgs);
-            string path = getDirectoryControllerEventArgs.DirectoryController.CurrentDirectory;
+            var getDirectoryControllerEvent = new GetDirectoryControllerEvent();
+            eventAggregator.Publish(getDirectoryControllerEvent);
+            string path = getDirectoryControllerEvent.DirectoryController.CurrentDirectory;
             Album = new Album(path);
 
             EnhancedPropertyChanged += TagAlbumViewModel_EnhancedPropertyChanged;

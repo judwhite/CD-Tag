@@ -5,7 +5,7 @@ namespace CDTag.FileBrowser.Events
     /// <summary>
     /// CloseAddressTextBoxEvent
     /// </summary>
-    public class CloseAddressTextBoxEvent : CompositePresentationEvent<object>
+    public class CloseAddressTextBoxEvent
     {
     }
 }
