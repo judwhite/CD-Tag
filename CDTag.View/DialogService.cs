@@ -12,6 +12,9 @@ namespace CDTag.View
 {
     public class DialogService : IDialogService
     {
+        private string _localApplicationDirectory;
+        private string _profileDirectory;
+
         public bool? ShowWindow<T>()
             where T : IWindow
         {
@@ -66,16 +69,35 @@ namespace CDTag.View
         {
             get
             {
-                string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CD-Tag");
-                if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
-                return directory;
+                if (_localApplicationDirectory == null)
+                {
+                    _localApplicationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CD-Tag");
+                    if (!Directory.Exists(_localApplicationDirectory))
+                        Directory.CreateDirectory(_localApplicationDirectory);
+                }
+
+                return _localApplicationDirectory;
             }
         }
 
         public void CloseAddressTextBox()
         {
             IoC.Resolve<IEventAggregator>().Publish<CloseAddressTextBoxEvent>(null);
+        }
+
+        public string ProfileDirectory
+        {
+            get
+            {
+                if (_profileDirectory == null)
+                {
+                    _profileDirectory = Path.Combine(LocalApplicationDirectory, "Profiles");
+                    if (!Directory.Exists(_profileDirectory))
+                        Directory.CreateDirectory(_profileDirectory);
+                }
+
+                return _profileDirectory;
+            }
         }
     }
 }

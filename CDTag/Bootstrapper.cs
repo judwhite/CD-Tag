@@ -82,13 +82,15 @@ namespace CDTag
 
         private static void ShowMessageBox(MessageBoxEvent messageBox)
         {
-            MessageBox.Show(
+            var result = MessageBox.Show(
                 owner: messageBox.Owner as Window,
                 messageBoxText: messageBox.MessageBoxText,
                 caption: messageBox.Caption,
                 button: messageBox.MessageBoxButton,
                 icon: messageBox.MessageBoxImage
             );
+
+            messageBox.Result = result;
         }
 
         protected DependencyObject CreateShell()

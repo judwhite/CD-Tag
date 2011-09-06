@@ -15,5 +15,6 @@ namespace CDTag.ViewModel.Profile.NewProfile
         bool UseUnderscores { get; set; }
         bool UseStandardCharactersOnly { get; set; }
         bool UseLatinCharactersOnly { get; set; }
+        bool IsProfileNameFocused { get; set; }
     }
 }

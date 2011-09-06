@@ -42,6 +42,9 @@ namespace CDTag.Common
     /// </summary>
     public abstract class ViewModelBase : IViewModelBase
     {
+        /// <summary>Occurs when a property value changes.</summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private readonly Dictionary<string, object> _propertyValues = new Dictionary<string, object>();
 
         /// <summary>The event aggregator.</summary>
@@ -55,7 +58,6 @@ namespace CDTag.Common
         {
             _eventAggregator = eventAggregator;
         }
-
 
         /// <summary>
         /// Gets or sets the view.
@@ -77,8 +79,8 @@ namespace CDTag.Common
         /// <value>The error container.</value>
         public IErrorContainer ErrorContainer
         {
-            get { return Get<IErrorContainer>(MethodBase.GetCurrentMethod()); }
-            set { Set(MethodBase.GetCurrentMethod(), value); }
+            get { return Get<IErrorContainer>("ErrorContainer"); }
+            set { Set("ErrorContainer", value); }
         }
 
         /// <summary>Shows the exception.</summary>
@@ -91,9 +93,6 @@ namespace CDTag.Common
             else
                 IoC.Resolve<IDialogService>().ShowError(exception, errorContainer);
         }
-
-        /// <summary>Occurs when a property value changes.</summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>Sends the <see cref="PropertyChanged"/> event.</summary>
         /// <param name="propertyName">Name of the property.</param>

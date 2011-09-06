@@ -28,10 +28,10 @@ namespace CDTag.View
         bool? ShowWindow<T>()
             where T : IWindow;
 
-        /*/// <summary>Gets the main window.</summary>
-        Window MainWindow { get; }*/
-
         /// <summary>Closes the address bar text box.</summary>
         void CloseAddressTextBox();
+
+        /// <summary>Gets the profile directory.</summary>
+        string ProfileDirectory { get; }
     }
 }
