@@ -38,6 +38,13 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 new FormatItem { FormatString = "<Artist> - <Year> - <Album>" },
                 new FormatItem { FormatString = "<Artist> - (<Year>) - <Album>" },
             };
+
+            _audioFileFormats = new ObservableCollection<FormatItem>
+            {
+                new FormatItem { FormatString = "<Track> - <Artist> - <Song>" },
+                new FormatItem { FormatString = "<Artist> - <Track> - <Song>" },
+                new FormatItem { FormatString = "<Track> - <Song>" },
+            };
         }
 
         private void NewProfileViewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<NewProfileViewModel> e)
