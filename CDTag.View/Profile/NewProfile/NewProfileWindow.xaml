@@ -55,23 +55,23 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="0.05*" />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="Directory" Margin="0,2" />
-                <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" Height="150" Margin="0,2">
-                    
+                <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" Height="150" Margin="0,2" ItemsSource="{Binding DirectoryFormats, Mode=OneWay}">
+
                 </DataGrid>
-                
+
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="Audio files" Margin="0,8,0,2" />
-                <DataGrid Grid.Row="3" Grid.Column="1" AutoGenerateColumns="False" Height="120" Margin="0,2">
+                <DataGrid Grid.Row="3" Grid.Column="1" AutoGenerateColumns="False" Height="120" Margin="0,2" ItemsSource="{Binding AudioFileFormats, Mode=OneWay}">
                 </DataGrid>
 
                 <CheckBox Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" Content="Use _underscores instead of spaces" IsChecked="{Binding UseUnderscores, Mode=TwoWay}" Margin="0,8,0,2" HorizontalAlignment="Left" />
                 <CheckBox Grid.Row="5" Grid.Column="1" VerticalContentAlignment="Center" Content="Only _allow characters A-Z a-z 0-9 - _ . ()" IsChecked="{Binding UseStandardCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />
                 <CheckBox Grid.Row="6" Grid.Column="1" VerticalContentAlignment="Center" Content="Convert _regional characters to A-Z" IsChecked="{Binding UseLatinCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />
             </Grid>
-            
+
         </Grid>
-        
+
         <Path Grid.Row="1" Data="M0,0 L1,0" Stroke="#CCCCCC" Stretch="Fill" Margin="0,8" />
 
         <Grid Grid.Row="2" Grid.IsSharedSizeScope="True">
@@ -81,9 +81,9 @@
                 <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" MinWidth="80" />
                 <ColumnDefinition Width="Auto" SharedSizeGroup="BottomButtons" MinWidth="80" />
             </Grid.ColumnDefinitions>
-            
+
             <Button Grid.Column="0" Content="_Cancel" IsCancel="True" Padding="7,2" Margin="0,0,8,0" />
-            
+
             <Button Grid.Column="2" Content="_Previous" Padding="7,2" Margin="8,0,0,0" Command="{Binding PreviousCommand}" />
             <Button Grid.Column="3" Content="_Next" Padding="7,2" Margin="8,0,0,0" Command="{Binding NextCommand}" IsDefault="True" />
         </Grid>

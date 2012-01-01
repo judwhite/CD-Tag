@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Model.Profile.NewProfile;
 
 namespace CDTag.ViewModel.Profile.NewProfile
 {
@@ -16,5 +18,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
         bool UseStandardCharactersOnly { get; set; }
         bool UseLatinCharactersOnly { get; set; }
         bool IsProfileNameFocused { get; set; }
+        ObservableCollection<FormatItem> DirectoryFormats { get; }
+        ObservableCollection<FormatItem> AudioFileFormats { get; }
     }
 }
