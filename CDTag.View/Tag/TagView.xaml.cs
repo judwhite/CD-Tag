@@ -32,6 +32,8 @@ namespace CDTag.Views.Tag
 
             // TODO: Move to ViewModel
             viewModel.DirectoryViewModel = FileExplorer.DirectoryController;
+
+            MainMenu.GotFocus += delegate { IoC.Resolve<IDialogService>().CloseAddressTextBox(); };
         }
 
         private void FileExplorer_PreviewMouseDown(object sender, MouseButtonEventArgs e)

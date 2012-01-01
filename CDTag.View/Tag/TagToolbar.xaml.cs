@@ -20,7 +20,7 @@ namespace CDTag.Views.Tag
         {
             InitializeComponent();
 
-            wrenchMenu.GotFocus += delegate { IoC.Resolve<IDialogService>().CloseAddressTextBox(); };
+            //wrenchMenu.GotFocus += delegate { IoC.Resolve<IDialogService>().CloseAddressTextBox(); };
         }
     }
 }

@@ -11,9 +11,15 @@
 >
     <Grid>        
         <!-- TODO: Localize text -->
-        <Menu>
+        <Menu x:Name="Menu">
             <MenuItem Header="_File">
-                <MenuItem Header="_Check for updates..." Command="{Binding CheckForUpdatesCommand}" />
+                <MenuItem Header="_New profile" Command="{Binding NewProfileCommand}" InputGestureText="Ctrl+N" />
+                <MenuItem Header="_Edit profile" Command="{Binding EditProfileCommand}" InputGestureText="Ctrl+P" />
+                <MenuItem Header="Active _profile" ItemsSource="{Binding ProfileCollection}" />
+                <Separator />
+                <MenuItem Header="_Options" Command="{Binding OptionsCommand}" InputGestureText="Ctrl+O" />
+                <Separator />
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Cu_t" Command="{Binding CutCommand}" />
@@ -32,9 +38,26 @@
                 <Separator />
                 <MenuItem Header="_Refresh" Command="{Binding RefreshCommand}" />
             </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Tag _album" Command="{Binding TagAlbumCommand}" InputGestureText="Ctrl+T" />
+                <MenuItem Header="_Edit tags" Command="{Binding EditTagsCommand}" InputGestureText="Alt+3" />
+                <MenuItem Header="_Mass tag" Command="{Binding MassTagCommand}" InputGestureText="Ctrl+M" />
+                <Separator />
+                <MenuItem Header="_Split CUE sheet" Command="{Binding SplitCueSheetCommand}" InputGestureText="Ctrl+S" />
+                <MenuItem Header="Encoding _inspector" Command="{Binding EncodingInspectorCommand}" InputGestureText="Ctrl+I" />
+            </MenuItem>
+            <MenuItem Header="_Checksum">
+                <MenuItem Header="_Create checksum" Command="{Binding CreateChecksumCommand}" InputGestureText="Ctrl+K" />
+                <MenuItem Header="_Verify checksum" Command="{Binding VerifyChecksumCommand}" InputGestureText="Ctrl+L" />
+                <MenuItem Header="Verify _EAC log file" Command="{Binding VerifyEACLogCommand}" InputGestureText="Ctrl+E" />
+            </MenuItem>
             <MenuItem Header="_Help">
+                <MenuItem Header="_Help" Command="{Binding HelpCommand}" InputGestureText="F1" />
+                <Separator />
                 <MenuItem Header="Home _page" Command="{Binding HomePageCommand}" />
                 <MenuItem Header="Support _forum" Command="{Binding SupportForumCommand}" />
+                <Separator />
+                <MenuItem Header="_About CD-Tag" Command="{Binding AboutCommand}" InputGestureText="Ctrl+F1" />
             </MenuItem>
         </Menu>
     </Grid>

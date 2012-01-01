@@ -10,7 +10,7 @@
         <ResourceDictionary Source="MenuItem.Geometry.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type MenuItem}">
+    <Style x:Key="wrenchMenuItem" TargetType="{x:Type MenuItem}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Background" Value="Transparent"/>
@@ -36,7 +36,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="MenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}"/>
+    <!--<Style x:Key="MenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}"/>-->
 
     <Style x:Key="DirectoryMenuItemStyle" TargetType="{x:Type MenuItem}">
         <Setter Property="VerticalContentAlignment" Value="Center" />

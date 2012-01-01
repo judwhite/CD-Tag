@@ -77,7 +77,8 @@ namespace CDTag.Views
         {
             base.OnInitialized(e);
 
-            KeyBindingHelper.SetKeyBindings(this, tagView.TagToolbar.wrenchMenu.Items);
+            //KeyBindingHelper.SetKeyBindings(this, tagView.TagToolbar.wrenchMenu.Items);
+            KeyBindingHelper.SetKeyBindings(this, tagView.MainMenu.Menu.Items);
 
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoBackCommand, Key.Left, ModifierKeys.Alt));
             InputBindings.Add(new KeyBinding(_viewModel.DirectoryViewModel.GoForwardCommand, Key.Right, ModifierKeys.Alt));

@@ -1,11 +1,12 @@
-﻿<view:ViewBase 
+﻿<View:ViewBase 
     x:Class="CDTag.Views.Tag.TagView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:view="clr-namespace:CDTag.Views" 
-    xmlns:View="clr-namespace:CDTag.FileBrowser.View;assembly=CDTag.FileBrowser"
+    xmlns:View="clr-namespace:CDTag.Views" 
+    xmlns:File="clr-namespace:CDTag.FileBrowser.View;assembly=CDTag.FileBrowser"
+    xmlns:Tag="clr-namespace:CDTag.Views.Tag" 
     mc:Ignorable="d" 
     d:DesignHeight="300" 
     d:DesignWidth="300"
@@ -17,7 +18,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!--<Tag:TagMenu Grid.Row="0" />-->
-        <View:FileExplorer x:Name="FileExplorer" Grid.Row="1" />
+        <Tag:TagMenu x:Name="MainMenu" Grid.Row="0" />
+        <File:FileExplorer x:Name="FileExplorer" Grid.Row="1" />
     </Grid>
-</view:ViewBase>
+</View:ViewBase>
