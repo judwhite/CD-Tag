@@ -72,7 +72,7 @@ namespace CDTag.FileBrowser.View
 
                 foreach (DriveInfo drive in DriveInfo.GetDrives())
                 {
-                    DirectoryTreeNode node = new DirectoryTreeNode();
+                    DirectoryTreeNode node = new DirectoryTreeNode(0);
                     node.Expanding += treeView1_BeforeExpand;
                     node.Collapsing += treeView1_BeforeCollapse;
                     treeView1.Items.Add(node);
@@ -249,7 +249,7 @@ namespace CDTag.FileBrowser.View
                     {
                         if ((dir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
                         {
-                            DirectoryTreeNode childNode = new DirectoryTreeNode();
+                            DirectoryTreeNode childNode = new DirectoryTreeNode(node.Depth + 1);
                             childNode.Expanding += treeView1_BeforeExpand;
                             childNode.Collapsing += treeView1_BeforeCollapse;
                             node.Items.Add(childNode);

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using CDTag.Common.Win32API;
 using CDTag.FileBrowser.ViewModel;
 
 namespace CDTag.FileBrowser.Converters
@@ -41,14 +42,19 @@ namespace CDTag.FileBrowser.Converters
 
             if (dirs == null || dirs.Count == 0)
                 return menuItems;
-            
+
             foreach (var item in dirs)
             {
                 TextBlock header = new TextBlock
                 {
                     Text = item,
                 };
+
+                Image icon = new Image();
+                icon.Source = IconHelper.GetImageSource(item);
+
                 MenuItem subDirMenuItem = new MenuItem { Header = header, Tag = item };
+                subDirMenuItem.Icon = icon;
                 subDirMenuItem.PreviewKeyDown += KeyEventHandler;
                 subDirMenuItem.Click += subDirMenuItem_Click;
 

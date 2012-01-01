@@ -7,15 +7,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <DataGrid x:Name="panel1" Grid.Row="0" CanUserResizeColumns="False">
             <DataGrid.Columns>
                 <!-- TODO: Localization -->
                 <DataGridTextColumn Header="Folders" Width="*" CanUserSort="False"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <TreeView x:Name="treeView1" Grid.Row="1" Margin="0,-1,0,0">
+
+        <TreeView x:Name="treeView1" Grid.Row="1" Margin="0,-1,0,0" ItemContainerStyle="{DynamicResource TreeViewItemStyle}">
             <TreeView.Resources>
                 <!-- Brushes for the selected item -->
                 <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="0,1" StartPoint="0,0">

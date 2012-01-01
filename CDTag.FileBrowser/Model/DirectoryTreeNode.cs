@@ -18,6 +18,19 @@ namespace CDTag.FileBrowser.Model
         public bool IsDrive { get; private set; }
         public string AccessDeniedMessage { get; private set; }
 
+        public DirectoryTreeNode(int depth)
+        {
+            Style = Application.Current.Resources["TreeViewItemStyle"] as Style;
+
+            Depth = depth;
+        }
+
+        public int Depth
+        {
+            get;
+            private set;
+        }
+
         public string Directory
         {
             get { return _directory; }
@@ -47,10 +60,9 @@ namespace CDTag.FileBrowser.Model
                 }
                 else
                 {
-                    string[] dirs;
                     try
                     {
-                        dirs = System.IO.Directory.GetDirectories(_directory);
+                        string[] dirs = System.IO.Directory.GetDirectories(_directory);
                         if (dirs.Length != 0)
                         {
                             Items.Add(null);

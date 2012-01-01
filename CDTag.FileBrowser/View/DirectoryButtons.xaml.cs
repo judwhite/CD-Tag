@@ -125,7 +125,7 @@ namespace CDTag.FileBrowser.View
                             {
                                 if (!menuItem.IsSubmenuOpen)
                                 {
-                                    VisualStateManager.GoToState(dirButton, "MouseOver", true);
+                                    VisualStateManager.GoToState(dirButton, "MenuMouseOver", true);
                                     VisualStateManager.GoToState(menuItem, "MouseOver", true);
                                 }
                             };

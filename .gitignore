@@ -1,6 +1,7 @@
 *.suo
 *.csproj.user
 *.ReSharper.user
+*.DotSettings.user
 bin/
 obj/
 publish/
