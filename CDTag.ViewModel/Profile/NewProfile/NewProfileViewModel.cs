@@ -12,6 +12,9 @@ namespace CDTag.ViewModel.Profile.NewProfile
 {
     public class NewProfileViewModel : ViewModelBase<NewProfileViewModel>, INewProfileViewModel
     {
+        private const string PageOneStateName = "PageOne";
+        private const string PageTwoStateName = "PageTwo";
+
         private readonly DelegateCommand _nextCommand;
         private readonly DelegateCommand _previousCommand;
         private readonly ObservableCollection<FormatItem> _directoryFormats;
@@ -45,6 +48,8 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 new FormatItem { FormatString = "<Artist> - <Track> - <Song>" },
                 new FormatItem { FormatString = "<Track> - <Song>" },
             };
+
+            CurrentVisualState = PageOneStateName;
         }
 
         private void NewProfileViewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<NewProfileViewModel> e)
@@ -69,6 +74,24 @@ namespace CDTag.ViewModel.Profile.NewProfile
             {
                 _confirmedOverwrite = false;
             }
+            else if (e.IsProperty(p => p.PageIndex))
+            {
+                if (PageIndex == 0)
+                {
+                    CurrentVisualState = PageOneStateName;
+                }
+                else if (PageIndex == 1)
+                {
+                    CurrentVisualState = PageTwoStateName;
+                }
+            }
+            else if (e.IsProperty(p => p.CurrentVisualState))
+            {
+                if (CurrentVisualState == PageOneStateName)
+                {
+                    IsProfileNameFocused = true;
+                }
+            }
         }
 
         private void Next()
@@ -91,16 +114,16 @@ namespace CDTag.ViewModel.Profile.NewProfile
             if (string.IsNullOrWhiteSpace(ProfileName))
             {
                 // TODO: Localize
-                MessageBoxEvent messageBoxEvent = new MessageBoxEvent
+                MessageBoxEvent messageBox = new MessageBoxEvent
                 {
-                    Owner = View,
                     MessageBoxText = "Please enter a name for your profile.",
                     Caption = "New profile",
                     MessageBoxButton = MessageBoxButton.OK,
                     MessageBoxImage = MessageBoxImage.Information
                 };
 
-                _eventAggregator.Publish(messageBoxEvent);
+                MessageBox(messageBox);
+
                 return false;
             }
 
@@ -111,15 +134,15 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 // TODO: Localize
                 MessageBoxEvent messageBoxEvent = new MessageBoxEvent
                 {
-                    Owner = View,
                     MessageBoxText = string.Format("'{0}' exists. Overwrite?", fileName),
                     Caption = "New profile",
                     MessageBoxButton = MessageBoxButton.YesNo,
                     MessageBoxImage = MessageBoxImage.Question
                 };
 
-                _eventAggregator.Publish(messageBoxEvent);
-                if (messageBoxEvent.Result != MessageBoxResult.Yes)
+                var result = MessageBox(messageBoxEvent);
+
+                if (result != MessageBoxResult.Yes)
                     return false;
 
                 _confirmedOverwrite = true;
@@ -137,14 +160,14 @@ namespace CDTag.ViewModel.Profile.NewProfile
                     // TODO: Localize
                     MessageBoxEvent messageBoxEvent = new MessageBoxEvent
                     {
-                        Owner = View,
                         MessageBoxText = string.Format("'{0}' cannot be created.", fileName),
                         Caption = "New profile",
                         MessageBoxButton = MessageBoxButton.OK,
                         MessageBoxImage = MessageBoxImage.Information
                     };
 
-                    _eventAggregator.Publish(messageBoxEvent);
+                    MessageBox(messageBoxEvent);
+
                     return false;
                 }
 
@@ -169,9 +192,6 @@ namespace CDTag.ViewModel.Profile.NewProfile
         {
             if (PageIndex > 0)
                 PageIndex -= 1;
-
-            if (PageIndex == 0)
-                IsProfileNameFocused = true;
         }
 
         public string ProfileName

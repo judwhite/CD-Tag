@@ -14,13 +14,13 @@ namespace CDTag.Common
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
-        protected override void SendPropertyChanged(string propertyName, object oldValue, object newValue)
+        protected override void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
         {
-            base.SendPropertyChanged(propertyName, oldValue, newValue);
+            base.RaisePropertyChanged(propertyName, oldValue, newValue);
 
-            var handler2 = EnhancedPropertyChanged;
-            if (handler2 != null)
-                handler2(this, new EnhancedPropertyChangedEventArgs<T>(propertyName, oldValue, newValue));
+            var handler = EnhancedPropertyChanged;
+            if (handler != null)
+                handler(this, new EnhancedPropertyChangedEventArgs<T>(propertyName, oldValue, newValue));
         }
     }
 
@@ -38,7 +38,7 @@ namespace CDTag.Common
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
-        protected virtual void SendPropertyChanged(string propertyName, object oldValue, object newValue)
+        protected virtual void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -96,7 +96,7 @@ namespace CDTag.Common
                 else
                     _propertyValues.Add(propertyName, value);
 
-                SendPropertyChanged(propertyName, oldValue, value);
+                RaisePropertyChanged(propertyName, oldValue, value);
             }
         }
     }

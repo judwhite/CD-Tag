@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Windows;
 using CDTag.View;
-using CDTag.View.Interfaces;
+using CDTag.ViewModel.Events;
+using IdSharp.Common.Events;
 
 namespace CDTag.Common
 {
@@ -23,17 +25,17 @@ namespace CDTag.Common
         {
         }
 
-        /// <summary>Sends the <see cref="ViewModelBase.PropertyChanged"/> and <see cref="EnhancedPropertyChanged" /> events.</summary>
+        /// <summary>Raises the <see cref="ViewModelBase.PropertyChanged"/> and <see cref="EnhancedPropertyChanged" /> events.</summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
-        protected override void SendPropertyChanged(string propertyName, object oldValue, object newValue)
+        protected override void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
         {
-            base.SendPropertyChanged(propertyName, oldValue, newValue);
+            base.RaisePropertyChanged(propertyName, oldValue, newValue);
 
-            var handler2 = EnhancedPropertyChanged;
-            if (handler2 != null)
-                handler2(this, new EnhancedPropertyChangedEventArgs<T>(propertyName, oldValue, newValue));
+            var handler = EnhancedPropertyChanged;
+            if (handler != null)
+                handler(this, new EnhancedPropertyChangedEventArgs<T>(propertyName, oldValue, newValue));
         }
     }
 
@@ -44,6 +46,9 @@ namespace CDTag.Common
     {
         /// <summary>Occurs when a property value changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>Occurs when <see cref="ShowMessageBox"/> has been called.</summary>
+        public event EventHandler<DataEventArgs<MessageBoxEvent>> ShowMessageBox;
 
         private readonly Dictionary<string, object> _propertyValues = new Dictionary<string, object>();
 
@@ -59,15 +64,8 @@ namespace CDTag.Common
             _eventAggregator = eventAggregator;
         }
 
-        /// <summary>
-        /// Gets or sets the view.
-        /// </summary>
-        /// <value>The view.</value>
-        public IWindow View
-        {
-            get { return Get<IWindow>("View"); }
-            set { Set("View", value); }
-        }
+        /// <summary>Gets the event aggregator.</summary>
+        public IEventAggregator EventAggregator { get { return _eventAggregator; } }
 
         /// <summary>
         /// Gets or sets the close window action.
@@ -94,11 +92,11 @@ namespace CDTag.Common
                 IoC.Resolve<IDialogService>().ShowError(exception, errorContainer);
         }
 
-        /// <summary>Sends the <see cref="PropertyChanged"/> event.</summary>
+        /// <summary>Raises the <see cref="PropertyChanged"/> event.</summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
-        protected virtual void SendPropertyChanged(string propertyName, object oldValue, object newValue)
+        protected virtual void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -156,7 +154,7 @@ namespace CDTag.Common
                 else
                     _propertyValues.Add(propertyName, value);
 
-                SendPropertyChanged(propertyName, oldValue, value);
+                RaisePropertyChanged(propertyName, oldValue, value);
             }
         }
 
@@ -176,6 +174,70 @@ namespace CDTag.Common
         protected void Set<T>(MethodBase method, T value)
         {
             Set(method.Name.Substring(4), value);
+        }
+
+        /// <summary>Gets or sets the current visual state.</summary>
+        /// <value>The current visual state.</value>
+        public string CurrentVisualState
+        {
+            get { return Get<string>("CurrentVisualState"); }
+            set
+            {
+                Invoke(() => Set("CurrentVisualState", value));
+            }
+        }
+
+        /// <summary>Invokes the specified action on the UI thread.</summary>
+        /// <param name="action">The action to invoke.</param>
+        protected void Invoke(Action action)
+        {
+            UIThreadHelper.Invoke(action);
+        }
+
+        /// <summary>
+        /// Invokes the specified action on the UI thread only if not currently on the UI thread.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        /// <returns><c>true</c> if the action was invoked; otherwise, <c>false</c>.</returns>
+        protected bool InvokeIfRequired(Action action)
+        {
+            return UIThreadHelper.InvokeIfRequired(action);
+        }
+
+        /// <summary>Messages the box.</summary>
+        /// <param name="messageBoxEvent">The message box event.</param>
+        /// <returns>The message box result.</returns>
+        protected MessageBoxResult MessageBox(MessageBoxEvent messageBoxEvent)
+        {
+            if (messageBoxEvent == null)
+                throw new ArgumentException("messageBoxEvent");
+
+            var handler = ShowMessageBox;
+            if (handler != null)
+                handler(this, new DataEventArgs<MessageBoxEvent>(messageBoxEvent));
+            else
+                throw new Exception("'ShowMessageBox' event is not subscribed to.");
+
+            return messageBoxEvent.Result;
+        }
+
+        /// <summary>Shows a message box.</summary>
+        /// <param name="messageBoxText">The message box text.</param>
+        /// <param name="caption">The caption.</param>
+        /// <param name="buttons">The buttons.</param>
+        /// <param name="image">The image.</param>
+        /// <returns>The message box result.</returns>
+        protected MessageBoxResult MessageBox(string messageBoxText, string caption, MessageBoxButton buttons, MessageBoxImage image)
+        {
+            MessageBoxEvent messageBox = new MessageBoxEvent
+            {
+                MessageBoxText = messageBoxText,
+                Caption = caption,
+                MessageBoxButton = buttons,
+                MessageBoxImage = image
+            };
+
+            return MessageBox(messageBox);
         }
     }
 }

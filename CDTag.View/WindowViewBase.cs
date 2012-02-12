@@ -6,6 +6,8 @@ using System.Windows.Media;
 using CDTag.Common;
 using CDTag.Common.Settings;
 using CDTag.View.Interfaces;
+using CDTag.ViewModel.Events;
+using IdSharp.Common.Events;
 
 namespace CDTag.Views
 {
@@ -14,6 +16,13 @@ namespace CDTag.Views
     /// </summary>
     public class WindowViewBase : Window, IWindow
     {
+        public static readonly DependencyProperty CurrentVisualStateProperty =
+            DependencyProperty.Register("CurrentVisualState", typeof(string), typeof(WindowViewBase), new PropertyMetadata(default(string), CurrentVisualStateChanged));
+
+        public static readonly DependencyProperty HandleEscapeProperty =
+            DependencyProperty.Register("HandleEscape", typeof(bool), typeof(WindowViewBase), new PropertyMetadata(default(bool)));
+
+        private readonly IViewModelBase _viewModel;
         private bool _settingsLoaded;
 
         /// <summary>
@@ -22,8 +31,11 @@ namespace CDTag.Views
         /// <param name="viewModel">The view model.</param>
         protected WindowViewBase(IViewModelBase viewModel)
         {
-            DataContext = viewModel;
-            viewModel.View = this;
+            if (viewModel == null)
+                throw new ArgumentNullException("viewModel");
+
+            _viewModel = viewModel;
+            DataContext = _viewModel;
 
             PreviewKeyDown += WindowViewBase_PreviewKeyDown;
             Closed += WindowViewBase_Closed;
@@ -31,6 +43,19 @@ namespace CDTag.Views
             ShowInTaskbar = false;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             Background = (Brush)Application.Current.Resources["WindowBackground"];
+
+            _viewModel.ShowMessageBox += viewModel_ShowMessageBox;
+        }
+
+        private void viewModel_ShowMessageBox(object sender, DataEventArgs<MessageBoxEvent> e)
+        {
+            if (e == null)
+                throw new ArgumentNullException("e");
+
+            MessageBoxEvent messageBoxEvent = e.Data;
+            messageBoxEvent.Owner = this;
+
+            _viewModel.EventAggregator.Publish(messageBoxEvent);
         }
 
         /// <summary>
@@ -45,11 +70,35 @@ namespace CDTag.Views
                 LoadWindowSettings();
         }
 
+        /// <summary>Property changed handler for <see cref="CurrentVisualState" /> dependency property.</summary>
+        /// <param name="dependencyObject">The dependency object.</param>
+        /// <param name="dependencyPropertyChangedEventArgs">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        private static void CurrentVisualStateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var window = (WindowViewBase)dependencyObject;
+            if (window.CurrentVisualState != null)
+            {
+                VisualStateManager.GoToElementState(window, window.CurrentVisualState, useTransitions: true);
+            }
+        }
+
+        /// <summary>Gets or sets the current visual state.</summary>
+        /// <value>The current visual state.</value>
+        public string CurrentVisualState
+        {
+            get { return (string)GetValue(CurrentVisualStateProperty); }
+            set { SetValue(CurrentVisualStateProperty, value); }
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether the escape key should be used to close the window.
         /// </summary>
         /// <value><c>true</c> if the escape key should be used to close the window; otherwise, <c>false</c>.</value>
-        public bool HandleEscape { get; set; }
+        public bool HandleEscape
+        {
+            get { return (bool)GetValue(HandleEscapeProperty); }
+            set { SetValue(HandleEscapeProperty, value); }
+        }
 
         private void LoadWindowSettings()
         {

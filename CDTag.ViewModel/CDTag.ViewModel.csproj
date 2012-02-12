@@ -60,7 +60,6 @@
     <Compile Include="Checksum\IVerifyEACLogViewModel.cs" />
     <Compile Include="Checksum\VerifyEACLogViewModel.cs" />
     <Compile Include="Events\GetDirectoryControllerEvent.cs" />
-    <Compile Include="Events\MessageBoxEvent.cs" />
     <Compile Include="Options\IOptionsViewModel.cs" />
     <Compile Include="Options\OptionsViewModel.cs" />
     <Compile Include="Profile\EditProfile\EditProfileViewModel.cs" />

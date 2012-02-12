@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
-using CDTag.View.Interfaces;
+using System.Windows;
+using CDTag.ViewModel.Events;
+using IdSharp.Common.Events;
 
 namespace CDTag.Common
 {
@@ -9,21 +11,23 @@ namespace CDTag.Common
     /// </summary>
     public interface IViewModelBase : INotifyPropertyChanged
     {
-        /// <summary>
-        /// Gets or sets the view.
-        /// </summary>
-        /// <value>The view.</value>
-        IWindow View { get; set; }
+        /// <summary>Occurs when <see cref="ShowMessageBox" /> has been called.</summary>
+        event EventHandler<DataEventArgs<MessageBoxEvent>> ShowMessageBox;
 
         /// <summary>Gets or sets the error container.</summary>
         /// <value>The error container.</value>
         IErrorContainer ErrorContainer { get; set; }
 
-        /// <summary>
-        /// Gets or sets the close window action.
-        /// </summary>
+        /// <summary>Gets or sets the close window action.</summary>
         /// <value>The close window action.</value>
         Action CloseWindow { get; set; }
+
+        /// <summary>Gets or sets the current visual state.</summary>
+        /// <value>The current visual state.</value>
+        string CurrentVisualState { get; set; }
+
+        /// <summary>Gets the event aggregator.</summary>
+        IEventAggregator EventAggregator { get; }
     }
 
     /// <summary>

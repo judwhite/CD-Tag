@@ -8,10 +8,8 @@ namespace CDTag.Common
     /// </summary>
     public static class UIThreadHelper
     {
-        /// <summary>
-        /// Invokes the specified action on the UI thread.
-        /// </summary>
-        /// <param name="action">The action.</param>
+        /// <summary>Invokes the specified action on the UI thread.</summary>
+        /// <param name="action">The action to invoke.</param>
         public static void Invoke(Action action)
         {
             if (action == null)
@@ -24,10 +22,10 @@ namespace CDTag.Common
         }
 
         /// <summary>
-        /// Invokes the specified action on the UI thread if not currently on the UI thread.
+        /// Invokes the specified action on the UI thread only if not currently on the UI thread.
         /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns><c>true</c> if the action was invoke; otherwise, <c>false</c>.</returns>
+        /// <param name="action">The action to invoke.</param>
+        /// <returns><c>true</c> if the action was invoked; otherwise, <c>false</c>.</returns>
         public static bool InvokeIfRequired(Action action)
         {
             if (action == null)

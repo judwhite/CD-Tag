@@ -242,7 +242,7 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Changed(object sender, FileSystemEventArgs e)
         {
-            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Changed(sender, e)))
+            if (InvokeIfRequired(() => FileSystem_Changed(sender, e)))
                 return;
             
             FileView fv = FileCollection.Find(e.Name);
@@ -259,7 +259,7 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Created(object sender, FileSystemEventArgs e)
         {
-            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Created(sender, e)))
+            if (InvokeIfRequired(() => FileSystem_Created(sender, e)))
                 return;
 
             FileView fv = new FileView(GetFileSystemInfo(e.FullPath));
@@ -269,7 +269,7 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Deleted(object sender, FileSystemEventArgs e)
         {
-            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Deleted(sender, e)))
+            if (InvokeIfRequired(() => FileSystem_Deleted(sender, e)))
                 return;
 
             FileView fv = FileCollection.Find(e.Name);
@@ -283,7 +283,7 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Renamed(object sender, RenamedEventArgs e)
         {
-            if (UIThreadHelper.InvokeIfRequired(() => FileSystem_Renamed(sender, e)))
+            if (InvokeIfRequired(() => FileSystem_Renamed(sender, e)))
                 return;
 
             FileView fileView = FileCollection.Find(e.OldName);
@@ -325,7 +325,7 @@ namespace CDTag.FileBrowser.ViewModel
                 directory = directory.Substring(0, directory.Length - 1);
             }
 
-            SendNavigatingEvent();
+            RaiseNavigatingEvent();
             try
             {
                 // Navigate up the tree until a valid directory is found
@@ -393,7 +393,7 @@ namespace CDTag.FileBrowser.ViewModel
                 catch (UnauthorizedAccessException ex)
                 {
                     Mouse.OverrideCursor = null;
-                    MessageBox.Show(ex.Message, _accessDeniedDialogTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox(ex.Message, _accessDeniedDialogTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -451,16 +451,16 @@ namespace CDTag.FileBrowser.ViewModel
                 ((DelegateCommand)GoForwardCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)GoUpCommand).RaiseCanExecuteChanged();
 
-                SendPropertyChanged("CurrentDirectory", oldValue: oldDirectory, newValue: CurrentDirectory);
+                RaisePropertyChanged("CurrentDirectory", oldValue: oldDirectory, newValue: CurrentDirectory);
             }
             finally
             {
-                SendNavigationCompleteEvent();
+                RaiseNavigationCompleteEvent();
             }
         }
 
         private bool _isNavigating;
-        private void SendNavigatingEvent()
+        private void RaiseNavigatingEvent()
         {
             _isNavigating = true;
             var eventHandler = Navigating;
@@ -468,7 +468,7 @@ namespace CDTag.FileBrowser.ViewModel
                 eventHandler(this, EventArgs.Empty);
         }
 
-        private void SendNavigationCompleteEvent()
+        private void RaiseNavigationCompleteEvent()
         {
             TypingDirectory = CurrentDirectory;
             UpdateHistory();
@@ -542,7 +542,10 @@ namespace CDTag.FileBrowser.ViewModel
                         subDirs.Add(directoryInfo.FullName);
                 }
 
-                Application.Current.Dispatcher.Invoke(new Action(() => SubDirectories = subDirs));
+                Invoke(() => 
+                { 
+                    SubDirectories = subDirs; 
+                });
             }
             catch
             {

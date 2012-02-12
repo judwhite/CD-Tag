@@ -63,6 +63,7 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ErrorContainer.cs" />
     <Compile Include="EventAggregator.cs" />
+    <Compile Include="Events\MessageBoxEvent.cs" />
     <Compile Include="GlassHelper.cs" />
     <Compile Include="IDialogService.cs" />
     <Compile Include="IErrorContainer.cs" />

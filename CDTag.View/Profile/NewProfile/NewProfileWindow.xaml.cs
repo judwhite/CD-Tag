@@ -1,4 +1,5 @@
-﻿using CDTag.View.Interfaces.Profile.NewProfile;
+﻿using System;
+using CDTag.View.Interfaces.Profile.NewProfile;
 using CDTag.ViewModel.Profile.NewProfile;
 
 namespace CDTag.Views.Profile.NewProfile
@@ -12,6 +13,11 @@ namespace CDTag.Views.Profile.NewProfile
             : base(viewModel)
         {
             InitializeComponent();
+        }
+
+        private void PageOneStoryboard_Completed(object sender, EventArgs e)
+        {
+            ProfileNameTextBox.Focus();
         }
     }
 }

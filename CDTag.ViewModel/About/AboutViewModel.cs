@@ -65,7 +65,10 @@ namespace CDTag.ViewModel.About
                     }
                 }
 
-                Application.Current.Dispatcher.Invoke(new Action(() => ComponentsCollection = items));
+                Invoke(() =>
+                {
+                    ComponentsCollection = items;
+                });
             }
             catch (Exception ex)
             {
@@ -73,7 +76,7 @@ namespace CDTag.ViewModel.About
             }
         }
 
-        private static void Navigate(Uri uri)
+        private void Navigate(Uri uri)
         {
             try
             {
@@ -81,7 +84,7 @@ namespace CDTag.ViewModel.About
             }
             catch (Win32Exception ex)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox(ex.Message, "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -96,7 +99,7 @@ namespace CDTag.ViewModel.About
             Clipboard.SetText(stringBuilder.ToString());
 
             // TODO: Localize
-            MessageBox.Show("Component information copied to clipboard.", "Copy Component Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox("Component information copied to clipboard.", "Copy Component Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public ICommand NavigateCommand
