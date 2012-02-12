@@ -53,6 +53,10 @@
       <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
       <Name>CDTag.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CDTag.Model\CDTag.Model.csproj">
+      <Project>{24732BDC-95F9-497C-93A9-89634D8C1E06}</Project>
+      <Name>CDTag.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CDTag.ViewModel\CDTag.ViewModel.csproj">
       <Project>{5B90F658-10CD-4829-BA0F-FD8B972733C2}</Project>
       <Name>CDTag.ViewModel</Name>

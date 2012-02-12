@@ -71,6 +71,20 @@ namespace CDTag.ViewModel.Profile.NewProfile
                     HasExistingNFO = _storedHasExistingNFO;
                 }
             }
+            else if (e.IsProperty(p => p.CreateSampleNFO))
+            {
+                if (CreateSampleNFO)
+                {
+                    HasExistingNFO = false;
+                }
+            }
+            else if (e.IsProperty(p => p.HasExistingNFO))
+            {
+                if (HasExistingNFO)
+                {
+                    CreateSampleNFO = false;
+                }
+            }
             else if (e.IsProperty(p => p.ProfileName))
             {
                 _confirmedOverwrite = false;
