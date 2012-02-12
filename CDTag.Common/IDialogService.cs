@@ -19,9 +19,6 @@ namespace CDTag.View
         /// <param name="errorContainer">The error container.</param>
         void ShowError(Exception exception, IErrorContainer errorContainer);
 
-        /// <summary>Gets the local application directory.</summary>
-        string LocalApplicationDirectory { get; }
-
         /// <summary>Shows the window.</summary>
         /// <typeparam name="T">The window type.</typeparam>
         /// <returns>The result of <see cref="Window.ShowDialog()" />.</returns>
@@ -30,8 +27,5 @@ namespace CDTag.View
 
         /// <summary>Closes the address bar text box.</summary>
         void CloseAddressTextBox();
-
-        /// <summary>Gets the profile directory.</summary>
-        string ProfileDirectory { get; }
     }
 }

@@ -35,6 +35,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\IdSharp\Tests\NUnit\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +45,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\IdSharp\IdSharp.Common\IdSharp.Common.csproj">
+      <Project>{1C83FB63-E16E-4380-9DD0-26E1799C417D}</Project>
+      <Name>IdSharp.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CDTag.Common\CDTag.Common.csproj">
       <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
       <Name>CDTag.Common</Name>

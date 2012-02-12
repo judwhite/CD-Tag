@@ -45,7 +45,11 @@ namespace CDTag.Common
     /// </summary>
     public abstract class ViewModelBase : IViewModelBase
     {
-        private static readonly IDispatcher _dispatcher;
+        /// <summary>Dispatcher service.</summary>
+        protected static readonly IDispatcher _dispatcher;
+
+        /// <summary>Path service.</summary>
+        protected static readonly IPathService _pathService;
 
         /// <summary>Occurs when a property value changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,6 +65,7 @@ namespace CDTag.Common
         static ViewModelBase()
         {
             _dispatcher = IoC.Resolve<IDispatcher>();
+            _pathService = IoC.Resolve<IPathService>();
         }
 
         /// <summary>

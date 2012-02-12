@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -12,8 +13,8 @@ namespace CDTag.ViewModel.Profile.NewProfile
 {
     public class NewProfileViewModel : ViewModelBase<NewProfileViewModel>, INewProfileViewModel
     {
-        private const string PageOneStateName = "PageOne";
-        private const string PageTwoStateName = "PageTwo";
+        public const string PageOneStateName = "PageOne";
+        public const string PageTwoStateName = "PageTwo";
 
         private readonly DelegateCommand _nextCommand;
         private readonly DelegateCommand _previousCommand;
@@ -127,6 +128,21 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 return false;
             }
 
+            if (!_pathService.IsShortFileNameValid(ProfileName))
+            {
+                MessageBoxEvent messageBoxEvent = new MessageBoxEvent
+                {
+                    MessageBoxText = string.Format("'{0}' contains invalid characters.", ProfileName),
+                    Caption = "New profile",
+                    MessageBoxButton = MessageBoxButton.OK,
+                    MessageBoxImage = MessageBoxImage.Information
+                };
+
+                MessageBox(messageBoxEvent);
+
+                return false;
+            }
+
             // Check if file exists
             string fileName = GetProfileFileName();
             if (File.Exists(fileName) && !_confirmedOverwrite)
@@ -179,7 +195,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
 
         private string GetProfileFileName()
         {
-            string fileName = Path.Combine(IoC.Resolve<IDialogService>().ProfileDirectory, ProfileName);
+            string fileName = Path.Combine(_pathService.ProfileDirectory, ProfileName);
 
             string ext = Path.GetExtension(fileName);
             if (string.Compare(ext, ".cfg", ignoreCase: true) != 0)

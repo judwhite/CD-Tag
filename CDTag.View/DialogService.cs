@@ -15,9 +15,6 @@ namespace CDTag.View
     {
         private static readonly IDispatcher _dispatcher;
 
-        private string _localApplicationDirectory;
-        private string _profileDirectory;
-
         static DialogService()
         {
             _dispatcher = IoC.Resolve<IDispatcher>();
@@ -73,39 +70,9 @@ namespace CDTag.View
             errorNotification.Show(exception);
         }
 
-        public string LocalApplicationDirectory
-        {
-            get
-            {
-                if (_localApplicationDirectory == null)
-                {
-                    _localApplicationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CD-Tag");
-                    if (!Directory.Exists(_localApplicationDirectory))
-                        Directory.CreateDirectory(_localApplicationDirectory);
-                }
-
-                return _localApplicationDirectory;
-            }
-        }
-
         public void CloseAddressTextBox()
         {
             IoC.Resolve<IEventAggregator>().Publish<CloseAddressTextBoxEvent>(null);
-        }
-
-        public string ProfileDirectory
-        {
-            get
-            {
-                if (_profileDirectory == null)
-                {
-                    _profileDirectory = Path.Combine(LocalApplicationDirectory, "Profiles");
-                    if (!Directory.Exists(_profileDirectory))
-                        Directory.CreateDirectory(_profileDirectory);
-                }
-
-                return _profileDirectory;
-            }
         }
     }
 }

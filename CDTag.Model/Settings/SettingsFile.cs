@@ -34,7 +34,7 @@ namespace CDTag.Common.Settings
 
         private static string GetFullFileName(string fileName)
         {
-            return Path.Combine(IoC.Resolve<IDialogService>().LocalApplicationDirectory, fileName);
+            return Path.Combine(IoC.Resolve<IPathService>().LocalApplicationDirectory, fileName);
         }
 
         /// <summary>Tries to load settings from the specified file.</summary>
