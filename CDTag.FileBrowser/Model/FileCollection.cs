@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
+using CDTag.Common;
+using CDTag.Common.Dispatcher;
 
 namespace CDTag.FileBrowser.Model
 {
@@ -10,6 +12,13 @@ namespace CDTag.FileBrowser.Model
     /// </summary>
     public class FileCollection : ObservableCollection<FileView>
     {
+        private static readonly IDispatcher _dispatcher;
+
+        static FileCollection()
+        {
+            _dispatcher = IoC.Resolve<IDispatcher>();
+        }
+
         internal FileView Find(string name)
         {
             FileView item = null;
@@ -30,11 +39,9 @@ namespace CDTag.FileBrowser.Model
         /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            // Make sure we fire ListChanged on the UI thread
-
-            if (!Application.Current.Dispatcher.CheckAccess())
+            if (!_dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.Invoke(new Action(() => OnCollectionChanged(e)));
+                _dispatcher.BeginInvoke(() => OnCollectionChanged(e));
                 return;
             }
             

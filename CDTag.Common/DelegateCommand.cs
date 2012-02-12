@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using CDTag.Common.Dispatcher;
 
 namespace CDTag.Common
 {
@@ -47,10 +48,16 @@ namespace CDTag.Common
     /// </summary>
     public class DelegateCommand<T> : ICommand
     {
+        private static readonly IDispatcher _dispatcher;
         private readonly Action<T> _executeMethod;
         private readonly Func<bool> _canExecuteMethod;
         private bool _isAutomaticRequeryDisabled;
         private List<WeakReference> _canExecuteChangedHandlers;
+
+        static DelegateCommand()
+        {
+            _dispatcher = IoC.Resolve<IDispatcher>();
+        }
 
         /// <summary>
         ///     Constructor
@@ -137,7 +144,7 @@ namespace CDTag.Common
         /// </summary>
         public void RaiseCanExecuteChanged()
         {
-            UIThreadHelper.Invoke(OnCanExecuteChanged);
+            _dispatcher.BeginInvoke(OnCanExecuteChanged);
         }
 
         /// <summary>

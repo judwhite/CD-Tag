@@ -65,7 +65,7 @@ namespace CDTag.ViewModel.About
                     }
                 }
 
-                Invoke(() =>
+                BeginInvoke(() =>
                 {
                     ComponentsCollection = items;
                 });

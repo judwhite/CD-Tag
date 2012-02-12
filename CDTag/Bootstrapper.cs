@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CDTag.Common;
+using CDTag.Common.Dispatcher;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.View;
 using CDTag.View.Interfaces.About;
@@ -46,6 +47,7 @@ namespace CDTag
         protected void ConfigureContainer()
         {
             // Instances
+            IoC.RegisterInstance<IDispatcher>(new ApplicationDispatcher());
             IoC.RegisterInstance<IDialogService>(new DialogService());
             IoC.RegisterInstance<ITagViewModel>(IoC.Resolve<TagViewModel>());
 

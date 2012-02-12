@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CDTag.Common.Dispatcher;
 
 namespace CDTag.Common
 {
@@ -122,6 +123,23 @@ namespace CDTag.Common
             }
 
             throw new Exception(string.Format("Type '{0}' not registered.", interfaceType));
+        }
+
+        /// <summary>Clears all IoC registrations.</summary>
+        public static void ClearAllRegistrations()
+        {
+            lock (_locker)
+            {
+                _types.Clear();
+
+                foreach (var item in new Dictionary<Type, object>(_instances))
+                {
+                    if (item.Key != typeof(IEventAggregator))
+                    {
+                        _instances.Remove(item.Key);
+                    }
+                }
+            }
         }
     }
 }

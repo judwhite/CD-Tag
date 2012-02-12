@@ -61,11 +61,14 @@
     <Compile Include="CommandManagerHelper.cs" />
     <Compile Include="DataGridUtil.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="Dispatcher\ApplicationDispatcher.cs" />
+    <Compile Include="Dispatcher\UnitTestDispatcher.cs" />
     <Compile Include="ErrorContainer.cs" />
     <Compile Include="EventAggregator.cs" />
     <Compile Include="Events\MessageBoxEvent.cs" />
     <Compile Include="GlassHelper.cs" />
     <Compile Include="IDialogService.cs" />
+    <Compile Include="Dispatcher\IDispatcher.cs" />
     <Compile Include="IErrorContainer.cs" />
     <Compile Include="IEventAggregator.cs" />
     <Compile Include="IModelBase.cs" />
@@ -80,7 +83,6 @@
     <Compile Include="MouseHelper.cs" />
     <Compile Include="MVVM\FocusExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIThreadHelper.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Win32API\Advapi32.cs" />
     <Compile Include="Win32API\Const.cs" />

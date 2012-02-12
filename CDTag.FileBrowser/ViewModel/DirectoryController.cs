@@ -18,8 +18,7 @@ namespace CDTag.FileBrowser.ViewModel
     /// </summary>
     public class DirectoryController : ViewModelBase<IDirectoryController>, IDirectoryController
     {
-        // TODO: Localize
-        private const string _accessDeniedDialogTitle = "Access denied";
+        private const string _accessDeniedDialogTitle = "Access denied"; // TODO: Localize
 
         private readonly BindingList<FileView> _backHistory = new BindingList<FileView>();
         private readonly BindingList<FileView> _forwardHistory = new BindingList<FileView>();
@@ -242,9 +241,12 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Changed(object sender, FileSystemEventArgs e)
         {
-            if (InvokeIfRequired(() => FileSystem_Changed(sender, e)))
+            if (!CheckAccess())
+            {
+                BeginInvoke(() => FileSystem_Changed(sender, e));
                 return;
-            
+            }
+
             FileView fv = FileCollection.Find(e.Name);
 
             if (null != fv)
@@ -259,8 +261,11 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Created(object sender, FileSystemEventArgs e)
         {
-            if (InvokeIfRequired(() => FileSystem_Created(sender, e)))
+            if (!CheckAccess())
+            {
+                BeginInvoke(() => FileSystem_Created(sender, e));
                 return;
+            }
 
             FileView fv = new FileView(GetFileSystemInfo(e.FullPath));
             DirectorySizeBytes += fv.Size ?? 0;
@@ -269,8 +274,11 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Deleted(object sender, FileSystemEventArgs e)
         {
-            if (InvokeIfRequired(() => FileSystem_Deleted(sender, e)))
+            if (!CheckAccess())
+            {
+                BeginInvoke(() => FileSystem_Deleted(sender, e));
                 return;
+            }
 
             FileView fv = FileCollection.Find(e.Name);
 
@@ -283,8 +291,11 @@ namespace CDTag.FileBrowser.ViewModel
 
         private void FileSystem_Renamed(object sender, RenamedEventArgs e)
         {
-            if (InvokeIfRequired(() => FileSystem_Renamed(sender, e)))
+            if (!CheckAccess())
+            {
+                BeginInvoke(() => FileSystem_Renamed(sender, e));
                 return;
+            }
 
             FileView fileView = FileCollection.Find(e.OldName);
 
@@ -542,9 +553,9 @@ namespace CDTag.FileBrowser.ViewModel
                         subDirs.Add(directoryInfo.FullName);
                 }
 
-                Invoke(() => 
-                { 
-                    SubDirectories = subDirs; 
+                BeginInvoke(() =>
+                {
+                    SubDirectories = subDirs;
                 });
             }
             catch

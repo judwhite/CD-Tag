@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
+using CDTag.Common.Dispatcher;
 using CDTag.View;
 using CDTag.ViewModel.Events;
 using IdSharp.Common.Events;
@@ -44,6 +45,8 @@ namespace CDTag.Common
     /// </summary>
     public abstract class ViewModelBase : IViewModelBase
     {
+        private static readonly IDispatcher _dispatcher;
+
         /// <summary>Occurs when a property value changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -54,6 +57,11 @@ namespace CDTag.Common
 
         /// <summary>The event aggregator.</summary>
         protected readonly IEventAggregator _eventAggregator;
+
+        static ViewModelBase()
+        {
+            _dispatcher = IoC.Resolve<IDispatcher>();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
@@ -183,25 +191,22 @@ namespace CDTag.Common
             get { return Get<string>("CurrentVisualState"); }
             set
             {
-                Invoke(() => Set("CurrentVisualState", value));
+                BeginInvoke(() => Set("CurrentVisualState", value));
             }
         }
 
         /// <summary>Invokes the specified action on the UI thread.</summary>
         /// <param name="action">The action to invoke.</param>
-        protected void Invoke(Action action)
+        protected void BeginInvoke(Action action)
         {
-            UIThreadHelper.Invoke(action);
+            _dispatcher.BeginInvoke(action);
         }
 
-        /// <summary>
-        /// Invokes the specified action on the UI thread only if not currently on the UI thread.
-        /// </summary>
-        /// <param name="action">The action to invoke.</param>
-        /// <returns><c>true</c> if the action was invoked; otherwise, <c>false</c>.</returns>
-        protected bool InvokeIfRequired(Action action)
+        /// <summary>Determines whether the calling thread is the thread associated with this <see cref="System.Windows.Threading.Dispatcher" />.</summary>
+        /// <returns><c>true</c> if the calling thread is the thread associated with this <see cref="System.Windows.Threading.Dispatcher" />; otherwise, <c>false</c>.</returns>
+        protected bool CheckAccess()
         {
-            return UIThreadHelper.InvokeIfRequired(action);
+            return _dispatcher.CheckAccess();
         }
 
         /// <summary>Messages the box.</summary>

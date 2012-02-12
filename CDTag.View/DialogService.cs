@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using CDTag.Common;
+using CDTag.Common.Dispatcher;
 using CDTag.Controls;
 using CDTag.FileBrowser.Events;
 using CDTag.View.Interfaces;
@@ -12,8 +13,15 @@ namespace CDTag.View
 {
     public class DialogService : IDialogService
     {
+        private static readonly IDispatcher _dispatcher;
+
         private string _localApplicationDirectory;
         private string _profileDirectory;
+
+        static DialogService()
+        {
+            _dispatcher = IoC.Resolve<IDispatcher>();
+        }
 
         public bool? ShowWindow<T>()
             where T : IWindow
@@ -49,9 +57,9 @@ namespace CDTag.View
 
             ErrorContainer errorGrid = (ErrorContainer)errorContainer;
 
-            if (!Application.Current.Dispatcher.CheckAccess())
+            if (!_dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.Invoke(new Action(() => ShowError(exception, errorGrid)));
+                _dispatcher.BeginInvoke(() => ShowError(exception, errorGrid));
                 return;
             }
 
