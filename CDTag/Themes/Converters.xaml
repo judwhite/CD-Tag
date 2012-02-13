@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:Converters="clr-namespace:CDTag.Converters;assembly=CDTag.View" 
-    xmlns:General="clr-namespace:CDTag.Converters.General;assembly=CDTag.View"
->
+    xmlns:Converters="clr-namespace:CDTag.Converters;assembly=CDTag.View"
+    xmlns:General="clr-namespace:CDTag.View.Converters.General;assembly=CDTag.View">
 
     <Converters:AllTrueConverter x:Key="AllTrueConverter" />
     <Converters:PlayLengthConverter x:Key="PlayLengthConverter" />
@@ -18,5 +17,6 @@
     <Converters:ID3v1GenreIndexToTextConverter x:Key="ID3v1GenreIndexToTextConverter" />
     <General:MultiplicationConverter x:Key="MultiplicationConverter" />
     <General:IsEqualToVisibilityConverter x:Key="IsEqualToVisibilityConverter" />
+    <General:NegateBoolConverter x:Key="NegateBoolConverter" />
 
 </ResourceDictionary>

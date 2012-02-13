@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 
 namespace CDTag.ViewModel.Profile.NewProfile
@@ -14,13 +15,11 @@ namespace CDTag.ViewModel.Profile.NewProfile
         ICommand PreviousCommand { get; }
         ICommand NextCommand { get; }
         int PageIndex { get; }
-        bool UseUnderscores { get; set; }
-        bool UseStandardCharactersOnly { get; set; }
-        bool UseLatinCharactersOnly { get; set; }
         bool IsProfileNameFocused { get; set; }
         ObservableCollection<FormatItem> DirectoryFormats { get; }
         ObservableCollection<FormatItem> AudioFileFormats { get; }
         FormatItem DirectoryFormat { get; set; }
         FormatItem AudioFileFormat { get; set; }
+        UserProfile Profile { get; }
     }
 }

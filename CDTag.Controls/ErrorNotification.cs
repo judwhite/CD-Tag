@@ -27,6 +27,8 @@ namespace CDTag.Controls
         private TextBox _detailsTextBox;
         private bool _detailsShown;
         private string _currentState = State.Hidden;
+        private string _messageText;
+        private string _detailsText;
 
         /*static ErrorNotification()
         {
@@ -57,14 +59,22 @@ namespace CDTag.Controls
 
             _showDetailsButton.Click += _showDetailsButton_Click;
             _closeButton.Click += CloseButton_Click;
+
+            _messageTextBlock.Text = _messageText;
+            _detailsTextBox.Text = _detailsText;
+
+            GoToState(_currentState);
         }
 
         private void GoToState(string stateName)
         {
-            _detailsShown = (stateName == State.ShowDetails);
-            _showDetailsButtonToolTip.Text = (_detailsShown ? "Hide details" : "Show details"); // TODO: Use resource string
+            if (_showDetailsButtonToolTip != null)
+            {
+                _detailsShown = (stateName == State.ShowDetails);
+                _showDetailsButtonToolTip.Text = (_detailsShown ? "Hide details" : "Show details"); // TODO: Use resource string
 
-            VisualStateManager.GoToState(this, stateName, true);
+                VisualStateManager.GoToState(this, stateName, true);
+            }
 
             _currentState = stateName;
         }
@@ -127,10 +137,15 @@ namespace CDTag.Controls
             }
 
             if (string.IsNullOrWhiteSpace(message))
-                _messageTextBlock.Text = "An error has occurred.";
+                _messageText = "An error has occurred.";
             else
-                _messageTextBlock.Text = string.Format("An error has occurred: {0}", message);
-            _detailsTextBox.Text = details;
+                _messageText = string.Format("An error has occurred: {0}", message);
+            _detailsText = details;
+
+            if (_messageTextBlock != null)
+                _messageTextBlock.Text = _messageText;
+            if (_detailsTextBox != null)
+                _detailsTextBox.Text = _detailsText;
 
             GoToState(State.Shown);
         }

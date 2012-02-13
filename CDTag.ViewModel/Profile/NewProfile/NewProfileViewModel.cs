@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 using CDTag.Model.Tag;
 using CDTag.ViewModel.Events;
@@ -19,6 +20,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
         private readonly DelegateCommand _previousCommand;
         private readonly ObservableCollection<FormatItem> _directoryFormats;
         private readonly ObservableCollection<FormatItem> _audioFileFormats;
+        private readonly UserProfile _profile = new UserProfile();
         private readonly Album _album;
 
         private bool _storedCreateSampleNFO = true;
@@ -33,6 +35,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
             _previousCommand = new DelegateCommand(Previous, () => PageIndex > 0);
 
             EnhancedPropertyChanged += NewProfileViewModel_EnhancedPropertyChanged;
+            Profile.FileNaming.EnhancedPropertyChanged += FileNaming_EnhancedPropertyChanged;
 
             var tracks = new List<AlbumTrack>();
             tracks.Add(new AlbumTrack { Artist = "Björk", Album = "Medúlla", TrackNumber = "3", Title = "Where Is The Line?", ReleaseDate = "2004" });
@@ -40,11 +43,11 @@ namespace CDTag.ViewModel.Profile.NewProfile
 
             _directoryFormats = new ObservableCollection<FormatItem>
             {
-                new FormatItem { FormatString = "<Artist> - <Album>" },
+                new FormatItem { FormatString = "<Artist> - <Album> (<Year>)" },                
                 new FormatItem { FormatString = "<Artist> - <Album> - <Year>" },
-                new FormatItem { FormatString = "<Artist> - <Album> (<Year>)" },
-                new FormatItem { FormatString = "<Artist> - <Year> - <Album>" },
                 new FormatItem { FormatString = "<Artist> - (<Year>) - <Album>" },
+                new FormatItem { FormatString = "<Artist> - <Year> - <Album>" },
+                new FormatItem { FormatString = "<Artist> - <Album>" },
             };
 
             _audioFileFormats = new ObservableCollection<FormatItem>
@@ -54,10 +57,22 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 new FormatItem { FormatString = "<Track> - <Song>" },
             };
 
-            DirectoryFormat = _directoryFormats[2];
+            DirectoryFormat = _directoryFormats[0];
             AudioFileFormat = _audioFileFormats[0];
 
+            UpdateResults();
+
             CurrentVisualState = PageOneStateName;
+        }
+
+        private void FileNaming_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<FileNaming> e)
+        {
+            if (e.IsProperty(p => p.UseLatinCharactersOnly) ||
+                                 e.IsProperty(p => p.UseStandardCharactersOnly) ||
+                                 e.IsProperty(p => p.UseUnderscores))
+            {
+                UpdateResults();
+            }
         }
 
         private void NewProfileViewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<NewProfileViewModel> e)
@@ -122,6 +137,19 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 var newFormatItem = e.NewValue as FormatItem;
                 if (newFormatItem != null)
                     newFormatItem.IsSelected = true;
+            }
+        }
+
+        private void UpdateResults()
+        {
+            foreach (var item in AudioFileFormats)
+            {
+                item.Result = _profile.GetFileName(item.FormatString, _album.Tracks[0], ".mp3");
+            }
+
+            foreach (var item in DirectoryFormats)
+            {
+                item.Result = _profile.GetDirectoryName(item.FormatString, _album);
             }
         }
 
@@ -292,24 +320,6 @@ namespace CDTag.ViewModel.Profile.NewProfile
             private set { Set("PageIndex", value); }
         }
 
-        public bool UseUnderscores
-        {
-            get { return Get<bool>("UseUnderscores"); }
-            set { Set("UseUnderscores", value); }
-        }
-
-        public bool UseStandardCharactersOnly
-        {
-            get { return Get<bool>("UseStandardCharactersOnly"); }
-            set { Set("UseStandardCharactersOnly", value); }
-        }
-
-        public bool UseLatinCharactersOnly
-        {
-            get { return Get<bool>("UseLatinCharactersOnly"); }
-            set { Set("UseLatinCharactersOnly", value); }
-        }
-
         public bool IsProfileNameFocused
         {
             get { return Get<bool>("IsProfileNameFocused"); }
@@ -329,6 +339,11 @@ namespace CDTag.ViewModel.Profile.NewProfile
         public ObservableCollection<FormatItem> AudioFileFormats
         {
             get { return _audioFileFormats; }
+        }
+
+        public UserProfile Profile
+        {
+            get { return _profile; }
         }
     }
 }

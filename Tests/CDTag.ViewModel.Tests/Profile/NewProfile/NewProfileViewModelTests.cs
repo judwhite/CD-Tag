@@ -60,6 +60,112 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.AudioFileFormats.Count, Is.EqualTo(3), "newProfileViewModel.AudioFileFormats.Count");
             Assert.That(newProfileViewModel.DirectoryFormat, Is.Not.Null, "newProfileViewModel.DirectoryFormat");
             Assert.That(newProfileViewModel.AudioFileFormat, Is.Not.Null, "newProfileViewModel.AudioFileFormat");
+            Assert.That(newProfileViewModel.DirectoryFormat.IsSelected, Is.True, "newProfileViewModel.DirectoryFormat.IsSelected");
+            Assert.That(newProfileViewModel.AudioFileFormat.IsSelected, Is.True, "newProfileViewModel.AudioFileFormat.IsSelected");
+            Assert.That(newProfileViewModel.Profile, Is.Not.Null, "newProfileViewModel.Profile");
+            Assert.That(newProfileViewModel.Profile.FileNaming, Is.Not.Null, "newProfileViewModel.Profile.FileNaming");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseUnderscores, Is.False, "newProfileViewModel.Profile.FileNaming.UseUnderscores");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+        }
+
+        [Test]
+        public void UseUnderscoresPropertyTest()
+        {
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            bool propertyChangedRaised = false;
+            newProfileViewModel.Profile.FileNaming.PropertyChanged += (s, e) => { if (e.PropertyName == "UseUnderscores") propertyChangedRaised = true; };
+
+            // Act
+            newProfileViewModel.Profile.FileNaming.UseUnderscores = true;
+
+            // Assert
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseUnderscores, Is.True, "newProfileViewModel.Profile.FileNaming.UseUnderscores");
+            Assert.That(propertyChangedRaised, Is.True, "propertyChangedRaised");
+        }
+
+        [Test]
+        public void UseStandardCharactersOnlyTest()
+        {
+            // Test UseStandardCharactersOnly and its affect on UseLatinCharactersOnly
+
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            bool propertyChangedRaised = false;
+            newProfileViewModel.Profile.FileNaming.PropertyChanged += (s, e) => { if (e.PropertyName == "UseStandardCharactersOnly") propertyChangedRaised = true; };
+
+            // Act
+            newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = true;
+
+            // Assert
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.True, "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.True, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+            Assert.That(propertyChangedRaised, Is.True, "propertyChangedRaised");
+
+            // Test UseLatinCharacters returning to default state (false)
+
+            // Arrange
+            propertyChangedRaised = false;
+
+            // Act
+            newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = false;
+
+            // Assert
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+            Assert.That(propertyChangedRaised, Is.True, "propertyChangedRaised");
+
+            // Test UseLatinCharacters = true
+
+            // Act
+            newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly = true;
+
+            // Assert
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.True, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+
+            // Test UseLatinCharacters = true with UseStandardCharactersOnly = true
+
+            // Arrange
+            propertyChangedRaised = false;
+
+            // Act
+            newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = true;
+
+            // Assert
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.True, "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.True, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+            Assert.That(propertyChangedRaised, Is.True, "propertyChangedRaised");
+
+            // Test returning UseLatinCharacters = false, preserving original state of UseStandardCharactersOnly = true
+
+            // Arrange
+            propertyChangedRaised = false;
+
+            // Act
+            newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = false;
+
+            // Assert
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.True, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+            Assert.That(propertyChangedRaised, Is.True, "propertyChangedRaised");
+        }
+
+        [Test]
+        public void UseLatinCharactersOnlyTest()
+        {
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            bool propertyChangedRaised = false;
+            newProfileViewModel.Profile.FileNaming.PropertyChanged += (s, e) => { if (e.PropertyName == "UseLatinCharactersOnly") propertyChangedRaised = true; };
+
+            // Act
+            newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly = true;
+
+            // Assert
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.True, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+            Assert.That(propertyChangedRaised, Is.True, "propertyChangedRaised");
         }
 
         [Test]
@@ -106,7 +212,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
             bool shown = false;
-            newProfileViewModel.ShowMessageBox += delegate { shown = true; };
+            newProfileViewModel.ShowMessageBox += (s, e) => { shown = true; };
             newProfileViewModel.ProfileName = profileName;
 
             // Act
@@ -131,7 +237,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
             bool shown = false;
-            newProfileViewModel.ShowMessageBox += delegate(object sender, DataEventArgs<MessageBoxEvent> args)
+            newProfileViewModel.ShowMessageBox += (s, args) =>
             {
                 shown = true;
                 Assert.That(args, Is.Not.Null, "args");
@@ -165,7 +271,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
             bool shown = false;
-            newProfileViewModel.ShowMessageBox += delegate(object sender, DataEventArgs<MessageBoxEvent> args)
+            newProfileViewModel.ShowMessageBox += (s, args) =>
             {
                 shown = true;
                 Assert.That(args, Is.Not.Null, "args");
@@ -193,7 +299,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Arrange
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
             bool shown = false;
-            newProfileViewModel.ShowMessageBox += delegate { shown = true; };
+            newProfileViewModel.ShowMessageBox += (s, e) => { shown = true; };
             newProfileViewModel.ProfileName = profileName;
 
             // Act
@@ -213,7 +319,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
 
             // Act/Assert
-            
+
             // Test initial state
             Assert.That(newProfileViewModel.CreateNFO, Is.False, "newProfileViewModel.CreateNFO");
             Assert.That(newProfileViewModel.CreateSampleNFO, Is.False, "newProfileViewModel.CreateSampleNFO");
@@ -285,10 +391,65 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Act (go back to page 1)
             newProfileViewModel.PreviousCommand.Execute(null);
 
+            // Assert
             Assert.That(newProfileViewModel.ProfileName, Is.EqualTo(profileName), "newProfileViewModel.ProfileName");
             Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(0), "newProfileViewModel.PageIndex");
             Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageOneStateName), "newProfileViewModel.CurrentVisualState");
             Assert.That(newProfileViewModel.CreateNFO, Is.False, "newProfileViewModel.CreateNFO");
+        }
+
+        [Test]
+        public void DirectoryFormatIsSelectedTest()
+        {
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            var directoryFormat = newProfileViewModel.DirectoryFormats[1];
+            
+            // Act
+            newProfileViewModel.DirectoryFormat = directoryFormat;
+
+            // Assert
+
+            Assert.That(newProfileViewModel.DirectoryFormat, Is.EqualTo(directoryFormat), "newProfileViewModel.DirectoryFormat");
+
+            for (int i=0; i<newProfileViewModel.DirectoryFormats.Count; i++)
+            {
+                var item = newProfileViewModel.DirectoryFormats[i];
+
+                string message = string.Format("newProfileViewModel.DirectoryFormats[{0}]", i);
+
+                if (item == directoryFormat)
+                    Assert.That(item.IsSelected, Is.True, message);
+                else
+                    Assert.That(item.IsSelected, Is.False, message);
+            }
+        }
+
+        [Test]
+        public void AudioFileFormatIsSelectedTest()
+        {
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            var audioFileFormat = newProfileViewModel.AudioFileFormats[1];
+
+            // Act
+            newProfileViewModel.AudioFileFormat = audioFileFormat;
+
+            // Assert
+
+            Assert.That(newProfileViewModel.DirectoryFormat, Is.EqualTo(audioFileFormat), "newProfileViewModel.DirectoryFormat");
+
+            for (int i = 0; i < newProfileViewModel.DirectoryFormats.Count; i++)
+            {
+                var item = newProfileViewModel.DirectoryFormats[i];
+
+                string message = string.Format("newProfileViewModel.DirectoryFormats[{0}]", i);
+
+                if (item == audioFileFormat)
+                    Assert.That(item.IsSelected, Is.True, message);
+                else
+                    Assert.That(item.IsSelected, Is.False, message);
+            }
         }
     }
 }

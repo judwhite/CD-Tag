@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace CDTag.Converters.General
+namespace CDTag.View.Converters.General
 {
     public class MultiplicationConverter : IValueConverter
     {
