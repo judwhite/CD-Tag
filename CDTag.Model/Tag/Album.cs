@@ -16,24 +16,42 @@ namespace CDTag.Model.Tag
         private readonly ObservableCollection<AlbumTrack> _tracks;
 
         public Album(string path)
+            : this(path, GetTracksFromPath(path))
+        {
+        }
+
+        public Album(string path, ICollection<AlbumTrack> tracks)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentNullException("path");
+            if (tracks == null)
+                throw new ArgumentNullException("tracks");
+            if (tracks.Count == 0)
+                throw new ArgumentException("tracks.Count == 0", "tracks");
+
+            _path = path;
+            _tracks = new ObservableCollection<AlbumTrack>(tracks);
+
+            SetAlbumPropertiesFromTracks();
+        }
+
+        private static List<AlbumTrack> GetTracksFromPath(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentNullException("path");
 
-            _path = path;
-
-            string[] files = Directory.GetFiles(_path, "*.mp3");
+            string[] files = Directory.GetFiles(path, "*.mp3"); // TODO: Expand supported file types
             if (files == null || files.Length == 0)
-                throw new Exception("No audio files found"); // TODO: Localize
+                throw new Exception(string.Format("No audio files found in '{0}'", path)); // TODO: Localize
 
-            _tracks = new ObservableCollection<AlbumTrack>();
+            var tracks = new List<AlbumTrack>();
             foreach (string file in files)
             {
                 AlbumTrack track = new AlbumTrack(file);
-                _tracks.Add(track);
+                tracks.Add(track);
             }
 
-            SetAlbumPropertiesFromTracks();
+            return tracks;
         }
 
         public ImageSource Picture

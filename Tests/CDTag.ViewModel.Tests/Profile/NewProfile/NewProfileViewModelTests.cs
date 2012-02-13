@@ -58,6 +58,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.DirectoryFormats.Count, Is.EqualTo(5), "newProfileViewModel.DirectoryFormats.Count");
             Assert.That(newProfileViewModel.AudioFileFormats, Is.Not.Null, "newProfileViewModel.AudioFileFormats");
             Assert.That(newProfileViewModel.AudioFileFormats.Count, Is.EqualTo(3), "newProfileViewModel.AudioFileFormats.Count");
+            Assert.That(newProfileViewModel.DirectoryFormat, Is.Not.Null, "newProfileViewModel.DirectoryFormat");
+            Assert.That(newProfileViewModel.AudioFileFormat, Is.Not.Null, "newProfileViewModel.AudioFileFormat");
         }
 
         [Test]

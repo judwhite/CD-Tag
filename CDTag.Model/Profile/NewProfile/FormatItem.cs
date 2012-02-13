@@ -15,5 +15,11 @@ namespace CDTag.Model.Profile.NewProfile
             get { return Get<string>("Result"); }
             set { Set("Result", value); }
         }
+
+        public bool IsSelected
+        {
+            get { return Get<bool>("IsSelected"); }
+            set { Set("IsSelected", value); }
+        }
     }
 }

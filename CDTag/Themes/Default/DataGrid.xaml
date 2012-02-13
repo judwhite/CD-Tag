@@ -14,7 +14,7 @@
         <Setter Property="CanUserAddRows" Value="False" />
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="RowStyle" Value="{DynamicResource DataGridRowStyle}" />
-        <Setter Property="CellStyle" Value="{DynamicResource NoBorderCell}" />
+        <Setter Property="CellStyle" Value="{DynamicResource NoBorderMarginedCell}" />
     </Style>
     
 </ResourceDictionary>

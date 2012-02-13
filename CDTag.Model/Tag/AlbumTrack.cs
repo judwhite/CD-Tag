@@ -12,6 +12,10 @@ namespace CDTag.Model.Tag
     {
         private readonly string _path;
 
+        public AlbumTrack()
+        {
+        }
+
         public AlbumTrack(string path)
         {
             if (string.IsNullOrWhiteSpace(path))

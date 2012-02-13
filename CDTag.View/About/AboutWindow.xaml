@@ -147,7 +147,7 @@
                                         <DataGridTemplateColumn Header="Name" Width="*" CanUserSort="True" SortMemberPath="Name">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="4,0"/>
+                                                    <TextBlock Text="{Binding Name, Mode=OneWay}" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
@@ -155,7 +155,7 @@
                                         <DataGridTemplateColumn Header="Version" Width="100" CanUserSort="True" SortMemberPath="SortVersion">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Version, Mode=OneWay}" VerticalAlignment="Center" Margin="4,0" />
+                                                    <TextBlock Text="{Binding Version, Mode=OneWay}" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>

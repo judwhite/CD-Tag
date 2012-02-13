@@ -20,5 +20,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
         bool IsProfileNameFocused { get; set; }
         ObservableCollection<FormatItem> DirectoryFormats { get; }
         ObservableCollection<FormatItem> AudioFileFormats { get; }
+        FormatItem DirectoryFormat { get; set; }
+        FormatItem AudioFileFormat { get; set; }
     }
 }

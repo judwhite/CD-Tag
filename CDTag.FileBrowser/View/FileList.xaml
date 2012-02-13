@@ -37,9 +37,11 @@
             </StatusBarItem>
         </StatusBar>
 
-        <DataGrid x:Name="fileView" Style="{DynamicResource DataGridStyle}"
-                    HorizontalScrollBarVisibility="Hidden"
-                    ItemsSource="{Binding FileCollection}"
+        <DataGrid x:Name="fileView" 
+                  Style="{DynamicResource DataGridStyle}"
+                  CellStyle="{DynamicResource NoBorderCell}"
+                  HorizontalScrollBarVisibility="Hidden"
+                  ItemsSource="{Binding FileCollection}"
         >
             <i:Interaction.Behaviors>
                 <Behavior:RemoveSelectAllBehavior />

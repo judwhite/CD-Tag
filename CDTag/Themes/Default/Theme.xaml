@@ -9,6 +9,7 @@
 
         <ResourceDictionary Source="Brush.xaml" />
         <ResourceDictionary Source="Button.xaml" />
+        <ResourceDictionary Source="CheckBox.xaml" />
         <ResourceDictionary Source="DataGrid.xaml" />
         <ResourceDictionary Source="DataGridRow.xaml" />
         <ResourceDictionary Source="DataGridCell.xaml" />

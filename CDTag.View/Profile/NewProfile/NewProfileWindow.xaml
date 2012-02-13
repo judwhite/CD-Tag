@@ -8,6 +8,8 @@
     Title="New Profile" 
     MinHeight="500" 
     MinWidth="600"
+    Height="540" 
+    Width="740"
     CurrentVisualState="{Binding CurrentVisualState}"
     FocusManager.FocusedElement="{Binding ElementName=ProfileNameTextBox}"
 >
@@ -102,12 +104,59 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="Directory" Margin="0,2" />
-                <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" Height="150" Margin="0,2" ItemsSource="{Binding DirectoryFormats, Mode=OneWay}">
 
+                <DataGrid Grid.Row="1" Grid.Column="1" Height="150" Margin="0,2" ItemsSource="{Binding DirectoryFormats, Mode=OneWay}" Style="{StaticResource DataGridStyle}" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected}" IsEnabled="False" Style="{DynamicResource DiscreteCheckBoxStyle}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Format">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FormatString}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Result" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Result}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
                 </DataGrid>
 
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="Audio files" Margin="0,8,0,2" />
-                <DataGrid Grid.Row="3" Grid.Column="1" AutoGenerateColumns="False" Height="120" Margin="0,2" ItemsSource="{Binding AudioFileFormats, Mode=OneWay}">
+
+                <DataGrid Grid.Row="3" Grid.Column="1" Height="120" Margin="0,2" ItemsSource="{Binding AudioFileFormats, Mode=OneWay}" Style="{StaticResource DataGridStyle}" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected}" IsEnabled="False" Style="{DynamicResource DiscreteCheckBoxStyle}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Format">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FormatString}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Result" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Result}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
                 </DataGrid>
 
                 <CheckBox Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" Content="Use _underscores instead of spaces" IsChecked="{Binding UseUnderscores, Mode=TwoWay}" Margin="0,8,0,2" HorizontalAlignment="Left" />

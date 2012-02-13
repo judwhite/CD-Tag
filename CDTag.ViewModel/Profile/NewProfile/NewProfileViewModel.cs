@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Model.Profile.NewProfile;
-using CDTag.View;
+using CDTag.Model.Tag;
 using CDTag.ViewModel.Events;
 
 namespace CDTag.ViewModel.Profile.NewProfile
@@ -20,6 +19,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
         private readonly DelegateCommand _previousCommand;
         private readonly ObservableCollection<FormatItem> _directoryFormats;
         private readonly ObservableCollection<FormatItem> _audioFileFormats;
+        private readonly Album _album;
 
         private bool _storedCreateSampleNFO = true;
         private bool _storedHasExistingNFO;
@@ -33,6 +33,10 @@ namespace CDTag.ViewModel.Profile.NewProfile
             _previousCommand = new DelegateCommand(Previous, () => PageIndex > 0);
 
             EnhancedPropertyChanged += NewProfileViewModel_EnhancedPropertyChanged;
+
+            var tracks = new List<AlbumTrack>();
+            tracks.Add(new AlbumTrack { Artist = "Björk", Album = "Medúlla", TrackNumber = "3", Title = "Where Is The Line?", ReleaseDate = "2004" });
+            _album = new Album(@"C:\Bjork - Medulla - 2004", tracks);
 
             _directoryFormats = new ObservableCollection<FormatItem>
             {
@@ -49,6 +53,9 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 new FormatItem { FormatString = "<Artist> - <Track> - <Song>" },
                 new FormatItem { FormatString = "<Track> - <Song>" },
             };
+
+            DirectoryFormat = _directoryFormats[2];
+            AudioFileFormat = _audioFileFormats[0];
 
             CurrentVisualState = PageOneStateName;
         }
@@ -106,6 +113,15 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 {
                     IsProfileNameFocused = true;
                 }
+            }
+            else if (e.IsProperty(p => p.DirectoryFormat) || e.IsProperty(p => p.AudioFileFormat))
+            {
+                var oldFormatItem = e.OldValue as FormatItem;
+                if (oldFormatItem != null)
+                    oldFormatItem.IsSelected = false;
+                var newFormatItem = e.NewValue as FormatItem;
+                if (newFormatItem != null)
+                    newFormatItem.IsSelected = true;
             }
         }
 
@@ -222,6 +238,18 @@ namespace CDTag.ViewModel.Profile.NewProfile
         {
             if (PageIndex > 0)
                 PageIndex -= 1;
+        }
+
+        public FormatItem DirectoryFormat
+        {
+            get { return Get<FormatItem>("DirectoryFormat"); }
+            set { Set("DirectoryFormat", value); }
+        }
+
+        public FormatItem AudioFileFormat
+        {
+            get { return Get<FormatItem>("AudioFileFormat"); }
+            set { Set("AudioFileFormat", value); }
         }
 
         public string ProfileName
