@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -137,6 +138,14 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 var newFormatItem = e.NewValue as FormatItem;
                 if (newFormatItem != null)
                     newFormatItem.IsSelected = true;
+            }
+            else if (e.IsProperty(p => p.UseSpacesAroundFieldSeparators))
+            {
+                throw new NotImplementedException();
+            }
+            else if (e.IsProperty(p => p.AppendProfileName))
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -318,6 +327,18 @@ namespace CDTag.ViewModel.Profile.NewProfile
         {
             get { return Get<int>("PageIndex"); }
             private set { Set("PageIndex", value); }
+        }
+
+        public bool AppendProfileName
+        {
+            get { return Get<bool>("AppendProfileName"); }
+            set { Set("AppendProfileName", value); }
+        }
+
+        public bool UseSpacesAroundFieldSeparators
+        {
+            get { return Get<bool>("UseSpacesAroundFieldSeparators"); }
+            set { Set("UseSpacesAroundFieldSeparators", value); }
         }
 
         public bool IsProfileNameFocused

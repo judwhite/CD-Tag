@@ -21,5 +21,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
         FormatItem DirectoryFormat { get; set; }
         FormatItem AudioFileFormat { get; set; }
         UserProfile Profile { get; }
+        bool AppendProfileName { get; set; }
+        bool UseSpacesAroundFieldSeparators { get; set; }
     }
 }
