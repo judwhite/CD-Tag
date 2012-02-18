@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jud White")]
 [assembly: AssemblyProduct("CD-Tag")]
-[assembly: AssemblyCopyright("© 1996-2011 Jud White")]
+[assembly: AssemblyCopyright("© 1996-2012 Jud White")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
