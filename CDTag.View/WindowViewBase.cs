@@ -42,6 +42,9 @@ namespace CDTag.Views
             HandleEscape = true;
             ShowInTaskbar = false;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            FontFamily = new FontFamily("Verdana");
+            FontSize = 11.0d;
+            //FontFamily = new FontFamily("Dejavu Sans");
             Background = (Brush)Application.Current.Resources["WindowBackground"];
 
             _viewModel.ShowMessageBox += viewModel_ShowMessageBox;

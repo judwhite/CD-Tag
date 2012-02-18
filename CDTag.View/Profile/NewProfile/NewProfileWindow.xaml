@@ -161,11 +161,10 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <CheckBox Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" Content="Use _spaces between fields" IsChecked="{Binding Path=UseSpacesAroundFieldSeparators, Mode=TwoWay}" Margin="0,8,0,2" HorizontalAlignment="Left" />
-                <CheckBox Grid.Row="5" Grid.Column="1" VerticalContentAlignment="Center" Content="Replaces spaces with _underscores" IsChecked="{Binding Path=Profile.FileNaming.UseUnderscores, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />
+                <CheckBox Grid.Row="5" Grid.Column="1" VerticalContentAlignment="Center" Content="Use _underscores instead of spaces" IsChecked="{Binding Path=Profile.FileNaming.UseUnderscores, Mode=TwoWay}" Margin="0,8,0,2" HorizontalAlignment="Left" />
                 <CheckBox Grid.Row="6" Grid.Column="1" VerticalContentAlignment="Center" Content="Only _allow characters A-Z a-z 0-9 - _ . ()" IsChecked="{Binding Path=Profile.FileNaming.UseStandardCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" />
                 <CheckBox Grid.Row="7" Grid.Column="1" VerticalContentAlignment="Center" Content="Convert _regional characters to A-Z" IsChecked="{Binding Path=Profile.FileNaming.UseLatinCharactersOnly, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" IsEnabled="{Binding Path=Profile.FileNaming.UseStandardCharactersOnly, Converter={StaticResource NegateBoolConverter}}" />
-                <CheckBox Grid.Row="8" Grid.Column="1" VerticalContentAlignment="Center" Content="Append profile _name" IsChecked="{Binding Path=AppendProfileName, Mode=TwoWay}" Margin="0,2" HorizontalAlignment="Left" Visibility="{Binding Path=CreateNFO, Converter={StaticResource BoolToVisibilityConverter}}" />
+
             </Grid>
 
         </Grid>

@@ -19,6 +19,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
 
         private readonly DelegateCommand _nextCommand;
         private readonly DelegateCommand _previousCommand;
+
         private readonly ObservableCollection<FormatItem> _directoryFormats;
         private readonly ObservableCollection<FormatItem> _audioFileFormats;
         private readonly UserProfile _profile = new UserProfile();
@@ -69,9 +70,33 @@ namespace CDTag.ViewModel.Profile.NewProfile
         private void FileNaming_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<FileNaming> e)
         {
             if (e.IsProperty(p => p.UseLatinCharactersOnly) ||
-                                 e.IsProperty(p => p.UseStandardCharactersOnly) ||
-                                 e.IsProperty(p => p.UseUnderscores))
+                e.IsProperty(p => p.UseStandardCharactersOnly))
             {
+                UpdateResults();
+            }
+            else if (e.IsProperty(p => p.UseUnderscores))
+            {
+                List<FormatItem> list = new List<FormatItem>();
+                list.AddRange(_directoryFormats);
+                list.AddRange(_audioFileFormats);
+
+                bool useUnderscores = (bool)e.NewValue;
+                foreach (var item in list)
+                {
+                    if (useUnderscores)
+                    {
+                        item.FormatString = item.FormatString.Replace("> - <", ">-<");
+                        item.FormatString = item.FormatString.Replace("> - (", ">-(");
+                        item.FormatString = item.FormatString.Replace(") - <", ")-<");
+                    }
+                    else
+                    {
+                        item.FormatString = item.FormatString.Replace(">-<", "> - <");
+                        item.FormatString = item.FormatString.Replace(">-(", "> - (");
+                        item.FormatString = item.FormatString.Replace(")-<", ") - <");
+                    }
+                }
+
                 UpdateResults();
             }
         }
@@ -138,14 +163,6 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 var newFormatItem = e.NewValue as FormatItem;
                 if (newFormatItem != null)
                     newFormatItem.IsSelected = true;
-            }
-            else if (e.IsProperty(p => p.UseSpacesAroundFieldSeparators))
-            {
-                throw new NotImplementedException();
-            }
-            else if (e.IsProperty(p => p.AppendProfileName))
-            {
-                throw new NotImplementedException();
             }
         }
 
@@ -327,18 +344,6 @@ namespace CDTag.ViewModel.Profile.NewProfile
         {
             get { return Get<int>("PageIndex"); }
             private set { Set("PageIndex", value); }
-        }
-
-        public bool AppendProfileName
-        {
-            get { return Get<bool>("AppendProfileName"); }
-            set { Set("AppendProfileName", value); }
-        }
-
-        public bool UseSpacesAroundFieldSeparators
-        {
-            get { return Get<bool>("UseSpacesAroundFieldSeparators"); }
-            set { Set("UseSpacesAroundFieldSeparators", value); }
         }
 
         public bool IsProfileNameFocused

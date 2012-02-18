@@ -2,9 +2,7 @@
 using System.Windows;
 using CDTag.Common;
 using CDTag.Common.Dispatcher;
-using CDTag.ViewModel.Events;
 using CDTag.ViewModel.Profile.NewProfile;
-using IdSharp.Common.Events;
 using NUnit.Framework;
 
 namespace CDTag.ViewModel.Tests.Profile.NewProfile
@@ -496,18 +494,18 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly = false;
 
             // Assert
-            Assert.That(newProfileViewModel.AudioFileFormats[0].Result, Is.EqualTo("03_-_Björk_-_Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[0].Result");
-            Assert.That(newProfileViewModel.AudioFileFormats[1].Result, Is.EqualTo("Björk_-_03_-_Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[1].Result");
-            Assert.That(newProfileViewModel.AudioFileFormats[2].Result, Is.EqualTo("03_-_Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[2].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[0].Result, Is.EqualTo("03-Björk-Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[0].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[1].Result, Is.EqualTo("Björk-03-Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[1].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[2].Result, Is.EqualTo("03-Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[2].Result");
 
             // Act - Underscores, Standard characters only
             newProfileViewModel.Profile.FileNaming.UseUnderscores = true;
             newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = true;
 
             // Assert
-            Assert.That(newProfileViewModel.AudioFileFormats[0].Result, Is.EqualTo("03_-_Bjork_-_Where_Is_The_Line.mp3"), "newProfileViewModel.AudioFileFormats[0].Result");
-            Assert.That(newProfileViewModel.AudioFileFormats[1].Result, Is.EqualTo("Bjork_-_03_-_Where_Is_The_Line.mp3"), "newProfileViewModel.AudioFileFormats[1].Result");
-            Assert.That(newProfileViewModel.AudioFileFormats[2].Result, Is.EqualTo("03_-_Where_Is_The_Line.mp3"), "newProfileViewModel.AudioFileFormats[2].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[0].Result, Is.EqualTo("03-Bjork-Where_Is_The_Line.mp3"), "newProfileViewModel.AudioFileFormats[0].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[1].Result, Is.EqualTo("Bjork-03-Where_Is_The_Line.mp3"), "newProfileViewModel.AudioFileFormats[1].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[2].Result, Is.EqualTo("03-Where_Is_The_Line.mp3"), "newProfileViewModel.AudioFileFormats[2].Result");
 
             // Act - Underscores, English characters only
             newProfileViewModel.Profile.FileNaming.UseUnderscores = true;
@@ -515,9 +513,9 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly = true;
 
             // Assert
-            Assert.That(newProfileViewModel.AudioFileFormats[0].Result, Is.EqualTo("03_-_Bjork_-_Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[0].Result");
-            Assert.That(newProfileViewModel.AudioFileFormats[1].Result, Is.EqualTo("Bjork_-_03_-_Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[1].Result");
-            Assert.That(newProfileViewModel.AudioFileFormats[2].Result, Is.EqualTo("03_-_Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[2].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[0].Result, Is.EqualTo("03-Bjork-Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[0].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[1].Result, Is.EqualTo("Bjork-03-Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[1].Result");
+            Assert.That(newProfileViewModel.AudioFileFormats[2].Result, Is.EqualTo("03-Where_Is_The_Line?.mp3"), "newProfileViewModel.AudioFileFormats[2].Result");
         }
 
         [Test]
@@ -526,9 +524,19 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Arrange
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
 
-            // Assert
+            // Assert initial state
             Assert.That(newProfileViewModel.DirectoryFormats.Count, Is.EqualTo(5), "newProfileViewModel.DirectoryFormats.Count");
 
+            // Act/Assert
+            AssertDirectoryNameResultsSpaces(newProfileViewModel);
+            AssertDirectoryNameResultsUnderscores(newProfileViewModel);
+
+            // Act/Assert - test flipping back to Spaces from Underscores
+            AssertDirectoryNameResultsSpaces(newProfileViewModel);
+        }
+
+        private static void AssertDirectoryNameResultsSpaces(NewProfileViewModel newProfileViewModel)
+        {
             // Act - Spaces, Allow all characters
             newProfileViewModel.Profile.FileNaming.UseUnderscores = false;
             newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = false;
@@ -563,29 +571,32 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Bjork - (2004) - Medulla"), "newProfileViewModel.DirectoryFormats[2].Result");
             Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Bjork - 2004 - Medulla"), "newProfileViewModel.DirectoryFormats[3].Result");
             Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Bjork - Medulla"), "newProfileViewModel.DirectoryFormats[4].Result");
+        }
 
+        private static void AssertDirectoryNameResultsUnderscores(NewProfileViewModel newProfileViewModel)
+        {
             // Act - Underscores, Allow all characters
             newProfileViewModel.Profile.FileNaming.UseUnderscores = true;
             newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = false;
             newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly = false;
 
             // Assert
-            Assert.That(newProfileViewModel.DirectoryFormats[0].Result, Is.EqualTo("Björk_-_Medúlla_(2004)"), "newProfileViewModel.DirectoryFormats[0].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[1].Result, Is.EqualTo("Björk_-_Medúlla_-_2004"), "newProfileViewModel.DirectoryFormats[1].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Björk_-_(2004)_-_Medúlla"), "newProfileViewModel.DirectoryFormats[2].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Björk_-_2004_-_Medúlla"), "newProfileViewModel.DirectoryFormats[3].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Björk_-_Medúlla"), "newProfileViewModel.DirectoryFormats[4].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[0].Result, Is.EqualTo("Björk-Medúlla_(2004)"), "newProfileViewModel.DirectoryFormats[0].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[1].Result, Is.EqualTo("Björk-Medúlla-2004"), "newProfileViewModel.DirectoryFormats[1].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Björk-(2004)-Medúlla"), "newProfileViewModel.DirectoryFormats[2].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Björk-2004-Medúlla"), "newProfileViewModel.DirectoryFormats[3].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Björk-Medúlla"), "newProfileViewModel.DirectoryFormats[4].Result");
 
             // Act - Underscores, Standard characters only
             newProfileViewModel.Profile.FileNaming.UseUnderscores = true;
             newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = true;
 
             // Assert
-            Assert.That(newProfileViewModel.DirectoryFormats[0].Result, Is.EqualTo("Bjork_-_Medulla_(2004)"), "newProfileViewModel.DirectoryFormats[0].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[1].Result, Is.EqualTo("Bjork_-_Medulla_-_2004"), "newProfileViewModel.DirectoryFormats[1].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Bjork_-_(2004)_-_Medulla"), "newProfileViewModel.DirectoryFormats[2].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Bjork_-_2004_-_Medulla"), "newProfileViewModel.DirectoryFormats[3].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Bjork_-_Medulla"), "newProfileViewModel.DirectoryFormats[4].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[0].Result, Is.EqualTo("Bjork-Medulla_(2004)"), "newProfileViewModel.DirectoryFormats[0].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[1].Result, Is.EqualTo("Bjork-Medulla-2004"), "newProfileViewModel.DirectoryFormats[1].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Bjork-(2004)-Medulla"), "newProfileViewModel.DirectoryFormats[2].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Bjork-2004-Medulla"), "newProfileViewModel.DirectoryFormats[3].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Bjork-Medulla"), "newProfileViewModel.DirectoryFormats[4].Result");
 
             // Act - Underscores, English characters only
             newProfileViewModel.Profile.FileNaming.UseUnderscores = true;
@@ -593,11 +604,11 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly = true;
 
             // Assert
-            Assert.That(newProfileViewModel.DirectoryFormats[0].Result, Is.EqualTo("Bjork_-_Medulla_(2004)"), "newProfileViewModel.DirectoryFormats[0].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[1].Result, Is.EqualTo("Bjork_-_Medulla_-_2004"), "newProfileViewModel.DirectoryFormats[1].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Bjork_-_(2004)_-_Medulla"), "newProfileViewModel.DirectoryFormats[2].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Bjork_-_2004_-_Medulla"), "newProfileViewModel.DirectoryFormats[3].Result");
-            Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Bjork_-_Medulla"), "newProfileViewModel.DirectoryFormats[4].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[0].Result, Is.EqualTo("Bjork-Medulla_(2004)"), "newProfileViewModel.DirectoryFormats[0].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[1].Result, Is.EqualTo("Bjork-Medulla-2004"), "newProfileViewModel.DirectoryFormats[1].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Bjork-(2004)-Medulla"), "newProfileViewModel.DirectoryFormats[2].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Bjork-2004-Medulla"), "newProfileViewModel.DirectoryFormats[3].Result");
+            Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Bjork-Medulla"), "newProfileViewModel.DirectoryFormats[4].Result");
         }
     }
 }
