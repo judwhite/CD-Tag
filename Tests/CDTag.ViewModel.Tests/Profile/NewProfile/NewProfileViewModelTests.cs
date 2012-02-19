@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using CDTag.Common;
 using CDTag.Common.Dispatcher;
@@ -65,6 +66,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.Profile.FileNaming.UseUnderscores, Is.False, "newProfileViewModel.Profile.FileNaming.UseUnderscores");
             Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
             Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.False, "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+            Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Next"), newProfileViewModel.NextButtonText);
         }
 
         [Test]
@@ -211,7 +213,11 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
             bool shown = false;
             newProfileViewModel.ShowMessageBox += (s, e) => { shown = true; };
-            newProfileViewModel.ProfileName = profileName;
+            newProfileViewModel.Profile.ProfileName = profileName;
+
+            // Assert initial state
+            Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.True, "newProfileViewModel.NextCommand.CanExecute(null)");
+            Assert.That(newProfileViewModel.PreviousCommand.CanExecute(null), Is.False, "newProfileViewModel.PreviousCommand.CanExecute(null)");
 
             // Act
             newProfileViewModel.NextCommand.Execute(null);
@@ -221,6 +227,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageTwoStateName), string.Format("newProfileViewModel.CurrentVisualState, profileName='{0}'", profileName));
             Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(1), string.Format("newProfileViewModel.PageIndex, profileName='{0}'", profileName));
             Assert.That(File.Exists(_unitTestsProfile), Is.False, "File.Exists(_unitTestsProfile), file should not exist yet.");
+            Assert.That(newProfileViewModel.PreviousCommand.CanExecute(null), Is.True, "newProfileViewModel.PreviousCommand.CanExecute(null)");
+            Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Finish"), newProfileViewModel.NextButtonText);
         }
 
         [Test]
@@ -244,7 +252,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
                 args.Data.Result = MessageBoxResult.No;
             };
-            newProfileViewModel.ProfileName = profileName;
+            newProfileViewModel.Profile.ProfileName = profileName;
 
             // Act
             newProfileViewModel.NextCommand.Execute(null);
@@ -254,6 +262,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageOneStateName), string.Format("newProfileViewModel.CurrentVisualState, profileName='{0}'", profileName));
             Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(0), string.Format("newProfileViewModel.PageIndex, profileName='{0}'", profileName));
             Assert.That(File.Exists(_unitTestsProfile), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsProfile));
+            Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Next"), newProfileViewModel.NextButtonText);
         }
 
         [Test]
@@ -278,7 +287,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
                 args.Data.Result = MessageBoxResult.Yes;
             };
-            newProfileViewModel.ProfileName = profileName;
+            newProfileViewModel.Profile.ProfileName = profileName;
 
             // Act
             newProfileViewModel.NextCommand.Execute(null);
@@ -290,6 +299,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(File.Exists(_unitTestsProfile), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsProfile));
             string actualFileContents = File.ReadAllText(_unitTestsProfile);
             Assert.That(actualFileContents, Is.EqualTo(profileFileContents), "actualFileContents");
+            Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Finish"), newProfileViewModel.NextButtonText);
         }
 
         private static void NextButtonValidationTest(string profileName)
@@ -298,7 +308,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
             bool shown = false;
             newProfileViewModel.ShowMessageBox += (s, e) => { shown = true; };
-            newProfileViewModel.ProfileName = profileName;
+            newProfileViewModel.Profile.ProfileName = profileName;
 
             // Act
             newProfileViewModel.NextCommand.Execute(null);
@@ -308,6 +318,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.IsProfileNameFocused, Is.True, string.Format("newProfileViewModel.IsProfileNameFocused, profileName='{0}'", profileName));
             Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageOneStateName), string.Format("newProfileViewModel.CurrentVisualState, profileName='{0}'", profileName));
             Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(0), string.Format("newProfileViewModel.PageIndex, profileName='{0}'", profileName));
+            Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Next"), newProfileViewModel.NextButtonText);
         }
 
         [Test]
@@ -376,24 +387,27 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             DeleteUnitTestsProfile();
 
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
-            newProfileViewModel.ProfileName = profileName;
+            newProfileViewModel.Profile.ProfileName = profileName;
 
             // Act (go to page 2)
             newProfileViewModel.NextCommand.Execute(null);
 
             // Assert
-            Assert.That(newProfileViewModel.ProfileName, Is.EqualTo(profileName), "newProfileViewModel.ProfileName");
+            Assert.That(newProfileViewModel.Profile.ProfileName, Is.EqualTo(profileName), "newProfileViewModel.Profile.ProfileName");
             Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(1), "newProfileViewModel.PageIndex");
             Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageTwoStateName), "newProfileViewModel.CurrentVisualState");
+            Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Finish"), newProfileViewModel.NextButtonText);
 
             // Act (go back to page 1)
             newProfileViewModel.PreviousCommand.Execute(null);
 
             // Assert
-            Assert.That(newProfileViewModel.ProfileName, Is.EqualTo(profileName), "newProfileViewModel.ProfileName");
+            Assert.That(newProfileViewModel.Profile.ProfileName, Is.EqualTo(profileName), "newProfileViewModel.Profile.ProfileName");
             Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(0), "newProfileViewModel.PageIndex");
             Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageOneStateName), "newProfileViewModel.CurrentVisualState");
             Assert.That(newProfileViewModel.CreateNFO, Is.False, "newProfileViewModel.CreateNFO");
+            Assert.That(newProfileViewModel.PreviousCommand.CanExecute(null), Is.False, "newProfileViewModel.PreviousCommand.CanExecute(null)");
+            Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Next"), newProfileViewModel.NextButtonText);
         }
 
         [Test]
@@ -402,7 +416,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Arrange
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
             var directoryFormat = newProfileViewModel.DirectoryFormats[1];
-            
+
             // Act
             newProfileViewModel.DirectoryFormat = directoryFormat;
 
@@ -410,7 +424,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             Assert.That(newProfileViewModel.DirectoryFormat, Is.EqualTo(directoryFormat), "newProfileViewModel.DirectoryFormat");
 
-            for (int i=0; i<newProfileViewModel.DirectoryFormats.Count; i++)
+            for (int i = 0; i < newProfileViewModel.DirectoryFormats.Count; i++)
             {
                 var item = newProfileViewModel.DirectoryFormats[i];
 
@@ -609,6 +623,52 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             Assert.That(newProfileViewModel.DirectoryFormats[2].Result, Is.EqualTo("Bjork-(2004)-Medulla"), "newProfileViewModel.DirectoryFormats[2].Result");
             Assert.That(newProfileViewModel.DirectoryFormats[3].Result, Is.EqualTo("Bjork-2004-Medulla"), "newProfileViewModel.DirectoryFormats[3].Result");
             Assert.That(newProfileViewModel.DirectoryFormats[4].Result, Is.EqualTo("Bjork-Medulla"), "newProfileViewModel.DirectoryFormats[4].Result");
+        }
+
+        [Test]
+        public void NextButtonEnabledTest()
+        {
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            
+            // Assert initial state
+            Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.False, "newProfileViewModel.NextCommand.CanExecute(null)");
+
+            // Act
+            newProfileViewModel.Profile.ProfileName = "test";
+
+            // Assert
+            Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.True, "newProfileViewModel.NextCommand.CanExecute(null)");
+
+            // Act
+            newProfileViewModel.Profile.ProfileName = null;
+
+            // Assert
+            Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.False, "newProfileViewModel.NextCommand.CanExecute(null)");
+
+            // Act
+            newProfileViewModel.Profile.ProfileName = string.Empty;
+
+            // Assert
+            Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.False, "newProfileViewModel.NextCommand.CanExecute(null)");
+
+            // Act
+            newProfileViewModel.Profile.ProfileName = "  ";
+
+            // Assert
+            Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.False, "newProfileViewModel.NextCommand.CanExecute(null)");
+
+            // Act
+            newProfileViewModel.Profile.ProfileName = "test2";
+
+            // Assert
+            Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.True, "newProfileViewModel.NextCommand.CanExecute(null)");
+        }
+
+        [Test]
+        public void FinishTest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

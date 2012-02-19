@@ -17,6 +17,9 @@ namespace CDTag.ViewModel.Profile.NewProfile
         public const string PageOneStateName = "PageOne";
         public const string PageTwoStateName = "PageTwo";
 
+        private readonly string NextText = "_Next"; // TODO: Localize
+        private readonly string FinishText = "_Finish"; // TODO: Localize
+
         private readonly DelegateCommand _nextCommand;
         private readonly DelegateCommand _previousCommand;
 
@@ -33,10 +36,13 @@ namespace CDTag.ViewModel.Profile.NewProfile
         public NewProfileViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            _nextCommand = new DelegateCommand(Next, () => PageIndex < 1);
+            _nextCommand = new DelegateCommand(Next, () => !string.IsNullOrWhiteSpace(Profile.ProfileName));
             _previousCommand = new DelegateCommand(Previous, () => PageIndex > 0);
 
+            NextButtonText = NextText;
+
             EnhancedPropertyChanged += NewProfileViewModel_EnhancedPropertyChanged;
+            Profile.EnhancedPropertyChanged += Profile_EnhancedPropertyChanged;
             Profile.FileNaming.EnhancedPropertyChanged += FileNaming_EnhancedPropertyChanged;
 
             var tracks = new List<AlbumTrack>();
@@ -65,6 +71,14 @@ namespace CDTag.ViewModel.Profile.NewProfile
             UpdateResults();
 
             CurrentVisualState = PageOneStateName;
+        }
+
+        private void Profile_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<UserProfile> e)
+        {
+            if (e.IsProperty(p => p.ProfileName))
+            {
+                _confirmedOverwrite = false;
+            }
         }
 
         private void FileNaming_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<FileNaming> e)
@@ -133,10 +147,6 @@ namespace CDTag.ViewModel.Profile.NewProfile
                     CreateSampleNFO = false;
                 }
             }
-            else if (e.IsProperty(p => p.ProfileName))
-            {
-                _confirmedOverwrite = false;
-            }
             else if (e.IsProperty(p => p.PageIndex))
             {
                 if (PageIndex == 0)
@@ -188,47 +198,81 @@ namespace CDTag.ViewModel.Profile.NewProfile
                     IsProfileNameFocused = true;
                     return;
                 }
-            }
 
-            PageIndex += 1;
+                PageIndex += 1;
+                NextButtonText = FinishText;
+            }
+            else if (PageIndex == 1)
+            {
+                List<NamingFormatGroup> formatGroups = new List<NamingFormatGroup> {
+                    Profile.FileNaming.SingleCD,
+                    Profile.FileNaming.MultiCD,
+                    Profile.FileNaming.Vinyl
+                };
+
+                string space = Profile.FileNaming.UseUnderscores ? "" : " ";
+                string directoryFormat = DirectoryFormat.FormatString;
+                string singleArtistAudioFileFormat = AudioFileFormat.FormatString;
+                string variousArtistsAudioFileFormat = singleArtistAudioFileFormat;
+                string fileFormat = string.Format("<00>{0}-{0}{1}", space, directoryFormat);
+                string imageFileformat = string.Format("<00>{0}-{0}{1}{0}-{0}<ImageText>", space, directoryFormat);
+
+                if (variousArtistsAudioFileFormat.StartsWith("<Artist>"))
+                {
+                    variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<Artist>", "<T>");
+                    variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<Track>", "<Artist>");
+                    variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<T>", "<Track>");
+                }
+
+                foreach (var formatGroup in formatGroups)
+                {
+                    formatGroup.SingleArtist.AudioFile = singleArtistAudioFileFormat;
+                    formatGroup.VariousArtists.AudioFile = variousArtistsAudioFileFormat;
+
+                    List<NamingFormat> formats = new List<NamingFormat>
+                    {
+                        formatGroup.SingleArtist,
+                        formatGroup.VariousArtists
+                    };
+
+                    foreach (var format in formats)
+                    {
+                        format.Directory = directoryFormat;
+
+                        format.CUE = fileFormat;
+                        format.Playlist = fileFormat;
+                        format.Checksum = fileFormat;
+                        format.NFO = fileFormat;
+                        format.Images = imageFileformat;
+                        format.EACLog = fileFormat;
+                    }
+                }
+
+                Profile.Save();
+
+                CloseWindow(); // TODO: Open Edit Profile
+            }
         }
 
         private bool ValidateProfileName()
         {
-            // No profile name entered
-            if (string.IsNullOrWhiteSpace(ProfileName))
-            {
-                // TODO: Localize
-                MessageBoxEvent messageBox = new MessageBoxEvent
-                {
-                    MessageBoxText = "Please enter a name for your profile.",
-                    Caption = "New profile",
-                    MessageBoxButton = MessageBoxButton.OK,
-                    MessageBoxImage = MessageBoxImage.Information
-                };
-
-                MessageBox(messageBox);
-
-                return false;
-            }
-
-            if (!_pathService.IsShortFileNameValid(ProfileName))
+            string message;
+            if (!Profile.ValidateProfileName(out message))
             {
                 MessageBoxEvent messageBoxEvent = new MessageBoxEvent
                 {
-                    MessageBoxText = string.Format("'{0}' contains invalid characters.", ProfileName),
+                    MessageBoxText = message,
                     Caption = "New profile",
                     MessageBoxButton = MessageBoxButton.OK,
                     MessageBoxImage = MessageBoxImage.Information
                 };
 
                 MessageBox(messageBoxEvent);
-
                 return false;
             }
 
             // Check if file exists
-            string fileName = GetProfileFileName();
+            string fileName = Profile.GetProfileFileName();
             if (File.Exists(fileName) && !_confirmedOverwrite)
             {
                 // TODO: Localize
@@ -277,21 +321,13 @@ namespace CDTag.ViewModel.Profile.NewProfile
             return true;
         }
 
-        private string GetProfileFileName()
-        {
-            string fileName = Path.Combine(_pathService.ProfileDirectory, ProfileName);
-
-            string ext = Path.GetExtension(fileName);
-            if (string.Compare(ext, ".cfg", ignoreCase: true) != 0)
-                fileName += ".cfg";
-
-            return fileName;
-        }
-
         private void Previous()
         {
             if (PageIndex > 0)
+            {
                 PageIndex -= 1;
+                NextButtonText = NextText;
+            }
         }
 
         public FormatItem DirectoryFormat
@@ -304,12 +340,6 @@ namespace CDTag.ViewModel.Profile.NewProfile
         {
             get { return Get<FormatItem>("AudioFileFormat"); }
             set { Set("AudioFileFormat", value); }
-        }
-
-        public string ProfileName
-        {
-            get { return Get<string>("ProfileName"); }
-            set { Set("ProfileName", value); }
         }
 
         public bool CreateNFO
@@ -370,6 +400,12 @@ namespace CDTag.ViewModel.Profile.NewProfile
         public UserProfile Profile
         {
             get { return _profile; }
+        }
+
+        public string NextButtonText
+        {
+            get { return Get<string>("NextButtonText"); }
+            private set { Set("NextButtonText", value); }
         }
     }
 }

@@ -32,12 +32,6 @@ namespace CDTag.Model.Profile
             }
         }
 
-        public string ProfileName
-        {
-            get { return Get<string>("ProfileName"); }
-            set { Set("ProfileName", value); }
-        }
-
         public NamingFormatGroup SingleCD
         {
             get { return Get<NamingFormatGroup>("SingleCD"); }

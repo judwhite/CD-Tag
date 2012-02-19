@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Xml.Serialization;
 using CDTag.Common;
+using CDTag.Common.Json;
 using CDTag.Model.Tag;
 
 namespace CDTag.Model.Profile
@@ -19,6 +19,67 @@ namespace CDTag.Model.Profile
         public UserProfile()
         {
             FileNaming = new FileNaming();
+        }
+
+        public static UserProfile Load(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentNullException("path");
+            if (!File.Exists(path))
+                throw new FileNotFoundException(string.Format("'{0}' not found.", path), path);
+
+            string json = File.ReadAllText(path);
+            UserProfile profile = JsonSerializer.ReadObject<UserProfile>(json);
+            return profile;
+        }
+
+        public void Save()
+        {
+            string message;
+            if (!ValidateProfileName(out message))
+                throw new Exception(message);
+
+            string path = GetProfileFileName();
+            string json = JsonSerializer.SerializeObject(this);
+            File.WriteAllText(path, json);
+        }
+
+        [XmlIgnore]
+        public string ProfileName
+        {
+            get { return Get<string>("ProfileName"); }
+            set { Set("ProfileName", value); }
+        }
+
+        public bool ValidateProfileName(out string message)
+        {
+            // No profile name entered
+            if (string.IsNullOrWhiteSpace(ProfileName))
+            {
+                message = "Please enter a name for your profile."; // TODO: Localize
+                return false;
+            }
+
+            // Invalid characters
+            if (!_pathService.IsShortFileNameValid(ProfileName))
+            {
+                message = string.Format("'{0}' contains invalid characters.", ProfileName); // TODO: Localize
+                return false;
+            }
+
+            message = null;
+            return true;
+        }
+
+        public string GetProfileFileName()
+        {
+            string fileName = Path.Combine(_pathService.ProfileDirectory, ProfileName);
+
+            string ext = Path.GetExtension(fileName);
+            if (string.Compare(ext, ".cfg", ignoreCase: true) != 0)
+                fileName += ".cfg";
+
+            return fileName;
         }
 
         public FileNaming FileNaming

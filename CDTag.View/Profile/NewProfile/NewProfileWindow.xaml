@@ -80,7 +80,7 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Content="Name your pr_ofile" Margin="0" Target="ProfileNameTextBox" />
-                <TextBox x:Name="ProfileNameTextBox" Grid.Row="1" Text="{Binding ProfileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="350" Margin="0,8,0,16" MVVM:FocusExtension.IsFocused="{Binding IsProfileNameFocused, Mode=TwoWay}"  />
+                <TextBox x:Name="ProfileNameTextBox" Grid.Row="1" Text="{Binding Path=Profile.ProfileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="350" Margin="0,8,0,16" MVVM:FocusExtension.IsFocused="{Binding IsProfileNameFocused, Mode=TwoWay}"  />
                 <CheckBox Grid.Row="2" Content="Create NFO when _tagging an album" Margin="0,0,0,2" IsChecked="{Binding CreateNFO, Mode=TwoWay}" VerticalContentAlignment="Center" HorizontalAlignment="Left" />
                 <RadioButton Grid.Row="3" Content="Create a _sample NFO for me" Margin="16,2,0,2" IsChecked="{Binding CreateSampleNFO, Mode=TwoWay}" IsEnabled="{Binding CreateNFO, Mode=OneWay}" HorizontalAlignment="Left" />
                 <RadioButton Grid.Row="4" Content="I already _have an NFO ready" Margin="16,2,0,2" IsChecked="{Binding HasExistingNFO, Mode=TwoWay}" IsEnabled="{Binding CreateNFO, Mode=OneWay}" HorizontalAlignment="Left" />
@@ -182,7 +182,7 @@
             <Button Grid.Column="0" Content="_Cancel" IsCancel="True" Padding="7,2" Margin="0,0,8,0" />
 
             <Button Grid.Column="2" Content="_Previous" Padding="7,2" Margin="8,0,0,0" Command="{Binding PreviousCommand}" />
-            <Button Grid.Column="3" Content="_Next" Padding="7,2" Margin="8,0,0,0" Command="{Binding NextCommand}" IsDefault="True" />
+            <Button Grid.Column="3" Content="{Binding NextButtonText}" Padding="7,2" Margin="8,0,0,0" Command="{Binding NextCommand}" IsDefault="True" />
         </Grid>
     </Grid>
 </Views:WindowViewBase>
