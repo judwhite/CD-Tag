@@ -51,7 +51,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
 
             _directoryFormats = new ObservableCollection<FormatItem>
             {
-                new FormatItem { FormatString = "<Artist> - <Album> (<Year>)" },                
+                new FormatItem { FormatString = "<Artist> - <Album> (<Year>)" },
                 new FormatItem { FormatString = "<Artist> - <Album> - <Year>" },
                 new FormatItem { FormatString = "<Artist> - (<Year>) - <Album>" },
                 new FormatItem { FormatString = "<Artist> - <Year> - <Album>" },
@@ -173,6 +173,18 @@ namespace CDTag.ViewModel.Profile.NewProfile
                 var newFormatItem = e.NewValue as FormatItem;
                 if (newFormatItem != null)
                     newFormatItem.IsSelected = true;
+
+                if (newFormatItem == null && oldFormatItem != null)
+                {
+                    if (e.IsProperty(p => p.DirectoryFormat))
+                    {
+                        DirectoryFormat = oldFormatItem;
+                    }
+                    else if (e.IsProperty(p => p.AudioFileFormat))
+                    {
+                        AudioFileFormat = oldFormatItem;
+                    }
+                }
             }
         }
 
@@ -205,10 +217,10 @@ namespace CDTag.ViewModel.Profile.NewProfile
             else if (PageIndex == 1)
             {
                 List<NamingFormatGroup> formatGroups = new List<NamingFormatGroup> {
-                    Profile.FileNaming.SingleCD,
-                    Profile.FileNaming.MultiCD,
-                    Profile.FileNaming.Vinyl
-                };
+                        Profile.FileNaming.SingleCD,
+                        Profile.FileNaming.MultiCD,
+                        Profile.FileNaming.Vinyl
+                    };
 
                 string space = Profile.FileNaming.UseUnderscores ? "" : " ";
                 string directoryFormat = DirectoryFormat.FormatString;
@@ -219,6 +231,7 @@ namespace CDTag.ViewModel.Profile.NewProfile
 
                 if (variousArtistsAudioFileFormat.StartsWith("<Artist>"))
                 {
+                    // For VA <Artist> - <Track> swap Track and Artist position for proper sorting
                     variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<Artist>", "<T>");
                     variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<Track>", "<Artist>");
                     variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<T>", "<Track>");
@@ -229,11 +242,10 @@ namespace CDTag.ViewModel.Profile.NewProfile
                     formatGroup.SingleArtist.AudioFile = singleArtistAudioFileFormat;
                     formatGroup.VariousArtists.AudioFile = variousArtistsAudioFileFormat;
 
-                    List<NamingFormat> formats = new List<NamingFormat>
-                    {
-                        formatGroup.SingleArtist,
-                        formatGroup.VariousArtists
-                    };
+                    List<NamingFormat> formats = new List<NamingFormat> {
+                            formatGroup.SingleArtist,
+                            formatGroup.VariousArtists
+                        };
 
                     foreach (var format in formats)
                     {

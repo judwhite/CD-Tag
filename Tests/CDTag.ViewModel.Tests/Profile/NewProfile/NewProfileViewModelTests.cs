@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using CDTag.Common;
 using CDTag.Common.Dispatcher;
+using CDTag.Model.Profile;
+using CDTag.Model.Profile.NewProfile;
 using CDTag.ViewModel.Profile.NewProfile;
 using NUnit.Framework;
 
@@ -11,6 +14,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
     [TestFixture]
     public class NewProfileViewModelTests
     {
+        private const string _profileName = "unittests";
         private string _unitTestsProfile;
 
         [TestFixtureSetUp]
@@ -21,7 +25,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             IoC.RegisterInstance<IDispatcher>(new UnitTestDispatcher());
             IoC.RegisterInstance<IPathService>(new PathService());
 
-            _unitTestsProfile = Path.Combine(IoC.Resolve<IPathService>().ProfileDirectory, "unittests.cfg");
+            _unitTestsProfile = Path.Combine(IoC.Resolve<IPathService>().ProfileDirectory, _profileName + ".cfg");
 
             DeleteUnitTestsProfile();
         }
@@ -206,14 +210,13 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
         public void NextPageTest()
         {
             // Arrange
-            const string profileName = "unittests";
 
             DeleteUnitTestsProfile();
 
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
-            bool shown = false;
-            newProfileViewModel.ShowMessageBox += (s, e) => { shown = true; };
-            newProfileViewModel.Profile.ProfileName = profileName;
+            bool messageBoxShown = false;
+            newProfileViewModel.ShowMessageBox += (s, e) => { messageBoxShown = true; };
+            newProfileViewModel.Profile.ProfileName = _profileName;
 
             // Assert initial state
             Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.True, "newProfileViewModel.NextCommand.CanExecute(null)");
@@ -223,12 +226,22 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.NextCommand.Execute(null);
 
             // Assert
-            Assert.That(shown, Is.False, string.Format("MessageBox shown, profileName='{0}'", profileName));
-            Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageTwoStateName), string.Format("newProfileViewModel.CurrentVisualState, profileName='{0}'", profileName));
-            Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(1), string.Format("newProfileViewModel.PageIndex, profileName='{0}'", profileName));
+            Assert.That(messageBoxShown, Is.False, "messageBoxShown");
+            Assert.That(newProfileViewModel.CurrentVisualState, Is.EqualTo(NewProfileViewModel.PageTwoStateName), string.Format("newProfileViewModel.CurrentVisualState, profileName='{0}'", _profileName));
+            Assert.That(newProfileViewModel.PageIndex, Is.EqualTo(1), string.Format("newProfileViewModel.PageIndex, profileName='{0}'", _profileName));
             Assert.That(File.Exists(_unitTestsProfile), Is.False, "File.Exists(_unitTestsProfile), file should not exist yet.");
             Assert.That(newProfileViewModel.PreviousCommand.CanExecute(null), Is.True, "newProfileViewModel.PreviousCommand.CanExecute(null)");
             Assert.That(newProfileViewModel.NextButtonText, Is.EqualTo("_Finish"), newProfileViewModel.NextButtonText);
+
+            // Arrange - Previous page
+            newProfileViewModel.PreviousCommand.Execute(null);
+            newProfileViewModel.Profile.ProfileName = null;
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null);
+
+            // Assert
+            Assert.That(messageBoxShown, Is.True, "messageBoxShown");
         }
 
         [Test]
@@ -630,7 +643,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
         {
             // Arrange
             NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
-            
+
             // Assert initial state
             Assert.That(newProfileViewModel.NextCommand.CanExecute(null), Is.False, "newProfileViewModel.NextCommand.CanExecute(null)");
 
@@ -666,9 +679,167 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
         }
 
         [Test]
+        public void DirectoryFormatDontAllowNullTest()
+        {
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            // Act
+            newProfileViewModel.DirectoryFormat = null;
+
+            // Assert
+            Assert.That(newProfileViewModel.DirectoryFormat, Is.Not.Null, "newProfileViewModel.DirectoryFormat");
+        }
+
+        [Test]
+        public void AudioFormatDontAllowNullTest()
+        {
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            // Act
+            newProfileViewModel.AudioFileFormat = null;
+
+            // Assert
+            Assert.That(newProfileViewModel.AudioFileFormat, Is.Not.Null, "newProfileViewModel.AudioFileFormat");
+        }
+
+        [Test]
+        public void FinishFileExistsTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            newProfileViewModel.Profile.ProfileName = _profileName;
+
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+
+            // Assert initial state
+            Assert.That(File.Exists(_unitTestsProfile), Is.False, string.Format("File.Exists({0})", _unitTestsProfile));
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(File.Exists(_unitTestsProfile), Is.True, string.Format("File.Exists({0})", _unitTestsProfile));
+            Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+        }
+
+        [Test]
         public void FinishTest()
         {
-            throw new NotImplementedException();
+            // Arrange
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+            var directoryFormats = newProfileViewModel.DirectoryFormats;
+            var audioFileFormats = newProfileViewModel.AudioFileFormats;
+
+            // Assert
+            foreach (var directoryFormat in directoryFormats)
+            {
+                foreach (var audioFileFormat in audioFileFormats)
+                {
+                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: false, useStandardCharactersOnly: false, useLatinCharactersOnly: false);
+                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: false, useStandardCharactersOnly: true, useLatinCharactersOnly: true);
+                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: false, useStandardCharactersOnly: false, useLatinCharactersOnly: true);
+
+                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: true, useStandardCharactersOnly: false, useLatinCharactersOnly: false);
+                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: true, useStandardCharactersOnly: true, useLatinCharactersOnly: true);
+                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: true, useStandardCharactersOnly: false, useLatinCharactersOnly: true);
+                }
+            }
+        }
+
+        private void FinishTestParameters(FormatItem directoryFormat, FormatItem audioFormat, bool useUnderscores, bool useStandardCharactersOnly, bool useLatinCharactersOnly)
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            newProfileViewModel.Profile.ProfileName = _profileName;
+            newProfileViewModel.Profile.FileNaming.UseUnderscores = useUnderscores;
+            newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly = useStandardCharactersOnly;
+            newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly = useLatinCharactersOnly;
+
+            newProfileViewModel.DirectoryFormat = directoryFormat;
+            newProfileViewModel.AudioFileFormat = audioFormat;
+
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+
+            // Assert initial state
+            Assert.That(File.Exists(_unitTestsProfile), Is.False, string.Format("File.Exists({0})", _unitTestsProfile));
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(File.Exists(_unitTestsProfile), Is.True, string.Format("File.Exists({0})", _unitTestsProfile));
+            Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseUnderscores, Is.EqualTo(useUnderscores), "newProfileViewModel.Profile.FileNaming.UseUnderscores");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.EqualTo(useStandardCharactersOnly), "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly, Is.EqualTo(useLatinCharactersOnly), "newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly");
+
+            AssertProfileValues(newProfileViewModel);
+        }
+
+        private void AssertProfileValues(NewProfileViewModel newProfileViewModel)
+        {
+            var profile = UserProfile.Load(_unitTestsProfile);
+
+            // Arrange
+            var formatGroups = new List<NamingFormatGroup> {
+                profile.FileNaming.SingleCD,
+                profile.FileNaming.MultiCD,
+                profile.FileNaming.Vinyl
+            };
+
+            string space = profile.FileNaming.UseUnderscores ? "" : " ";
+            string directoryFormat = newProfileViewModel.DirectoryFormat.FormatString;
+            string singleArtistAudioFileFormat = newProfileViewModel.AudioFileFormat.FormatString;
+            string variousArtistsAudioFileFormat = singleArtistAudioFileFormat;
+            string fileFormat = string.Format("<00>{0}-{0}{1}", space, directoryFormat);
+            string imageFileformat = string.Format("<00>{0}-{0}{1}{0}-{0}<ImageText>", space, directoryFormat);
+
+            if (variousArtistsAudioFileFormat.StartsWith("<Artist>"))
+            {
+                // For VA <Artist> - <Track> swap Track and Artist position for proper sorting
+                variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<Artist>", "<T>");
+                variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<Track>", "<Artist>");
+                variousArtistsAudioFileFormat = variousArtistsAudioFileFormat.Replace("<T>", "<Track>");
+            }
+
+            // Assert
+            Assert.That(profile.FileNaming.UseUnderscores, Is.EqualTo(newProfileViewModel.Profile.FileNaming.UseUnderscores), "profile.FileNaming.UseUnderscores");
+            Assert.That(profile.FileNaming.UseStandardCharactersOnly, Is.EqualTo(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly), "profile.FileNaming.UseStandardCharactersOnly");
+            Assert.That(profile.FileNaming.UseLatinCharactersOnly, Is.EqualTo(newProfileViewModel.Profile.FileNaming.UseLatinCharactersOnly), "profile.FileNaming.UseLatinCharactersOnly");
+
+            foreach (var formatGroup in formatGroups)
+            {
+                Assert.That(formatGroup.SingleArtist.AudioFile, Is.EqualTo(singleArtistAudioFileFormat), "formatGroup.SingleArtist.AudioFile");
+                Assert.That(formatGroup.VariousArtists.AudioFile, Is.EqualTo(variousArtistsAudioFileFormat), "formatGroup.VariousArtists.AudioFile");
+
+                var formats = new List<NamingFormat> {
+                    formatGroup.SingleArtist,
+                    formatGroup.VariousArtists
+                };
+
+                foreach (var format in formats)
+                {
+                    Assert.That(format.Directory, Is.EqualTo(directoryFormat), "format.Directory");
+                    Assert.That(format.CUE, Is.EqualTo(fileFormat), "format.CUE");
+                    Assert.That(format.Playlist, Is.EqualTo(fileFormat), "format.Playlist");
+                    Assert.That(format.Checksum, Is.EqualTo(fileFormat), "format.Checksum");
+                    Assert.That(format.NFO, Is.EqualTo(fileFormat), "format.NFO");
+                    Assert.That(format.Images, Is.EqualTo(imageFileformat), "format.Images");
+                    Assert.That(format.EACLog, Is.EqualTo(fileFormat), "format.EACLog");
+                }
+            }
         }
     }
 }

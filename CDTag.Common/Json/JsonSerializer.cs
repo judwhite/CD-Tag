@@ -155,23 +155,27 @@ namespace CDTag.Common.Json
                     PropertyInfo property = null;
                     foreach (PropertyInfo propertyInfo in expectedType.GetProperties(PublicInstanceBindingFlags))
                     {
-                        DataMemberAttribute[] dms = (DataMemberAttribute[])propertyInfo.GetCustomAttributes(typeof(DataMemberAttribute), false);
-                        if (dms != null && dms.Length != 0)
-                        {
-                            string name = dms[0].Name;
-                            if (string.IsNullOrEmpty(name))
-                                name = propertyInfo.Name;
+                        string name = propertyInfo.Name;
 
-                            if (string.Compare(name, propertyName, ignoreCase: true) == 0)
-                            {
-                                property = propertyInfo;
-                                break;
-                            }
+                        DataMemberAttribute[] dms = (DataMemberAttribute[])propertyInfo.GetCustomAttributes(typeof(DataMemberAttribute), false);
+                        if (dms.Length != 0)
+                        {
+                            if (!string.IsNullOrEmpty(dms[0].Name))
+                                name = dms[0].Name;
+                        }
+
+                        if (string.Compare(name, propertyName, ignoreCase: true) == 0)
+                        {
+                            property = propertyInfo;
+                            break;
                         }
                     }
 
                     if (property == null)
-                        throw new JsonInvalidDataException(string.Format("Property '{0}' not found on '{1}'.", propertyName, expectedType), json, i);
+                    {
+                        SkipValue(json, ref i);
+                        continue;
+                    }
 
                     MethodInfo setMethod = property.GetSetMethod();
                     if (setMethod == null)
@@ -232,6 +236,99 @@ namespace CDTag.Common.Json
             i++;
 
             return returnValue;
+        }
+
+        private static void SkipValue(string json, ref int i)
+        {
+            int originalIndex = i;
+
+            if (json == null)
+                throw new ArgumentNullException("json");
+
+            while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n' || json[i] == '\t')
+                i++;
+
+            char startMarker = json[i];
+            char endMarker;
+            if (startMarker == '{')
+            {
+                endMarker = '}';
+            }
+            else if (startMarker == '[')
+            {
+                endMarker = ']';
+            }
+            else if (startMarker == '"')
+            {
+                endMarker = ',';
+            }
+            else
+            {
+                startMarker = '\0';
+                endMarker = ',';
+            }
+
+            bool isInString = (startMarker == '"');
+            int nestCount = 0;
+            bool goodExit = false;
+            for (i++; i < json.Length; i++)
+            {
+                char c = json[i];
+
+                if (isInString)
+                {
+                    if (c == '"')
+                        isInString = false;
+                    else if (c == '\\')
+                        i++;
+                }
+                else
+                {
+                    if (c == '"')
+                    {
+                        isInString = true;
+                    }
+                    else if (c == startMarker)
+                    {
+                        ++nestCount;
+                    }
+                    else if (c == endMarker)
+                    {
+                        if (nestCount == 0)
+                        {
+                            i++;
+                            goodExit = true;
+                            break;
+                        }
+                        --nestCount;
+                    }
+                    else if (nestCount == 0 && c == '}' && endMarker == ',')
+                    {
+                        goodExit = true;
+                        break;
+                    }
+                }
+            }
+
+
+            if (!goodExit)
+                throw new JsonInvalidDataException("Unable to skip unknown property.", json, originalIndex);
+
+            if (i < json.Length)
+            {
+                while (json[i] == ' ' || json[i] == '\r' || json[i] == '\n' || json[i] == '\t')
+                    i++;
+
+                if (json[i] == ',')
+                {
+                    i++;
+                }
+                else if (i + 1 < json.Length)
+                {
+                    if (json[i + 1] == ',')
+                        i++;
+                }
+            }
         }
 
         private static object GetValue(Type containingClassType, Type propertyType, string propertyName, string json, ref int i)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace CDTag.Common.Json
 {
@@ -143,6 +144,9 @@ namespace CDTag.Common.Json
                 for (int i = 0; i < properties.Length; i++)
                 {
                     var property = properties[i];
+
+                    if (property.GetCustomAttributes(typeof(XmlIgnoreAttribute), inherit: false).Length > 0)
+                        continue;
 
                     json.Append(new string(' ', indentLevel * IndentSpacing));
                     json.Append(string.Format("\"{0}\": ", property.Name));
