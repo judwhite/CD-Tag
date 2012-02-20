@@ -15,6 +15,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
     {
         private const string _profileName = "unittests";
         private string _unitTestsProfile;
+        private string _unitTestsNFO;
 
         [TestFixtureSetUp]
         public void Setup()
@@ -23,8 +24,11 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             IoC.RegisterInstance<IDispatcher>(new UnitTestDispatcher());
             IoC.RegisterInstance<IPathService>(new PathService());
+            IoC.RegisterInstance<IDialogService>(new UnitTestDialogService());
 
-            _unitTestsProfile = Path.Combine(IoC.Resolve<IPathService>().ProfileDirectory, _profileName + ".cfg");
+            string profileDirectory = IoC.Resolve<IPathService>().ProfileDirectory;
+            _unitTestsProfile = Path.Combine(profileDirectory, _profileName + ".cfg");
+            _unitTestsNFO = Path.Combine(profileDirectory, _profileName + ".nfo");
 
             DeleteUnitTestsProfile();
         }
@@ -39,6 +43,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
         {
             if (File.Exists(_unitTestsProfile))
                 File.Delete(_unitTestsProfile);
+            if (File.Exists(_unitTestsNFO))
+                File.Delete(_unitTestsNFO);
         }
 
         [Test]
@@ -857,6 +863,179 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
                     Assert.That(format.EACLog, Is.EqualTo(fileFormat), "format.EACLog");
                 }
             }
+        }
+
+        [Test]
+        public void SampleNFOExistsNoOverwriteTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            newProfileViewModel.Profile.ProfileName = _profileName;
+            newProfileViewModel.CreateNFO = true;
+            newProfileViewModel.CreateSampleNFO = true;
+            bool messageBoxShown = false;
+            newProfileViewModel.ShowMessageBox += (s, e) => { e.Data.Result = MessageBoxResult.No; messageBoxShown = true; }; // do not overwrite
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            const string contents = "unittestfilecontents";
+            File.WriteAllText(_unitTestsNFO, contents); // create file
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(messageBoxShown, Is.True, "messageBoxShown");
+            Assert.That(closeWindowCalled, Is.False, "closeWindowCalled");
+            Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
+            string actualContents = File.ReadAllText(_unitTestsNFO);
+            Assert.That(actualContents, Is.EqualTo(contents), "actualContents");
+        }
+
+        [Test]
+        public void SampleNFOExistsOverwriteTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            newProfileViewModel.Profile.ProfileName = _profileName;
+            newProfileViewModel.CreateNFO = true;
+            newProfileViewModel.CreateSampleNFO = true;
+            bool messageBoxShown = false;
+            newProfileViewModel.ShowMessageBox += (s, e) => { e.Data.Result = MessageBoxResult.Yes; messageBoxShown = true; }; // overwrite
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            const string contents = "unittestfilecontents";
+            File.WriteAllText(_unitTestsNFO, contents); // create file
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(messageBoxShown, Is.True, "messageBoxShown");
+            Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
+            string actualContents = File.ReadAllText(_unitTestsNFO);
+            Assert.That(actualContents, Is.EqualTo(UserProfile.GetSampleNFO()), "actualContents");
+            Assert.That(newProfileViewModel.Profile.NFOOptions.TemplatePath, Is.EqualTo("unittests.nfo"), "newProfileViewModel.Profile.NFOOptions.TemplatePath");
+        }
+
+        [Test]
+        public void SampleNFODoesNotExistTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            newProfileViewModel.Profile.ProfileName = _profileName;
+            newProfileViewModel.CreateNFO = true;
+            newProfileViewModel.CreateSampleNFO = true;
+            bool messageBoxShown = false;
+            newProfileViewModel.ShowMessageBox += (s, e) => { e.Data.Result = MessageBoxResult.No; messageBoxShown = true; }; // do not overwrite
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(messageBoxShown, Is.False, "messageBoxShown");
+            Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
+            string actualContents = File.ReadAllText(_unitTestsNFO);
+            Assert.That(actualContents, Is.EqualTo(UserProfile.GetSampleNFO()), "actualContents");
+            Assert.That(newProfileViewModel.Profile.NFOOptions.TemplatePath, Is.EqualTo("unittests.nfo"), "newProfileViewModel.Profile.NFOOptions.TemplatePath");
+        }
+
+        [Test]
+        public void UseExistingNFOOpenDialogTrueTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            newProfileViewModel.Profile.ProfileName = _profileName;
+            newProfileViewModel.CreateNFO = true;
+            newProfileViewModel.HasExistingNFO = true;
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            UnitTestDialogService dialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
+            dialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
+            dialogService.ShowOpenFileDialogResult = true; // "Open"
+            const string contents = "unittestfilecontents";
+            File.WriteAllText(_unitTestsNFO, contents); // create file
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
+            string actualContents = File.ReadAllText(_unitTestsNFO);
+            Assert.That(actualContents, Is.EqualTo(contents), "actualContents");
+            Assert.That(newProfileViewModel.Profile.NFOOptions.TemplatePath, Is.EqualTo(_unitTestsNFO), "newProfileViewModel.Profile.NFOOptions.TemplatePath");
+        }
+
+        [Test]
+        public void UseExistingNFOOpenDialogFalseTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            newProfileViewModel.Profile.ProfileName = _profileName;
+            newProfileViewModel.CreateNFO = true;
+            newProfileViewModel.HasExistingNFO = true;
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            UnitTestDialogService dialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
+            dialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
+            dialogService.ShowOpenFileDialogResult = false; // "Cancel"
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(closeWindowCalled, Is.False, "closeWindowCalled");
+            Assert.That(File.Exists(_unitTestsNFO), Is.False, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
+        }
+
+        [Test]
+        public void UseExistingNFOOpenDialogNullTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            NewProfileViewModel newProfileViewModel = IoC.Resolve<NewProfileViewModel>();
+
+            newProfileViewModel.Profile.ProfileName = _profileName;
+            newProfileViewModel.CreateNFO = true;
+            newProfileViewModel.HasExistingNFO = true;
+            bool closeWindowCalled = false;
+            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            UnitTestDialogService dialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
+            dialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
+            dialogService.ShowOpenFileDialogResult = null; // "Close"
+
+            // Act
+            newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
+            newProfileViewModel.NextCommand.Execute(null); // Page 2 -> Finish
+
+            // Assert
+            Assert.That(closeWindowCalled, Is.False, "closeWindowCalled");
+            Assert.That(File.Exists(_unitTestsNFO), Is.False, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
         }
     }
 }

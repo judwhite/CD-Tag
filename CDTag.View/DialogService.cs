@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using CDTag.Common;
@@ -8,6 +7,7 @@ using CDTag.Controls;
 using CDTag.FileBrowser.Events;
 using CDTag.View.Interfaces;
 using CDTag.Views;
+using Microsoft.Win32;
 
 namespace CDTag.View
 {
@@ -73,6 +73,31 @@ namespace CDTag.View
         public void CloseAddressTextBox()
         {
             IoC.Resolve<IEventAggregator>().Publish<CloseAddressTextBoxEvent>(null);
+        }
+
+        public bool? ShowOpenFileDialog(string title, string filter, out string fileName)
+        {
+            OpenFileDialog openFileDialog;
+            MouseHelper.SetWaitCursor();
+            try
+            {
+                openFileDialog = new OpenFileDialog();
+                openFileDialog.Title = title;
+                openFileDialog.Filter = filter;
+            }
+            finally
+            {
+                MouseHelper.ResetCursor();
+            }
+
+            bool? result = openFileDialog.ShowDialog(Application.Current.MainWindow);
+
+            if (result == true)
+                fileName = openFileDialog.FileName;
+            else
+                fileName = null;
+
+            return result;
         }
     }
 }

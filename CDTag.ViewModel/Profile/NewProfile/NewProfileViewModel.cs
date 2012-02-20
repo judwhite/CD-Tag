@@ -8,7 +8,9 @@ using CDTag.Common;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 using CDTag.Model.Tag;
+using CDTag.View;
 using CDTag.ViewModel.Events;
+using Microsoft.Win32;
 
 namespace CDTag.ViewModel.Profile.NewProfile
 {
@@ -268,19 +270,40 @@ namespace CDTag.ViewModel.Profile.NewProfile
                     Profile.Finish.NFO = FinishNFO.CreateNew;
                     Profile.NFOOptions.ShowReleaseScreen = true;
 
-                    string sampleNFO = UserProfile.GetSampleNFO();
-                    string nfoShortFileName = string.Format("{0}.nfo", Profile.ProfileName);
-                    string nfoFullPath = Path.Combine(_pathService.ProfileDirectory, nfoShortFileName);
+                    if (CreateSampleNFO)
+                    {
+                        string sampleNFO = UserProfile.GetSampleNFO();
+                        string nfoShortFileName = string.Format("{0}.nfo", Profile.ProfileName);
+                        string nfoFullPath = Path.Combine(_pathService.ProfileDirectory, nfoShortFileName);
 
-                    Profile.NFOOptions.TemplatePath = nfoShortFileName;
+                        if (File.Exists(nfoFullPath))
+                        {
+                            string messageBoxText = string.Format("'{0}' exists. Overwrite?", nfoFullPath);
+                            var result = MessageBox(messageBoxText, "New Profile", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            if (result != MessageBoxResult.Yes)
+                                return;
+                        }
 
-                    // TODO: check exists
-                    File.WriteAllText(nfoFullPath, sampleNFO);
+                        Profile.NFOOptions.TemplatePath = nfoShortFileName;
+
+                        File.WriteAllText(nfoFullPath, sampleNFO);
+                    }
+                    else
+                    {
+                        IDialogService dialogService = IoC.Resolve<IDialogService>();
+                        string fileName;
+                        bool? result = dialogService.ShowOpenFileDialog(title: "Open file", filter: "*.nfo|*.nfo", fileName: out fileName);
+                        if (result != true)
+                            return;
+
+                        Profile.NFOOptions.TemplatePath = fileName;
+                    }
                 }
                 else
                 {
                     Profile.Finish.NFO = FinishNFO.RenameExisting;
                     Profile.NFOOptions.ShowReleaseScreen = false;
+                    Profile.NFOOptions.TemplatePath = null;
                 }
 
                 Profile.Save();

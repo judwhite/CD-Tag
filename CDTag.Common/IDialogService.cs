@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows;
-using CDTag.Common;
 using CDTag.View.Interfaces;
+using Microsoft.Win32;
 
-namespace CDTag.View
+namespace CDTag.Common
 {
     /// <summary>
     /// IDialogService
@@ -19,13 +18,20 @@ namespace CDTag.View
         /// <param name="errorContainer">The error container.</param>
         void ShowError(Exception exception, IErrorContainer errorContainer);
 
-        /// <summary>Shows the window.</summary>
+        /// <summary>Shows a window.</summary>
         /// <typeparam name="T">The window type.</typeparam>
-        /// <returns>The result of <see cref="Window.ShowDialog()" />.</returns>
+        /// <returns>The result of <see cref="IWindow.ShowDialog()" />.</returns>
         bool? ShowWindow<T>()
             where T : IWindow;
 
         /// <summary>Closes the address bar text box.</summary>
         void CloseAddressTextBox();
+
+        /// <summary>Shows the open file dialog.</summary>
+        /// <param name="title">The dialog title.</param>
+        /// <param name="filter">The file filter.</param>
+        /// <param name="fileName">Name of the file opened.</param>
+        /// <returns><c>true</c> if a file is selected.</returns>
+        bool? ShowOpenFileDialog(string title, string filter, out string fileName);
     }
 }
