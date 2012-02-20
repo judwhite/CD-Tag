@@ -55,10 +55,15 @@
   <ItemGroup>
     <Compile Include="About\ComponentInformation.cs" />
     <Compile Include="Profile\FileNaming.cs" />
+    <Compile Include="Profile\Finish.cs" />
+    <Compile Include="Profile\FinishNFO.cs" />
     <Compile Include="Profile\NamingFormat.cs" />
     <Compile Include="Profile\NamingFormatGroup.cs" />
     <Compile Include="Profile\NewProfile\FormatItem.cs" />
+    <Compile Include="Profile\NFOOptions.cs" />
     <Compile Include="Profile\UserProfile.cs" />
+    <Compile Include="Profile\UserProfile.Methods.cs" />
+    <Compile Include="Profile\UserProfile.Static.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

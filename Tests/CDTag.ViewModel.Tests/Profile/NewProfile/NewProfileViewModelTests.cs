@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using CDTag.Common;
@@ -737,22 +736,25 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             var audioFileFormats = newProfileViewModel.AudioFileFormats;
 
             // Assert
-            foreach (var directoryFormat in directoryFormats)
+            foreach (var createNFO in new List<bool> { false, true })
             {
-                foreach (var audioFileFormat in audioFileFormats)
+                foreach (var directoryFormat in directoryFormats)
                 {
-                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: false, useStandardCharactersOnly: false, useLatinCharactersOnly: false);
-                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: false, useStandardCharactersOnly: true, useLatinCharactersOnly: true);
-                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: false, useStandardCharactersOnly: false, useLatinCharactersOnly: true);
+                    foreach (var audioFileFormat in audioFileFormats)
+                    {
+                        FinishTestParameters(directoryFormat, audioFileFormat, createNFO: createNFO, useUnderscores: false, useStandardCharactersOnly: false, useLatinCharactersOnly: false);
+                        FinishTestParameters(directoryFormat, audioFileFormat, createNFO: createNFO, useUnderscores: false, useStandardCharactersOnly: true, useLatinCharactersOnly: true);
+                        FinishTestParameters(directoryFormat, audioFileFormat, createNFO: createNFO, useUnderscores: false, useStandardCharactersOnly: false, useLatinCharactersOnly: true);
 
-                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: true, useStandardCharactersOnly: false, useLatinCharactersOnly: false);
-                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: true, useStandardCharactersOnly: true, useLatinCharactersOnly: true);
-                    FinishTestParameters(directoryFormat, audioFileFormat, useUnderscores: true, useStandardCharactersOnly: false, useLatinCharactersOnly: true);
+                        FinishTestParameters(directoryFormat, audioFileFormat, createNFO: createNFO, useUnderscores: true, useStandardCharactersOnly: false, useLatinCharactersOnly: false);
+                        FinishTestParameters(directoryFormat, audioFileFormat, createNFO: createNFO, useUnderscores: true, useStandardCharactersOnly: true, useLatinCharactersOnly: true);
+                        FinishTestParameters(directoryFormat, audioFileFormat, createNFO: createNFO, useUnderscores: true, useStandardCharactersOnly: false, useLatinCharactersOnly: true);
+                    }
                 }
             }
         }
 
-        private void FinishTestParameters(FormatItem directoryFormat, FormatItem audioFormat, bool useUnderscores, bool useStandardCharactersOnly, bool useLatinCharactersOnly)
+        private void FinishTestParameters(FormatItem directoryFormat, FormatItem audioFormat, bool createNFO, bool useUnderscores, bool useStandardCharactersOnly, bool useLatinCharactersOnly)
         {
             // Arrange
             DeleteUnitTestsProfile();
@@ -766,6 +768,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             newProfileViewModel.DirectoryFormat = directoryFormat;
             newProfileViewModel.AudioFileFormat = audioFormat;
+            newProfileViewModel.CreateNFO = createNFO;
 
             bool closeWindowCalled = false;
             newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
@@ -780,6 +783,20 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Assert
             Assert.That(File.Exists(_unitTestsProfile), Is.True, string.Format("File.Exists({0})", _unitTestsProfile));
             Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+
+            if (createNFO)
+            {
+                Assert.That(newProfileViewModel.Profile.Finish.NFO, Is.EqualTo(FinishNFO.CreateNew), "newProfileViewModel.Profile.Finish.NFO");
+                Assert.That(newProfileViewModel.Profile.NFOOptions.ShowReleaseScreen, Is.True, "newProfileViewModel.Profile.NFOOptions.ShowReleaseScreen");
+                Assert.That(newProfileViewModel.Profile.NFOOptions.TemplatePath, Is.StringEnding(".nfo"), "newProfileViewModel.Profile.NFOOptions.TemplatePath");
+                // TODO: Verify template path exists
+            }
+            else
+            {
+                Assert.That(newProfileViewModel.Profile.Finish.NFO, Is.EqualTo(FinishNFO.RenameExisting), "newProfileViewModel.Profile.Finish.NFO");
+                Assert.That(newProfileViewModel.Profile.NFOOptions.ShowReleaseScreen, Is.False, "newProfileViewModel.Profile.NFOOptions.ShowReleaseScreen");
+                Assert.That(newProfileViewModel.Profile.NFOOptions.TemplatePath, Is.Null, "newProfileViewModel.Profile.NFOOptions.TemplatePath");
+            }
 
             Assert.That(newProfileViewModel.Profile.FileNaming.UseUnderscores, Is.EqualTo(useUnderscores), "newProfileViewModel.Profile.FileNaming.UseUnderscores");
             Assert.That(newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly, Is.EqualTo(useStandardCharactersOnly), "newProfileViewModel.Profile.FileNaming.UseStandardCharactersOnly");

@@ -216,11 +216,13 @@ namespace CDTag.ViewModel.Profile.NewProfile
             }
             else if (PageIndex == 1)
             {
+                // File Naming
+
                 List<NamingFormatGroup> formatGroups = new List<NamingFormatGroup> {
-                        Profile.FileNaming.SingleCD,
-                        Profile.FileNaming.MultiCD,
-                        Profile.FileNaming.Vinyl
-                    };
+                    Profile.FileNaming.SingleCD,
+                    Profile.FileNaming.MultiCD,
+                    Profile.FileNaming.Vinyl
+                };
 
                 string space = Profile.FileNaming.UseUnderscores ? "" : " ";
                 string directoryFormat = DirectoryFormat.FormatString;
@@ -243,9 +245,9 @@ namespace CDTag.ViewModel.Profile.NewProfile
                     formatGroup.VariousArtists.AudioFile = variousArtistsAudioFileFormat;
 
                     List<NamingFormat> formats = new List<NamingFormat> {
-                            formatGroup.SingleArtist,
-                            formatGroup.VariousArtists
-                        };
+                        formatGroup.SingleArtist,
+                        formatGroup.VariousArtists
+                    };
 
                     foreach (var format in formats)
                     {
@@ -258,6 +260,27 @@ namespace CDTag.ViewModel.Profile.NewProfile
                         format.Images = imageFileformat;
                         format.EACLog = fileFormat;
                     }
+                }
+
+                // NFO
+                if (CreateNFO)
+                {
+                    Profile.Finish.NFO = FinishNFO.CreateNew;
+                    Profile.NFOOptions.ShowReleaseScreen = true;
+
+                    string sampleNFO = UserProfile.GetSampleNFO();
+                    string nfoShortFileName = string.Format("{0}.nfo", Profile.ProfileName);
+                    string nfoFullPath = Path.Combine(_pathService.ProfileDirectory, nfoShortFileName);
+
+                    Profile.NFOOptions.TemplatePath = nfoShortFileName;
+
+                    // TODO: check exists
+                    File.WriteAllText(nfoFullPath, sampleNFO);
+                }
+                else
+                {
+                    Profile.Finish.NFO = FinishNFO.RenameExisting;
+                    Profile.NFOOptions.ShowReleaseScreen = false;
                 }
 
                 Profile.Save();
