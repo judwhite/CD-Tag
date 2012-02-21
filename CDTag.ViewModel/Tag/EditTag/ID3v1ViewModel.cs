@@ -3,11 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using CDTag.Common;
-using CDTag.FileBrowser.Model;
-using CDTag.ViewModel.Events;
+using CDTag.ViewModels.Events;
 using IdSharp.Tagging.ID3v1;
 
-namespace CDTag.ViewModel.Tag.EditTag
+namespace CDTag.ViewModels.Tag.EditTag
 {
     public class ID3v1ViewModel : ViewModelBase, IID3v1ViewModel
     {

@@ -1,6 +1,5 @@
-﻿using System.Windows;
-using CDTag.View.Interfaces.Profile.EditProfile;
-using CDTag.ViewModel.Profile.EditProfile;
+﻿using CDTag.View.Interfaces.Profile.EditProfile;
+using CDTag.ViewModels.Profile.EditProfile;
 
 namespace CDTag.Views.Profile.EditProfile
 {

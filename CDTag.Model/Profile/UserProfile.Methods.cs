@@ -17,6 +17,7 @@ namespace CDTag.Model.Profile
             string path = GetProfileFileName();
             string json = JsonSerializer.SerializeObject(this);
             File.WriteAllText(path, json);
+            LastModified = DateTime.Now;
         }
 
         public bool ValidateProfileName(out string message)

@@ -1,6 +1,6 @@
 ﻿using CDTag.FileBrowser.ViewModel;
 
-namespace CDTag.ViewModel.Events
+namespace CDTag.ViewModels.Events
 {
     public class GetDirectoryControllerEvent
     {

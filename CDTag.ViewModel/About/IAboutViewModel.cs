@@ -4,7 +4,7 @@ using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Model.About;
 
-namespace CDTag.ViewModel.About
+namespace CDTag.ViewModels.About
 {
     public interface IAboutViewModel : IViewModelBase
     {

@@ -23,6 +23,8 @@ namespace CDTag.Model.Profile
 
             string json = File.ReadAllText(path);
             UserProfile profile = JsonSerializer.ReadObject<UserProfile>(json);
+            profile.ProfileName = Path.GetFileNameWithoutExtension(path);
+            profile.LastModified = File.GetLastWriteTime(path);
             return profile;
         }
 

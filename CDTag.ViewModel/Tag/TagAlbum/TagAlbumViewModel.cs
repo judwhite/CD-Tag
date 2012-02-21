@@ -1,9 +1,9 @@
 ﻿using System.Windows.Input;
 using CDTag.Common;
 using CDTag.Model.Tag;
-using CDTag.ViewModel.Events;
+using CDTag.ViewModels.Events;
 
-namespace CDTag.ViewModel.Tag.TagAlbum
+namespace CDTag.ViewModels.Tag.TagAlbum
 {
     public class TagAlbumViewModel : ViewModelBase<TagAlbumViewModel>, ITagAlbumViewModel
     {

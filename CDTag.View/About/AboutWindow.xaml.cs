@@ -1,5 +1,5 @@
 ﻿using CDTag.View.Interfaces.About;
-using CDTag.ViewModel.About;
+using CDTag.ViewModels.About;
 
 namespace CDTag.Views.About
 {

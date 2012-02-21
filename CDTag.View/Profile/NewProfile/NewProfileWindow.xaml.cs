@@ -1,6 +1,6 @@
 ﻿using System;
 using CDTag.View.Interfaces.Profile.NewProfile;
-using CDTag.ViewModel.Profile.NewProfile;
+using CDTag.ViewModels.Profile.NewProfile;
 
 namespace CDTag.Views.Profile.NewProfile
 {
@@ -18,6 +18,11 @@ namespace CDTag.Views.Profile.NewProfile
         private void PageOneStoryboard_Completed(object sender, EventArgs e)
         {
             ProfileNameTextBox.Focus();
+        }
+
+        private void PageTwoStoryboard_Completed(object sender, EventArgs e)
+        {
+            DirectoryFormatsDataGrid.Focus();
         }
     }
 }

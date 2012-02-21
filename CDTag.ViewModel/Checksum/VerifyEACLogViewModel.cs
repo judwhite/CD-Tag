@@ -1,6 +1,6 @@
 ﻿using CDTag.Common;
 
-namespace CDTag.ViewModel.Checksum
+namespace CDTag.ViewModels.Checksum
 {
     public class VerifyEACLogViewModel : ViewModelBase, IVerifyEACLogViewModel
     {

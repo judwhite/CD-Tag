@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 using CDTag.Common;
 
 namespace CDTag.Model.Profile
@@ -11,6 +12,7 @@ namespace CDTag.Model.Profile
             FileNaming = new FileNaming();
             NFOOptions = new NFOOptions();
             Finish = new Finish();
+            LastModified = DateTime.Now;
         }
 
         [XmlIgnore]
@@ -18,6 +20,13 @@ namespace CDTag.Model.Profile
         {
             get { return Get<string>("ProfileName"); }
             set { Set("ProfileName", value); }
+        }
+
+        [XmlIgnore]
+        public DateTime LastModified
+        {
+            get { return Get<DateTime>("LastModified"); }
+            set { Set("LastModified", value); }
         }
 
         public int Revision

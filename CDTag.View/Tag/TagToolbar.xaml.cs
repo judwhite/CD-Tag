@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using CDTag.Common;
 using CDTag.View;
-using CDTag.ViewModel.Tag;
+using CDTag.ViewModels.Tag;
 
 namespace CDTag.Views.Tag
 {

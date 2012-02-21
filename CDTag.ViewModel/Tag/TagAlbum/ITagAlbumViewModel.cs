@@ -2,7 +2,7 @@
 using CDTag.Common;
 using CDTag.Model.Tag;
 
-namespace CDTag.ViewModel.Tag.TagAlbum
+namespace CDTag.ViewModels.Tag.TagAlbum
 {
     public interface ITagAlbumViewModel : IViewModelBase
     {

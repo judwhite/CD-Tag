@@ -41,6 +41,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Profile\EditProfile\EditProfileViewModelTests.cs" />
     <Compile Include="Profile\NewProfile\NewProfileViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestDialogService.cs" />

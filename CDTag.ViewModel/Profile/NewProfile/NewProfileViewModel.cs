@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -8,11 +7,9 @@ using CDTag.Common;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 using CDTag.Model.Tag;
-using CDTag.View;
 using CDTag.ViewModel.Events;
-using Microsoft.Win32;
 
-namespace CDTag.ViewModel.Profile.NewProfile
+namespace CDTag.ViewModels.Profile.NewProfile
 {
     public class NewProfileViewModel : ViewModelBase<NewProfileViewModel>, INewProfileViewModel
     {

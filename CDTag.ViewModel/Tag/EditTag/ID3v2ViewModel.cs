@@ -10,7 +10,7 @@ using IdSharp.Tagging.ID3v1;
 using IdSharp.Tagging.ID3v2;
 using IdSharp.Tagging.ID3v2.Frames;
 
-namespace CDTag.ViewModel.Tag.EditTag
+namespace CDTag.ViewModels.Tag.EditTag
 {
     public class ID3v2ViewModel : ViewModelBase, IID3v2ViewModel
     {

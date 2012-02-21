@@ -4,7 +4,7 @@ using CDTag.Common;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 
-namespace CDTag.ViewModel.Profile.NewProfile
+namespace CDTag.ViewModels.Profile.NewProfile
 {
     public interface INewProfileViewModel : IViewModelBase
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using CDTag.Model.Tag;
 using CDTag.View.Interfaces.Tag.EditTag;
-using CDTag.ViewModel.Tag.EditTag;
+using CDTag.ViewModels.Tag.EditTag;
 using IdSharp.Common.Events;
 using Microsoft.Win32;
 

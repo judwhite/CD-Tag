@@ -1,5 +1,5 @@
 ﻿using CDTag.View.Interfaces.Tag.TagAlbum;
-using CDTag.ViewModel.Tag.TagAlbum;
+using CDTag.ViewModels.Tag.TagAlbum;
 
 namespace CDTag.Views.Tag.TagAlbum
 {

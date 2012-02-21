@@ -1,6 +1,6 @@
 ﻿using CDTag.Common;
 
-namespace CDTag.ViewModel.Tools
+namespace CDTag.ViewModels.Tools
 {
     public class SplitCueViewModel : ViewModelBase, ISplitCueViewModel
     {

@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CDTag.Views" 
     xmlns:MVVM="clr-namespace:CDTag.Common.MVVM;assembly=CDTag.Common"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     Title="New Profile" 
     MinHeight="540" 
     MinWidth="600"
@@ -39,7 +40,7 @@
                 </Storyboard>
             </VisualState>
             <VisualState Name="PageTwo">
-                <Storyboard>
+                <Storyboard Completed="PageTwoStoryboard_Completed">
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PageOneGrid" Storyboard.TargetProperty="Visibility">
                         <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}" />
                     </ObjectAnimationUsingKeyFrames>
@@ -107,7 +108,7 @@
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="Directory" Margin="0,2" />
 
-                <DataGrid Grid.Row="1" Grid.Column="1" Height="150" Margin="0,2" ItemsSource="{Binding DirectoryFormats, Mode=OneWay}" SelectedValue="{Binding DirectoryFormat, Mode=TwoWay}" Style="{StaticResource DataGridStyle}" SelectionMode="Single">
+                <DataGrid x:Name="DirectoryFormatsDataGrid" Grid.Row="1" Grid.Column="1" Height="150" Margin="0,2" ItemsSource="{Binding DirectoryFormats, Mode=OneWay}" SelectedValue="{Binding DirectoryFormat, Mode=TwoWay}" Style="{StaticResource DataGridStyle}" SelectionMode="Single">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>

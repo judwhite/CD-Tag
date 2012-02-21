@@ -2,7 +2,7 @@
 using CDTag.Common;
 using IdSharp.Tagging.ID3v1;
 
-namespace CDTag.ViewModel.Tag.EditTag
+namespace CDTag.ViewModels.Tag.EditTag
 {
     public interface IID3v1ViewModel : IViewModelBase
     {

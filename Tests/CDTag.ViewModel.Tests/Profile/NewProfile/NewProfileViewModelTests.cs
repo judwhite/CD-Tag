@@ -5,7 +5,7 @@ using CDTag.Common;
 using CDTag.Common.Dispatcher;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
-using CDTag.ViewModel.Profile.NewProfile;
+using CDTag.ViewModels.Profile.NewProfile;
 using NUnit.Framework;
 
 namespace CDTag.ViewModel.Tests.Profile.NewProfile

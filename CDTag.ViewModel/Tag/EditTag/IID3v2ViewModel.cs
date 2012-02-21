@@ -4,7 +4,7 @@ using CDTag.Model.Tag;
 using IdSharp.AudioInfo;
 using IdSharp.Tagging.ID3v2;
 
-namespace CDTag.ViewModel.Tag.EditTag
+namespace CDTag.ViewModels.Tag.EditTag
 {
     public interface IID3v2ViewModel : IViewModelBase
     {

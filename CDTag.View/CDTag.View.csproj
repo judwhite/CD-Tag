@@ -8,8 +8,8 @@
     <ProjectGuid>{0AFCD01F-7FCE-4396-9F3A-13B4EC1C7FBF}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CDTag.View</RootNamespace>
-    <AssemblyName>CDTag.View</AssemblyName>
+    <RootNamespace>CDTag.Views</RootNamespace>
+    <AssemblyName>CDTag.Views</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -44,6 +44,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files (x86)\Microsoft SDKs\Expression\Blend\.NETFramework\v4.0\Libraries\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -90,6 +94,9 @@
     </Compile>
     <Compile Include="Profile\EditProfile\EditProfileWindow.xaml.cs">
       <DependentUpon>EditProfileWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\EditProfile\SelectProfileUserControl.xaml.cs">
+      <DependentUpon>SelectProfileUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profile\NewProfile\NewProfileWindow.xaml.cs">
       <DependentUpon>NewProfileWindow.xaml</DependentUpon>
@@ -171,6 +178,10 @@
     <Page Include="Profile\EditProfile\EditProfileWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Profile\EditProfile\SelectProfileUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Profile\NewProfile\NewProfileWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using CDTag.Common;
 
-namespace CDTag.ViewModel.Tag
+namespace CDTag.ViewModels.Tag
 {
     public partial class TagViewModel : ViewModelBase<ITagViewModel>, ITagViewModel
     {

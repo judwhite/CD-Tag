@@ -1,5 +1,5 @@
 ﻿using CDTag.Common;
-using CDTag.ViewModel.Tag.EditTag;
+using CDTag.ViewModels.Tag.EditTag;
 
 namespace CDTag.Views.Tag.EditTag
 {

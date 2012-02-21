@@ -7,8 +7,8 @@ using CDTag.Common.Settings;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.Model.Settings.MainWindow;
 using CDTag.View;
-using CDTag.ViewModel.Tag;
 using System.Collections.Generic;
+using CDTag.ViewModels.Tag;
 
 namespace CDTag.Views
 {

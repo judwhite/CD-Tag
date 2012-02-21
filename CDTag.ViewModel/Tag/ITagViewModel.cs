@@ -2,7 +2,7 @@
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
 
-namespace CDTag.ViewModel.Tag
+namespace CDTag.ViewModels.Tag
 {
     public interface ITagViewModel : IViewModelBase
     {

@@ -1,5 +1,5 @@
 ﻿using CDTag.Common;
-using CDTag.ViewModel.Tag;
+using CDTag.ViewModels.Tag;
 
 namespace CDTag.Views.Tag
 {

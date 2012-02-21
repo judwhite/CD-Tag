@@ -2,7 +2,6 @@
 using System.Windows;
 using CDTag.Common;
 using CDTag.FileBrowser.ViewModel;
-using CDTag.View;
 using CDTag.View.Interfaces.About;
 using CDTag.View.Interfaces.Checksum;
 using CDTag.View.Interfaces.Options;
@@ -12,9 +11,9 @@ using CDTag.View.Interfaces.Tag.EditTag;
 using CDTag.View.Interfaces.Tag.MassTag;
 using CDTag.View.Interfaces.Tag.TagAlbum;
 using CDTag.View.Interfaces.Tools;
-using CDTag.ViewModel.Events;
+using CDTag.ViewModels.Events;
 
-namespace CDTag.ViewModel.Tag
+namespace CDTag.ViewModels.Tag
 {
     public partial class TagViewModel : ViewModelBase<ITagViewModel>, ITagViewModel
     {

@@ -8,8 +8,8 @@
     <ProjectGuid>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CDTag.View.Interfaces</RootNamespace>
-    <AssemblyName>CDTag.View.Interfaces</AssemblyName>
+    <RootNamespace>CDTag.Views.Interfaces</RootNamespace>
+    <AssemblyName>CDTag.Views.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\CDTag.View.Interfaces.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\CDTag.Views.Interfaces.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\CDTag.View.Interfaces.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\CDTag.Views.Interfaces.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
