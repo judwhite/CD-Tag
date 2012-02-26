@@ -289,9 +289,8 @@ namespace CDTag.ViewModels.Profile.NewProfile
                     }
                     else
                     {
-                        IDialogService dialogService = IoC.Resolve<IDialogService>();
                         string fileName;
-                        bool? result = dialogService.ShowOpenFileDialog(title: "Open file", filter: "*.nfo|*.nfo", fileName: out fileName);
+                        bool? result = ShowOpenFileDialog(title: "Open file", filter: "*.nfo|*.nfo", fileName: out fileName);
                         if (result != true)
                             return;
 
@@ -307,7 +306,7 @@ namespace CDTag.ViewModels.Profile.NewProfile
 
                 Profile.Save();
 
-                CloseWindow(); // TODO: Open Edit Profile
+                CloseWindow(true); // TODO: Open Edit Profile
             }
         }
 

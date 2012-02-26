@@ -4,9 +4,11 @@ using System.Windows;
 using CDTag.Common;
 using CDTag.Common.ApplicationServices;
 using CDTag.Common.Dispatcher;
+using CDTag.Common.Events;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 using CDTag.ViewModels.Profile.NewProfile;
+using IdSharp.Common.Events;
 using NUnit.Framework;
 
 namespace CDTag.ViewModel.Tests.Profile.NewProfile
@@ -720,7 +722,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.Profile.ProfileName = _profileName;
 
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
 
             // Assert initial state
             Assert.That(File.Exists(_unitTestsProfile), Is.False, string.Format("File.Exists({0})", _unitTestsProfile));
@@ -732,6 +735,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Assert
             Assert.That(File.Exists(_unitTestsProfile), Is.True, string.Format("File.Exists({0})", _unitTestsProfile));
             Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.True, "closeWindowResult");
         }
 
         [Test]
@@ -778,7 +782,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.CreateNFO = createNFO;
 
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
 
             // Assert initial state
             Assert.That(File.Exists(_unitTestsProfile), Is.False, string.Format("File.Exists({0})", _unitTestsProfile));
@@ -790,6 +795,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Assert
             Assert.That(File.Exists(_unitTestsProfile), Is.True, string.Format("File.Exists({0})", _unitTestsProfile));
             Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.True, "closeWindowResult");
 
             if (createNFO)
             {
@@ -880,7 +886,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             bool messageBoxShown = false;
             newProfileViewModel.ShowMessageBox += (s, e) => { e.Data.Result = MessageBoxResult.No; messageBoxShown = true; }; // do not overwrite
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
             const string contents = "unittestfilecontents";
             File.WriteAllText(_unitTestsNFO, contents); // create file
 
@@ -891,6 +898,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Assert
             Assert.That(messageBoxShown, Is.True, "messageBoxShown");
             Assert.That(closeWindowCalled, Is.False, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.Null, "closeWindowResult");
             Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
             string actualContents = File.ReadAllText(_unitTestsNFO);
             Assert.That(actualContents, Is.EqualTo(contents), "actualContents");
@@ -910,7 +918,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             bool messageBoxShown = false;
             newProfileViewModel.ShowMessageBox += (s, e) => { e.Data.Result = MessageBoxResult.Yes; messageBoxShown = true; }; // overwrite
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
             const string contents = "unittestfilecontents";
             File.WriteAllText(_unitTestsNFO, contents); // create file
 
@@ -921,6 +930,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Assert
             Assert.That(messageBoxShown, Is.True, "messageBoxShown");
             Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.True, "closeWindowResult");
             Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
             string actualContents = File.ReadAllText(_unitTestsNFO);
             Assert.That(actualContents, Is.EqualTo(UserProfile.GetSampleNFO()), "actualContents");
@@ -941,7 +951,8 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             bool messageBoxShown = false;
             newProfileViewModel.ShowMessageBox += (s, e) => { e.Data.Result = MessageBoxResult.No; messageBoxShown = true; }; // do not overwrite
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
 
             // Act
             newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
@@ -950,6 +961,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             // Assert
             Assert.That(messageBoxShown, Is.False, "messageBoxShown");
             Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.True, "closeWindowResult");
             Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
             string actualContents = File.ReadAllText(_unitTestsNFO);
             Assert.That(actualContents, Is.EqualTo(UserProfile.GetSampleNFO()), "actualContents");
@@ -968,10 +980,14 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.CreateNFO = true;
             newProfileViewModel.HasExistingNFO = true;
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
-            UnitTestDialogService dialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
-            dialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
-            dialogService.ShowOpenFileDialogResult = true; // "Open"
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
+
+            UnitTestDialogService mockDialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
+            mockDialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
+            mockDialogService.ShowOpenFileDialogResult = true; // "Open"
+            newProfileViewModel.ShowOpenFile += (s, e) => ShowOpenFile(e, mockDialogService);
+
             const string contents = "unittestfilecontents";
             File.WriteAllText(_unitTestsNFO, contents); // create file
 
@@ -981,10 +997,18 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             // Assert
             Assert.That(closeWindowCalled, Is.True, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.True, "closeWindowResult");
             Assert.That(File.Exists(_unitTestsNFO), Is.True, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
             string actualContents = File.ReadAllText(_unitTestsNFO);
             Assert.That(actualContents, Is.EqualTo(contents), "actualContents");
             Assert.That(newProfileViewModel.Profile.NFOOptions.TemplatePath, Is.EqualTo(_unitTestsNFO), "newProfileViewModel.Profile.NFOOptions.TemplatePath");
+        }
+
+        private void ShowOpenFile(DataEventArgs<ShowOpenFileDialogEvent> e, IDialogService mockDialogService)
+        {
+            string fileName;
+            e.Data.Result = mockDialogService.ShowOpenFileDialog(e.Data.Title, e.Data.FileName, null, out fileName);
+            e.Data.FileName = fileName;
         }
 
         [Test]
@@ -999,10 +1023,13 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.CreateNFO = true;
             newProfileViewModel.HasExistingNFO = true;
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
-            UnitTestDialogService dialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
-            dialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
-            dialogService.ShowOpenFileDialogResult = false; // "Cancel"
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
+
+            UnitTestDialogService mockDialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
+            mockDialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
+            mockDialogService.ShowOpenFileDialogResult = false; // "Cancel"
+            newProfileViewModel.ShowOpenFile += (s, e) => ShowOpenFile(e, mockDialogService);
 
             // Act
             newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
@@ -1010,6 +1037,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             // Assert
             Assert.That(closeWindowCalled, Is.False, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.Null, "closeWindowResult");
             Assert.That(File.Exists(_unitTestsNFO), Is.False, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
         }
 
@@ -1025,10 +1053,13 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             newProfileViewModel.CreateNFO = true;
             newProfileViewModel.HasExistingNFO = true;
             bool closeWindowCalled = false;
-            newProfileViewModel.CloseWindow = () => { closeWindowCalled = true; };
-            UnitTestDialogService dialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
-            dialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
-            dialogService.ShowOpenFileDialogResult = null; // "Close"
+            bool? closeWindowResult = null;
+            newProfileViewModel.CloseWindow = (res) => { closeWindowCalled = true; closeWindowResult = res; };
+
+            UnitTestDialogService mockDialogService = (UnitTestDialogService)IoC.Resolve<IDialogService>();
+            mockDialogService.ShowOpenFileDialogFileName = _unitTestsNFO;
+            mockDialogService.ShowOpenFileDialogResult = null; // "Close"
+            newProfileViewModel.ShowOpenFile += (s, e) => ShowOpenFile(e, mockDialogService);
 
             // Act
             newProfileViewModel.NextCommand.Execute(null); // Page 1 -> Page 2
@@ -1036,6 +1067,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
 
             // Assert
             Assert.That(closeWindowCalled, Is.False, "closeWindowCalled");
+            Assert.That(closeWindowResult, Is.Null, "closeWindowResult");
             Assert.That(File.Exists(_unitTestsNFO), Is.False, string.Format("File.Exists(\"{0}\")", _unitTestsNFO));
         }
     }

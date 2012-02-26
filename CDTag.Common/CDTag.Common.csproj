@@ -61,6 +61,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\ShowOpenFileDialogEvent.cs" />
+    <Compile Include="Events\ShowWindowEvent.cs" />
     <Compile Include="Hash\CRC32.cs" />
     <Compile Include="Hash\MD5.cs" />
     <Compile Include="Hash\SHA1.cs" />

@@ -7,6 +7,7 @@ using CDTag.Common.ApplicationServices;
 using CDTag.Common.Dispatcher;
 using CDTag.Common.Events;
 using CDTag.Common.Wpf;
+using CDTag.Views.Interfaces;
 using IdSharp.Common.Events;
 
 namespace CDTag.Common.Mvvm
@@ -58,8 +59,14 @@ namespace CDTag.Common.Mvvm
         /// <summary>Occurs when a property value changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>Occurs when <see cref="ShowMessageBox"/> has been called.</summary>
+        /// <summary>Occurs when MessageBox has been called.</summary>
         public event EventHandler<DataEventArgs<MessageBoxEvent>> ShowMessageBox;
+
+        /// <summary>Occurs when ShowWindow has been called.</summary>
+        public event EventHandler<DataEventArgs<ShowWindowEvent>> ShowDialogWindow;
+
+        /// <summary>Occurs when ShowOpenFileDialog has been called.</summary>
+        public event EventHandler<DataEventArgs<ShowOpenFileDialogEvent>> ShowOpenFile;
 
         private readonly Dictionary<string, object> _propertyValues = new Dictionary<string, object>();
 
@@ -89,7 +96,7 @@ namespace CDTag.Common.Mvvm
         /// Gets or sets the close window action.
         /// </summary>
         /// <value>The close window action.</value>
-        public Action CloseWindow { get; set; }
+        public Action<bool?> CloseWindow { get; set; }
 
         /// <summary>Gets or sets the error container.</summary>
         /// <value>The error container.</value>
@@ -253,6 +260,53 @@ namespace CDTag.Common.Mvvm
             };
 
             return MessageBox(messageBox);
+        }
+
+        /// <summary>Shows a window.</summary>
+        /// <typeparam name="T">The window type.</typeparam>
+        /// <returns>The result of <see cref="IWindow.ShowDialog()" />.</returns>
+        protected bool? ShowWindow<T>()
+            where T : IWindow
+        {
+            ShowWindowEvent showWindowEvent = new ShowWindowEvent
+            {
+                IWindow = IoC.Resolve<T>(),
+            };
+
+            var handler = ShowDialogWindow;
+            if (handler != null)
+                handler(this, new DataEventArgs<ShowWindowEvent>(showWindowEvent));
+            else
+                throw new Exception("'ShowDialogWindow' event is not subscribed to.");
+
+            return showWindowEvent.Result;
+        }
+
+        /// <summary>Shows the open file dialog.</summary>
+        /// <param name="title">The dialog title.</param>
+        /// <param name="filter">The file filter.</param>
+        /// <param name="fileName">Name of the file opened.</param>
+        /// <returns><c>true</c> if a file is selected.</returns>
+        protected bool? ShowOpenFileDialog(string title, string filter, out string fileName)
+        {
+            ShowOpenFileDialogEvent showOpenFileDialogEvent = new ShowOpenFileDialogEvent
+            {
+                Title = title,
+                Filter = filter
+            };
+
+            var handler = ShowOpenFile;
+            if (handler != null)
+                handler(this, new DataEventArgs<ShowOpenFileDialogEvent>(showOpenFileDialogEvent));
+            else
+                throw new Exception("'ShowOpenFile' event is not subscribed to.");
+
+            if (showOpenFileDialogEvent.Result == true)
+                fileName = showOpenFileDialogEvent.FileName;
+            else
+                fileName = null;
+
+            return showOpenFileDialogEvent.Result;
         }
     }
 }

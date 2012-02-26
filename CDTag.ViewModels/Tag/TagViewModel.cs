@@ -23,21 +23,19 @@ namespace CDTag.ViewModels.Tag
         public TagViewModel(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            IDialogService app = IoC.Resolve<IDialogService>();
-
-            AboutCommand = new DelegateCommand(() => app.ShowWindow<IAboutWindow>());
+            AboutCommand = new DelegateCommand(() => ShowWindow<IAboutWindow>());
             ExitCommand = new DelegateCommand(() => Application.Current.MainWindow.Close());
-            TagAlbumCommand = new DelegateCommand(() => app.ShowWindow<ITagAlbumWindow>());
-            EditTagsCommand = new DelegateCommand(() => app.ShowWindow<IEditTagWindow>());
-            MassTagCommand = new DelegateCommand(() => app.ShowWindow<IMassTagWindow>());
-            NewProfileCommand = new DelegateCommand(() => app.ShowWindow<INewProfileWindow>());
-            EditProfileCommand = new DelegateCommand(() => app.ShowWindow<IEditProfileWindow>());
-            SplitCueSheetCommand = new DelegateCommand(() => app.ShowWindow<ISplitCueWindow>());
-            EncodingInspectorCommand = new DelegateCommand(() => app.ShowWindow<IEncodingInspectorWindow>());
-            OptionsCommand = new DelegateCommand(() => app.ShowWindow<IOptionsWindow>());
-            CreateChecksumCommand = new DelegateCommand(() => app.ShowWindow<IChecksumWindow>());
-            VerifyChecksumCommand = new DelegateCommand(() => app.ShowWindow<IChecksumWindow>());
-            VerifyEACLogCommand = new DelegateCommand(() => app.ShowWindow<IVerifyEACLogWindow>());
+            TagAlbumCommand = new DelegateCommand(() => ShowWindow<ITagAlbumWindow>());
+            EditTagsCommand = new DelegateCommand(() => ShowWindow<IEditTagWindow>());
+            MassTagCommand = new DelegateCommand(() => ShowWindow<IMassTagWindow>());
+            NewProfileCommand = new DelegateCommand(() => ShowWindow<INewProfileWindow>());
+            EditProfileCommand = new DelegateCommand(() => ShowWindow<IEditProfileWindow>());
+            SplitCueSheetCommand = new DelegateCommand(() => ShowWindow<ISplitCueWindow>());
+            EncodingInspectorCommand = new DelegateCommand(() => ShowWindow<IEncodingInspectorWindow>());
+            OptionsCommand = new DelegateCommand(() => ShowWindow<IOptionsWindow>());
+            CreateChecksumCommand = new DelegateCommand(() => ShowWindow<IChecksumWindow>());
+            VerifyChecksumCommand = new DelegateCommand(() => ShowWindow<IChecksumWindow>());
+            VerifyEACLogCommand = new DelegateCommand(() => ShowWindow<IVerifyEACLogWindow>());
 
             EnhancedPropertyChanged += TagViewModel_EnhancedPropertyChanged;
 

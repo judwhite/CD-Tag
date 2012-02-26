@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using CDTag.Common;
+using CDTag.Common.ApplicationServices;
 using CDTag.Common.Events;
 using CDTag.Common.Mvvm;
 using CDTag.Common.Settings;
@@ -24,6 +26,13 @@ namespace CDTag.Views
 
         private readonly IViewModelBase _viewModel;
         private bool _settingsLoaded;
+
+        private static readonly IDialogService _dialogService;
+
+        static WindowViewBase()
+        {
+            _dialogService = IoC.Resolve<IDialogService>();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowViewBase"/> class.
@@ -48,6 +57,29 @@ namespace CDTag.Views
             Background = (Brush)Application.Current.Resources["WindowBackground"];
 
             _viewModel.ShowMessageBox += viewModel_ShowMessageBox;
+            _viewModel.ShowDialogWindow += viewModel_ShowDialogWindow;
+            _viewModel.ShowOpenFile += viewModel_ShowOpenFile;
+        }
+
+        private void viewModel_ShowOpenFile(object sender, DataEventArgs<ShowOpenFileDialogEvent> e)
+        {
+            if (e == null)
+                throw new ArgumentNullException("e");
+
+            var ofd = e.Data;
+            string fileName;
+            bool? result = _dialogService.ShowOpenFileDialog(ofd.Title, ofd.Filter, this, out fileName);
+            ofd.FileName = fileName;
+            ofd.Result = result;
+        }
+
+        private void viewModel_ShowDialogWindow(object sender, DataEventArgs<ShowWindowEvent> e)
+        {
+            if (e == null)
+                throw new ArgumentNullException("e");
+
+            bool? result = _dialogService.ShowWindow(e.Data.IWindow, this);
+            e.Data.Result = result;
         }
 
         private void viewModel_ShowMessageBox(object sender, DataEventArgs<MessageBoxEvent> e)
@@ -173,6 +205,7 @@ namespace CDTag.Views
                 if (e.Key == Key.Escape)
                 {
                     Close();
+                    e.Handled = true;
                 }
             }
         }

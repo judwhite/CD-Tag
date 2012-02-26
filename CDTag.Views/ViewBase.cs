@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Controls;
-using CDTag.Common;
+﻿using System.Windows.Controls;
 using CDTag.Common.Mvvm;
 
 namespace CDTag.Views

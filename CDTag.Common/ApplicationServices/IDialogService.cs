@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using CDTag.Common.Wpf;
 using CDTag.Views.Interfaces;
 
@@ -19,9 +20,16 @@ namespace CDTag.Common.ApplicationServices
         void ShowError(Exception exception, IErrorContainer errorContainer);
 
         /// <summary>Shows a window.</summary>
+        /// <param name="window">The window.</param>
+        /// <param name="owner">The owner.</param>
+        /// <returns>The result of <see cref="IWindow.ShowDialog()"/>.</returns>
+        bool? ShowWindow(IWindow window, Window owner);
+
+        /// <summary>Shows a window.</summary>
         /// <typeparam name="T">The window type.</typeparam>
-        /// <returns>The result of <see cref="IWindow.ShowDialog()" />.</returns>
-        bool? ShowWindow<T>()
+        /// <param name="owner">The owner.</param>
+        /// <returns>The result of <see cref="IWindow.ShowDialog()"/>.</returns>
+        bool? ShowWindow<T>(Window owner)
             where T : IWindow;
 
         /// <summary>Closes the address bar text box.</summary>
@@ -30,8 +38,9 @@ namespace CDTag.Common.ApplicationServices
         /// <summary>Shows the open file dialog.</summary>
         /// <param name="title">The dialog title.</param>
         /// <param name="filter">The file filter.</param>
+        /// <param name="owner">The owner.</param>
         /// <param name="fileName">Name of the file opened.</param>
         /// <returns><c>true</c> if a file is selected.</returns>
-        bool? ShowOpenFileDialog(string title, string filter, out string fileName);
+        bool? ShowOpenFileDialog(string title, string filter, Window owner, out string fileName);
     }
 }

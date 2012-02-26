@@ -9,6 +9,7 @@ using CDTag.Common.ApplicationServices;
 using CDTag.Common.Events;
 using CDTag.Common.Mvvm;
 using CDTag.Model.Profile;
+using CDTag.Views.Interfaces.Profile.NewProfile;
 
 namespace CDTag.ViewModels.Profile.EditProfile
 {
@@ -134,7 +135,63 @@ namespace CDTag.ViewModels.Profile.EditProfile
 
         private void NewProfile()
         {
-            throw new NotImplementedException();
+            var currentProfile = Profile;
+            if (currentProfile != null && currentProfile.HasChanges)
+            {
+                var msgBoxResult = MessageBox(string.Format("Do you want to save changes to {0}?", currentProfile.ProfileName), "Save changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (msgBoxResult == MessageBoxResult.Cancel)
+                    return;
+                if (msgBoxResult == MessageBoxResult.Yes)
+                {
+                    currentProfile.Save();
+                }
+            }
+
+            bool? result = ShowWindow<INewProfileWindow>();
+
+            if (result == true)
+            {
+                // TODO: What if the user overwrites an existing profile?
+
+                UserProfile newProfile = null;
+
+                string[] files = Directory.GetFiles(_pathService.ProfileDirectory, "*.cfg").OrderBy(p => p.ToLower()).ToArray();
+                foreach (string file in files)
+                {
+                    bool exists = false;
+                    foreach (var profile in Profiles)
+                    {
+                        if (string.Compare(profile.GetProfileFileName(), file, ignoreCase: true) == 0)
+                        {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (exists)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        var profile = UserProfile.Load(file);
+                        _profiles.Add(profile);
+
+                        if (newProfile == null)
+                            newProfile = profile;
+                    }
+                    catch (Exception ex)
+                    {
+                        // TODO
+                        Debug.WriteLine(ex);
+                    }
+                }
+
+                if (newProfile != null)
+                {
+                    Profile = newProfile;
+                }
+            }
         }
 
         private void RenameProfile()
@@ -153,7 +210,7 @@ namespace CDTag.ViewModels.Profile.EditProfile
             if (profile == null)
                 return;
 
-            string messageBoxText = string.Format("Do you want to delete the {0} profile?", profile.ProfileName);
+            string messageBoxText = string.Format("Do you want to delete {0}?", profile.ProfileName);
             if (_profiles.Count == 1)
             {
                 messageBoxText += string.Format("{0}{0}If you delete this profile a Default profile will be created.", Environment.NewLine);

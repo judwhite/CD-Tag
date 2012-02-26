@@ -12,8 +12,14 @@ namespace CDTag.Common.Mvvm
     /// </summary>
     public interface IViewModelBase : INotifyPropertyChanged
     {
-        /// <summary>Occurs when <see cref="ShowMessageBox" /> has been called.</summary>
+        /// <summary>Occurs when MessageBox /> has been called.</summary>
         event EventHandler<DataEventArgs<MessageBoxEvent>> ShowMessageBox;
+
+        /// <summary>Occurs when ShowWindow has been called.</summary>
+        event EventHandler<DataEventArgs<ShowWindowEvent>> ShowDialogWindow;
+
+        /// <summary>Occurs when ShowOpenFileDialog has been called.</summary>
+        event EventHandler<DataEventArgs<ShowOpenFileDialogEvent>> ShowOpenFile;
 
         /// <summary>Gets or sets the error container.</summary>
         /// <value>The error container.</value>
@@ -21,7 +27,7 @@ namespace CDTag.Common.Mvvm
 
         /// <summary>Gets or sets the close window action.</summary>
         /// <value>The close window action.</value>
-        Action CloseWindow { get; set; }
+        Action<bool?> CloseWindow { get; set; }
 
         /// <summary>Gets or sets the current visual state.</summary>
         /// <value>The current visual state.</value>

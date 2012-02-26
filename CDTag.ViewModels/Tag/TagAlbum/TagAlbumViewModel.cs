@@ -41,7 +41,7 @@ namespace CDTag.ViewModels.Tag.TagAlbum
         {
             Album.Finish();
 
-            CloseWindow();
+            CloseWindow(true);
         }
 
         private void PreviewNFO()

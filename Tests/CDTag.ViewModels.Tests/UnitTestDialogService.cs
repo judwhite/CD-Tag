@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using CDTag.Common.ApplicationServices;
 using CDTag.Common.Wpf;
 using CDTag.Views.Interfaces;
@@ -28,13 +29,24 @@ namespace CDTag.ViewModel.Tests
             throw new NotImplementedException();
         }
 
-        public bool? ShowOpenFileDialog(string title, string filter, out string fileName)
+        public bool? ShowOpenFileDialogResult { get; set; }
+        public string ShowOpenFileDialogFileName { get; set; }
+
+        public bool? ShowWindow(IWindow window, Window owner)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool? ShowWindow<T>(Window owner) 
+            where T : IWindow
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool? ShowOpenFileDialog(string title, string filter, Window owner, out string fileName)
         {
             fileName = ShowOpenFileDialogFileName;
             return ShowOpenFileDialogResult;
         }
-
-        public bool? ShowOpenFileDialogResult { get; set; }
-        public string ShowOpenFileDialogFileName { get; set; }
     }
 }

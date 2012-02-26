@@ -22,18 +22,21 @@ namespace CDTag.Views
             _dispatcher = IoC.Resolve<IDispatcher>();
         }
 
-        public bool? ShowWindow<T>()
+        public bool? ShowWindow<T>(Window owner)
             where T : IWindow
         {
-            T window;
+            return ShowWindow(IoC.Resolve<T>(), owner);
+        }
+
+        public bool? ShowWindow(IWindow window, Window owner)
+        {
             MouseHelper.SetWaitCursor();
             try
             {
-                window = IoC.Resolve<T>();
-                window.Owner = Application.Current.MainWindow; // TODO ?
+                window.Owner = owner;
                 var viewModel = window.DataContext as IViewModelBase;
                 if (viewModel != null)
-                    viewModel.CloseWindow = () => window.Close();
+                    viewModel.CloseWindow = (result) => { ((Window)window).DialogResult = result; window.Close(); };
             }
             finally
             {
@@ -77,7 +80,7 @@ namespace CDTag.Views
             IoC.Resolve<IEventAggregator>().Publish<CloseAddressTextBoxEvent>(null);
         }
 
-        public bool? ShowOpenFileDialog(string title, string filter, out string fileName)
+        public bool? ShowOpenFileDialog(string title, string filter, Window owner, out string fileName)
         {
             OpenFileDialog openFileDialog;
             MouseHelper.SetWaitCursor();
@@ -92,7 +95,7 @@ namespace CDTag.Views
                 MouseHelper.ResetCursor();
             }
 
-            bool? result = openFileDialog.ShowDialog(Application.Current.MainWindow);
+            bool? result = openFileDialog.ShowDialog(owner);
 
             if (result == true)
                 fileName = openFileDialog.FileName;
