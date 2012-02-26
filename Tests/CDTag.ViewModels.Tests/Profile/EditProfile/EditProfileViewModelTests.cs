@@ -229,5 +229,47 @@ namespace CDTag.ViewModel.Tests.Profile.EditProfile
             Assert.That(File.Exists(_unitTestsProfile), Is.False, "File.Exists(_unitTestsProfile)");
             Assert.That(File.Exists(_defaultProfile), Is.True, "File.Exists(_defaultProfile)");
         }
+
+        [Test]
+        public void NewProfileCancelTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            EditProfileViewModel editProfileViewModel = IoC.Resolve<EditProfileViewModel>();
+
+            // Act
+
+            // Assert
+            Assert.Fail("Not implemented");
+        }
+
+        [Test]
+        public void NewProfileTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            EditProfileViewModel editProfileViewModel = IoC.Resolve<EditProfileViewModel>();
+
+            // Act
+
+            // Assert
+            Assert.Fail("Not implemented");
+        }
+
+        [Test]
+        public void NewProfileOverwriteTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            EditProfileViewModel editProfileViewModel = IoC.Resolve<EditProfileViewModel>();
+
+            // Act
+
+            // Assert
+            Assert.Fail("Not implemented");
+        }
     }
 }
