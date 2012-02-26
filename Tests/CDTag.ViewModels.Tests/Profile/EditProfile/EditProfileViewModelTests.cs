@@ -231,7 +231,7 @@ namespace CDTag.ViewModel.Tests.Profile.EditProfile
         }
 
         [Test]
-        public void NewProfileCancelSaveChangesToCurentTest()
+        public void NewProfileSaveChangesToCurentYesTest()
         {
             // Arrange
             DeleteUnitTestsProfile();
@@ -245,7 +245,21 @@ namespace CDTag.ViewModel.Tests.Profile.EditProfile
         }
 
         [Test]
-        public void NewProfileSaveChangesToCurentTest()
+        public void NewProfileSaveChangesToCurentNoTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            EditProfileViewModel editProfileViewModel = IoC.Resolve<EditProfileViewModel>();
+
+            // Act
+
+            // Assert
+            Assert.Fail("Not implemented");
+        }
+
+        [Test]
+        public void NewProfileSaveChangesToCurentCancelTest()
         {
             // Arrange
             DeleteUnitTestsProfile();

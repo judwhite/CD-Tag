@@ -139,11 +139,13 @@ namespace CDTag.ViewModels.Profile.EditProfile
             if (currentProfile != null && currentProfile.HasChanges)
             {
                 var msgBoxResult = MessageBox(string.Format("Do you want to save changes to {0}?", currentProfile.ProfileName), "Save changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                if (msgBoxResult == MessageBoxResult.Cancel)
-                    return;
                 if (msgBoxResult == MessageBoxResult.Yes)
                 {
                     currentProfile.Save();
+                }
+                else if (msgBoxResult != MessageBoxResult.No)
+                {
+                    return;
                 }
             }
 
