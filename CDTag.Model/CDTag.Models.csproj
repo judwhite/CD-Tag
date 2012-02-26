@@ -36,10 +36,11 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>cdtag.model.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -88,7 +89,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="cdtag.model.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -112,9 +112,9 @@
       <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
       <Name>CDTag.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
+    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.Views.Interfaces.csproj">
       <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
-      <Name>CDTag.View.Interfaces</Name>
+      <Name>CDTag.Views.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

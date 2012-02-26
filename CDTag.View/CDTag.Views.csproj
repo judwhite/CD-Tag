@@ -36,10 +36,11 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>cdtag.view.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -150,7 +151,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="cdtag.view.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -252,17 +252,17 @@
       <Project>{B72F279B-331E-4F26-9927-FFADB15B7395}</Project>
       <Name>CDTag.FileBrowser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.Model\CDTag.Model.csproj">
+    <ProjectReference Include="..\CDTag.Model\CDTag.Models.csproj">
       <Project>{24732BDC-95F9-497C-93A9-89634D8C1E06}</Project>
-      <Name>CDTag.Model</Name>
+      <Name>CDTag.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
+    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.Views.Interfaces.csproj">
       <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
-      <Name>CDTag.View.Interfaces</Name>
+      <Name>CDTag.Views.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.ViewModel\CDTag.ViewModel.csproj">
+    <ProjectReference Include="..\CDTag.ViewModel\CDTag.ViewModels.csproj">
       <Project>{5B90F658-10CD-4829-BA0F-FD8B972733C2}</Project>
-      <Name>CDTag.ViewModel</Name>
+      <Name>CDTag.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

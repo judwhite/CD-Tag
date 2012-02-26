@@ -36,10 +36,11 @@
     <DocumentationFile>bin\Release\CDTag.Common.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>cdtag.common.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -100,9 +101,6 @@
     <Compile Include="Win32API\User32.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cdtag.common.snk" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\IdSharp\IdSharp.Common\IdSharp.Common.csproj">
       <Project>{1C83FB63-E16E-4380-9DD0-26E1799C417D}</Project>
       <Name>IdSharp.Common</Name>
@@ -111,9 +109,9 @@
       <Project>{3FF588D9-76B6-42FC-9664-39E858A940FE}</Project>
       <Name>CDTag.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.View.Interfaces.csproj">
+    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.Views.Interfaces.csproj">
       <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
-      <Name>CDTag.View.Interfaces</Name>
+      <Name>CDTag.Views.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
