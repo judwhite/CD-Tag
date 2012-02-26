@@ -169,5 +169,65 @@ namespace CDTag.ViewModel.Tests.Profile.EditProfile
             Assert.That(File.Exists(_unitTestsProfile2), Is.False, "File.Exists(_unitTestsProfile2)");
             Assert.That(File.Exists(_unitTestsProfile3), Is.False, "File.Exists(_unitTestsProfile3)");
         }
+
+        [Test]
+        public void DeleteProfileCancelDialogTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            Assert.That(File.Exists(_unitTestsProfile), Is.False, "File.Exists(_unitTestsProfile)");
+
+            UserProfile profile = new UserProfile();
+            profile.ProfileName = _profileName;
+            profile.Save();
+
+            Assert.That(File.Exists(_unitTestsProfile), Is.True, "File.Exists(_unitTestsProfile)");
+
+            EditProfileViewModel editProfileViewModel = IoC.Resolve<EditProfileViewModel>();
+            bool confirmationShown = false;
+            editProfileViewModel.ShowMessageBox += (sender, args) => { confirmationShown = true; args.Data.Result = MessageBoxResult.No; }; // delete confirmation
+
+            // Assert - initial state
+            Assert.That(editProfileViewModel.Profiles, Is.Not.Null, "editProfileViewModel.Profiles");
+            Assert.That(editProfileViewModel.Profile, Is.Not.Null, "editProfileViewModel.Profile");
+            Assert.That(editProfileViewModel.Profile.ProfileName, Is.EqualTo(_profileName), "editProfileViewModel.Profile.ProfileName");
+            Assert.That(File.Exists(_unitTestsProfile), Is.True, "File.Exists(_unitTestsProfile)");
+            Assert.That(File.Exists(_defaultProfile), Is.False, "File.Exists(_defaultProfile)");
+
+            // Act
+            editProfileViewModel.DeleteProfileCommand.Execute(null);
+
+            // Assert
+            Assert.That(confirmationShown, Is.True, "confirmationShown");
+            Assert.That(editProfileViewModel.Profiles, Is.Not.Null, "editProfileViewModel.Profiles");
+            Assert.That(editProfileViewModel.Profile, Is.Not.Null, "editProfileViewModel.Profile");
+            Assert.That(editProfileViewModel.Profile.ProfileName, Is.EqualTo(_profileName), "editProfileViewModel.Profile.ProfileName");
+            Assert.That(File.Exists(_unitTestsProfile), Is.True, "File.Exists(_unitTestsProfile)");
+            Assert.That(File.Exists(_defaultProfile), Is.False, "File.Exists(_defaultProfile)");
+        }
+
+        [Test]
+        public void DeleteProfileNullTest()
+        {
+            // Arrange
+            DeleteUnitTestsProfile();
+
+            EditProfileViewModel editProfileViewModel = IoC.Resolve<EditProfileViewModel>();
+            bool confirmationShown = false;
+            editProfileViewModel.ShowMessageBox += (sender, args) => { confirmationShown = true; args.Data.Result = MessageBoxResult.Yes; }; // delete confirmation
+
+            // Act
+            editProfileViewModel.Profile = null;
+            editProfileViewModel.DeleteProfileCommand.Execute(null);
+
+            // Assert
+            Assert.That(confirmationShown, Is.False, "confirmationShown");
+            Assert.That(editProfileViewModel.Profiles, Is.Not.Null, "editProfileViewModel.Profiles");
+            Assert.That(editProfileViewModel.Profile, Is.Null, "editProfileViewModel.Profile");
+            //Assert.That(editProfileViewModel.Profile.ProfileName, Is.EqualTo(_profileName), "editProfileViewModel.Profile.ProfileName");
+            Assert.That(File.Exists(_unitTestsProfile), Is.False, "File.Exists(_unitTestsProfile)");
+            Assert.That(File.Exists(_defaultProfile), Is.True, "File.Exists(_defaultProfile)");
+        }
     }
 }

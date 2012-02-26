@@ -112,7 +112,7 @@
       <Project>{5D4DFAF4-4F2D-4713-9F96-7CAB7759E34C}</Project>
       <Name>CDTag.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.Views.Interfaces.csproj">
+    <ProjectReference Include="..\CDTag.Views.Interfaces\CDTag.Views.Interfaces.csproj">
       <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
       <Name>CDTag.Views.Interfaces</Name>
     </ProjectReference>

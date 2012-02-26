@@ -252,15 +252,15 @@
       <Project>{B72F279B-331E-4F26-9927-FFADB15B7395}</Project>
       <Name>CDTag.FileBrowser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.Model\CDTag.Models.csproj">
+    <ProjectReference Include="..\CDTag.Models\CDTag.Models.csproj">
       <Project>{24732BDC-95F9-497C-93A9-89634D8C1E06}</Project>
       <Name>CDTag.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.View.Interfaces\CDTag.Views.Interfaces.csproj">
+    <ProjectReference Include="..\CDTag.Views.Interfaces\CDTag.Views.Interfaces.csproj">
       <Project>{B28B82E3-F2AF-455D-A309-C2CE687FD530}</Project>
       <Name>CDTag.Views.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CDTag.ViewModel\CDTag.ViewModels.csproj">
+    <ProjectReference Include="..\CDTag.ViewModels\CDTag.ViewModels.csproj">
       <Project>{5B90F658-10CD-4829-BA0F-FD8B972733C2}</Project>
       <Name>CDTag.ViewModels</Name>
     </ProjectReference>

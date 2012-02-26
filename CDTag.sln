@@ -31,15 +31,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CDTag", "CDTag", "{C7994747
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.Common.Tests", "Tests\CDTag.Common.Tests\CDTag.Common.Tests.csproj", "{5A07C950-938C-4B04-84C5-95B4B9896B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.Views", "CDTag.View\CDTag.Views.csproj", "{0AFCD01F-7FCE-4396-9F3A-13B4EC1C7FBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.Views", "CDTag.Views\CDTag.Views.csproj", "{0AFCD01F-7FCE-4396-9F3A-13B4EC1C7FBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.ViewModels", "CDTag.ViewModel\CDTag.ViewModels.csproj", "{5B90F658-10CD-4829-BA0F-FD8B972733C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.ViewModels", "CDTag.ViewModels\CDTag.ViewModels.csproj", "{5B90F658-10CD-4829-BA0F-FD8B972733C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.Views.Interfaces", "CDTag.View.Interfaces\CDTag.Views.Interfaces.csproj", "{B28B82E3-F2AF-455D-A309-C2CE687FD530}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.Views.Interfaces", "CDTag.Views.Interfaces\CDTag.Views.Interfaces.csproj", "{B28B82E3-F2AF-455D-A309-C2CE687FD530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.Models", "CDTag.Model\CDTag.Models.csproj", "{24732BDC-95F9-497C-93A9-89634D8C1E06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.Models", "CDTag.Models\CDTag.Models.csproj", "{24732BDC-95F9-497C-93A9-89634D8C1E06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.ViewModels.Tests", "Tests\CDTag.ViewModel.Tests\CDTag.ViewModels.Tests.csproj", "{F6829AE6-D46A-4A17-861D-AA68B0240570}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDTag.ViewModels.Tests", "Tests\CDTag.ViewModels.Tests\CDTag.ViewModels.Tests.csproj", "{F6829AE6-D46A-4A17-861D-AA68B0240570}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
