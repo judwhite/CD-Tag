@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Checksum
+﻿namespace CDTag.Views.Interfaces.Checksum
 {
     /// <summary>
     /// IChecksumWindow

@@ -1,5 +1,5 @@
-﻿using CDTag.View.Interfaces.Tag.MassTag;
-using CDTag.ViewModels.Tag.MassTag;
+﻿using CDTag.ViewModels.Tag.MassTag;
+using CDTag.Views.Interfaces.Tag.MassTag;
 
 namespace CDTag.Views.Tag.MassTag
 {

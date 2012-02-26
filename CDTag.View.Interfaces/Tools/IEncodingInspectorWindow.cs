@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Tools
+﻿namespace CDTag.Views.Interfaces.Tools
 {
     /// <summary>
     /// IEncodingInspectorWindow

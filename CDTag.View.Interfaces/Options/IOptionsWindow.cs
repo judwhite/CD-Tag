@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Options
+﻿namespace CDTag.Views.Interfaces.Options
 {
     /// <summary>
     /// IOptionsWindow

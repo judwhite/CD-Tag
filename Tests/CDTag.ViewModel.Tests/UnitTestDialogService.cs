@@ -1,8 +1,7 @@
 ﻿using System;
-using CDTag.Common;
 using CDTag.Common.ApplicationServices;
 using CDTag.Common.Wpf;
-using CDTag.View.Interfaces;
+using CDTag.Views.Interfaces;
 
 namespace CDTag.ViewModel.Tests
 {

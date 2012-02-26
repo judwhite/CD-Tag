@@ -8,11 +8,10 @@ using CDTag.Common.Mvvm;
 using CDTag.Common.Wpf;
 using CDTag.Controls;
 using CDTag.FileBrowser.Events;
-using CDTag.View.Interfaces;
-using CDTag.Views;
+using CDTag.Views.Interfaces;
 using Microsoft.Win32;
 
-namespace CDTag.View
+namespace CDTag.Views
 {
     public class DialogService : IDialogService
     {

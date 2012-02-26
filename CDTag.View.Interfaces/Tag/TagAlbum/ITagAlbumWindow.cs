@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Tag.TagAlbum
+﻿namespace CDTag.Views.Interfaces.Tag.TagAlbum
 {
     /// <summary>
     /// ITagAlbumWindow

@@ -1,5 +1,5 @@
-﻿using CDTag.View.Interfaces.Checksum;
-using CDTag.ViewModels.Checksum;
+﻿using CDTag.ViewModels.Checksum;
+using CDTag.Views.Interfaces.Checksum;
 
 namespace CDTag.Views.Checksum
 {

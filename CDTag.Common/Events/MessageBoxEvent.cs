@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using CDTag.View.Interfaces;
+using CDTag.Views.Interfaces;
 
 namespace CDTag.Common.Events
 {

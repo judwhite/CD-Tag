@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
-using CDTag.Common;
 using CDTag.Common.ApplicationServices;
 using CDTag.Common.Events;
 using CDTag.Common.Mvvm;
@@ -31,7 +31,7 @@ namespace CDTag.ViewModels.Profile.EditProfile
 
             _profiles = new ObservableCollection<UserProfile>();
 
-            string[] files = Directory.GetFiles(_pathService.ProfileDirectory, "*.cfg");
+            string[] files = Directory.GetFiles(_pathService.ProfileDirectory, "*.cfg").OrderBy(p => p.ToLower()).ToArray();
             foreach (string file in files)
             {
                 try
@@ -45,9 +45,14 @@ namespace CDTag.ViewModels.Profile.EditProfile
                 }
             }
 
+            if (_profiles.Count == 0)
+            {
+                CreateDefaultProfile();
+            }
+
             EnhancedPropertyChanged += EditProfileViewModel_EnhancedPropertyChanged;
 
-            Profile = _profiles.FirstOrDefault();
+            Profile = _profiles.First();
             Header = "Select Profile";
             UpdateWindowTitle();
         }
@@ -144,7 +149,49 @@ namespace CDTag.ViewModels.Profile.EditProfile
 
         private void DeleteProfile()
         {
-            throw new NotImplementedException();
+            var profile = Profile;
+            if (profile == null)
+                return;
+
+            string messageBoxText = string.Format("Do you want to delete the {0} profile?", profile.ProfileName);
+            if (_profiles.Count == 1)
+            {
+                messageBoxText += string.Format("{0}{0}If you delete this profile a Default profile will be created.", Environment.NewLine);
+            }
+
+            var result = MessageBox(messageBoxText, "Delete profile", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+                return;
+
+            File.Delete(profile.GetProfileFileName());
+
+            Profile = null;
+
+            int index = _profiles.IndexOf(profile);
+            _profiles.RemoveAt(index);
+
+            if (_profiles.Count > 0)
+            {
+                if (index >= _profiles.Count)
+                    index = _profiles.Count - 1;
+
+                Profile = _profiles[index];
+            }
+            else
+            {
+                Profile = CreateDefaultProfile();
+            }
+        }
+
+        private UserProfile CreateDefaultProfile()
+        {
+            UserProfile profile = new UserProfile();
+            profile.ProfileName = "Default";
+            profile.Save();
+
+            _profiles.Add(profile);
+
+            return profile;
         }
 
         public ObservableCollection<UserProfile> Profiles

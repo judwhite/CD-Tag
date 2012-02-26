@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Profile.NewProfile
+﻿namespace CDTag.Views.Interfaces.Profile.NewProfile
 {
     /// <summary>
     /// INewProfileWindow

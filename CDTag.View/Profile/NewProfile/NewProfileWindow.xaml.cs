@@ -1,6 +1,6 @@
 ﻿using System;
-using CDTag.View.Interfaces.Profile.NewProfile;
 using CDTag.ViewModels.Profile.NewProfile;
+using CDTag.Views.Interfaces.Profile.NewProfile;
 
 namespace CDTag.Views.Profile.NewProfile
 {

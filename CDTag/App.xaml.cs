@@ -1,15 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
 using CDTag.Common;
 using CDTag.Common.ApplicationServices;
-using CDTag.Controls;
-using CDTag.FileBrowser.Events;
-using CDTag.View;
-using CDTag.View.Interfaces;
-using CDTag.Views;
 
 namespace CDTag
 {

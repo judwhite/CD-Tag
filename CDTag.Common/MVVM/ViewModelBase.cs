@@ -52,6 +52,9 @@ namespace CDTag.Common.Mvvm
         /// <summary>Path service.</summary>
         protected static readonly IPathService _pathService;
 
+        /// <summary>Dialog service.</summary>
+        protected static readonly IDialogService _dialogService;
+
         /// <summary>Occurs when a property value changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -67,6 +70,7 @@ namespace CDTag.Common.Mvvm
         {
             _dispatcher = IoC.Resolve<IDispatcher>();
             _pathService = IoC.Resolve<IPathService>();
+            _dialogService = IoC.Resolve<IDialogService>();
         }
 
         /// <summary>

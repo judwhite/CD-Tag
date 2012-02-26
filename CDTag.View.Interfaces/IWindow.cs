@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CDTag.View.Interfaces
+namespace CDTag.Views.Interfaces
 {
     /// <summary>
     /// IWindow

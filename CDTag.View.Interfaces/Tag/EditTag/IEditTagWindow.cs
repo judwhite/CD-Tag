@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Tag.EditTag
+﻿namespace CDTag.Views.Interfaces.Tag.EditTag
 {
     /// <summary>
     /// IEditTagWindow

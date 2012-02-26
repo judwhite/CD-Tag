@@ -5,16 +5,16 @@ using CDTag.Common.ApplicationServices;
 using CDTag.Common.Events;
 using CDTag.Common.Mvvm;
 using CDTag.FileBrowser.ViewModel;
-using CDTag.View.Interfaces.About;
-using CDTag.View.Interfaces.Checksum;
-using CDTag.View.Interfaces.Options;
-using CDTag.View.Interfaces.Profile.EditProfile;
-using CDTag.View.Interfaces.Profile.NewProfile;
-using CDTag.View.Interfaces.Tag.EditTag;
-using CDTag.View.Interfaces.Tag.MassTag;
-using CDTag.View.Interfaces.Tag.TagAlbum;
-using CDTag.View.Interfaces.Tools;
 using CDTag.ViewModels.Events;
+using CDTag.Views.Interfaces.About;
+using CDTag.Views.Interfaces.Checksum;
+using CDTag.Views.Interfaces.Options;
+using CDTag.Views.Interfaces.Profile.EditProfile;
+using CDTag.Views.Interfaces.Profile.NewProfile;
+using CDTag.Views.Interfaces.Tag.EditTag;
+using CDTag.Views.Interfaces.Tag.MassTag;
+using CDTag.Views.Interfaces.Tag.TagAlbum;
+using CDTag.Views.Interfaces.Tools;
 
 namespace CDTag.ViewModels.Tag
 {

@@ -52,6 +52,7 @@
     <Compile Include="About\IAboutWindow.cs" />
     <Compile Include="Checksum\IChecksumWindow.cs" />
     <Compile Include="Checksum\IVerifyEACLogWindow.cs" />
+    <Compile Include="General\IGetInputWindow.cs" />
     <Compile Include="IWindow.cs" />
     <Compile Include="Options\IOptionsWindow.cs" />
     <Compile Include="Profile\EditProfile\IEditProfileWindow.cs" />

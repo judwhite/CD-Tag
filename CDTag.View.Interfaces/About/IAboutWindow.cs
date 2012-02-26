@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.About
+﻿namespace CDTag.Views.Interfaces.About
 {
     /// <summary>
     /// IAboutWindow

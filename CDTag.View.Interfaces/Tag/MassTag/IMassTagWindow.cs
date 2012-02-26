@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Tag.MassTag
+﻿namespace CDTag.Views.Interfaces.Tag.MassTag
 {
     /// <summary>
     /// IMassTagWindow

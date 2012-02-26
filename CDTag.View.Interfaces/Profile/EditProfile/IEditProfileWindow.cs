@@ -1,4 +1,4 @@
-﻿namespace CDTag.View.Interfaces.Profile.EditProfile
+﻿namespace CDTag.Views.Interfaces.Profile.EditProfile
 {
     /// <summary>
     /// IEditProfileWindow
