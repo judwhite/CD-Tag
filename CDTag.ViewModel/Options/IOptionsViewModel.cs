@@ -1,4 +1,5 @@
 ﻿using CDTag.Common;
+using CDTag.Common.Mvvm;
 
 namespace CDTag.ViewModel.Options
 {

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.Mvvm;
 using CDTag.Model.About;
 
 namespace CDTag.ViewModels.About

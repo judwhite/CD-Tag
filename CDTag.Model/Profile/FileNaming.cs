@@ -1,5 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using CDTag.Common;
+using CDTag.Common.Events;
+using CDTag.Common.Model;
 
 namespace CDTag.Model.Profile
 {

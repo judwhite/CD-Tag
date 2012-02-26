@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CDTag.Common.ApplicationServices;
 using CDTag.Common.Dispatcher;
 
 namespace CDTag.Common

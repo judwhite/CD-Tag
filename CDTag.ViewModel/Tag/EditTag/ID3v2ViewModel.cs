@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Mvvm;
 using CDTag.Model.Tag;
 using IdSharp.AudioInfo;
 using IdSharp.AudioInfo.Inspection;

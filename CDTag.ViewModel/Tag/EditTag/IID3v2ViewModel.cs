@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CDTag.Common;
+using CDTag.Common.Mvvm;
 using CDTag.Model.Tag;
 using IdSharp.AudioInfo;
 using IdSharp.Tagging.ID3v2;

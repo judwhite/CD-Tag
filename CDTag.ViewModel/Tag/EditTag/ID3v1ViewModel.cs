@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Mvvm;
 using CDTag.ViewModels.Events;
 using IdSharp.Tagging.ID3v1;
 

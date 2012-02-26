@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.Wpf;
 using CDTag.FileBrowser.Model;
 using CDTag.FileBrowser.ViewModel;
 

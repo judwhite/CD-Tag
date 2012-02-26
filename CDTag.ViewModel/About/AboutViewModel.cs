@@ -10,6 +10,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Mvvm;
 using CDTag.Model.About;
 
 namespace CDTag.ViewModels.About

@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Tag="clr-namespace:CDTag.Views.Tag" 
     xmlns:Views="clr-namespace:CDTag.Views" 
-    xmlns:Common="clr-namespace:CDTag.Common;assembly=CDTag.Common" 
+    xmlns:Common="clr-namespace:CDTag.Common.Wpf;assembly=CDTag.Common"
     Title="CD-Tag" 
     Height="700" 
     Width="1024"
@@ -24,6 +24,6 @@
 
         <Common:ErrorContainer x:Name="ErrorItems" Grid.Row="0" />
         <Tag:TagView x:Name="tagView" Grid.Row="1" />
-        
+
     </Grid>
 </Views:WindowViewBase>

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using CDTag.Common.Events;
 
-namespace CDTag.Common
+namespace CDTag.Common.Model
 {
     /// <summary>ModelBase</summary>
     /// <typeparam name="T">The view model type.</typeparam>
@@ -34,15 +36,46 @@ namespace CDTag.Common
         /// <summary>Occurs when a property value changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>Occurs when a property or sub-property has changed on a property which inherits from <see cref="ModelBase" />.</summary>
+        public event EventHandler SubPropertyChanged;
+
         /// <summary>Sends the <see cref="PropertyChanged"/> event.</summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
         protected virtual void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
         {
+            ModelBase oldModel = oldValue as ModelBase;
+            ModelBase newModel = newValue as ModelBase;
+            if (oldModel != null)
+            {
+                oldModel.PropertyChanged -= ModelProperty_PropertyChanged;
+                oldModel.SubPropertyChanged -= ModelProperty_SubPropertyChanged;
+            }
+
+            if (newModel != null)
+            {
+                newModel.PropertyChanged += ModelProperty_PropertyChanged;
+                newModel.SubPropertyChanged += ModelProperty_SubPropertyChanged;
+            }
+
             var handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ModelProperty_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var handler = SubPropertyChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        private void ModelProperty_SubPropertyChanged(object sender, EventArgs e)
+        {
+            var handler = SubPropertyChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
 
         /// <summary>Gets the specified property value.</summary>

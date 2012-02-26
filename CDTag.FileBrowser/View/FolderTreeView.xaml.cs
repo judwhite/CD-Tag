@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CDTag.Common;
+using CDTag.Common.Events;
+using CDTag.Common.Wpf;
 using CDTag.FileBrowser.Model;
 using CDTag.FileBrowser.ViewModel;
 

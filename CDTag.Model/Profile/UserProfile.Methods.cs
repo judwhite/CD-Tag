@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using CDTag.Common;
+using CDTag.Common.Hash;
 using CDTag.Common.Json;
+using CDTag.Common.Model;
 using CDTag.Model.Tag;
 
 namespace CDTag.Model.Profile
@@ -18,6 +21,8 @@ namespace CDTag.Model.Profile
             string json = JsonSerializer.SerializeObject(this);
             File.WriteAllText(path, json);
             LastModified = DateTime.Now;
+
+            UpdateModelHash();
         }
 
         public bool ValidateProfileName(out string message)
@@ -42,6 +47,9 @@ namespace CDTag.Model.Profile
 
         public string GetProfileFileName()
         {
+            if (ProfileName == null)
+                return null;
+
             string fileName = Path.Combine(_pathService.ProfileDirectory, ProfileName);
 
             string ext = Path.GetExtension(fileName);
@@ -132,6 +140,24 @@ namespace CDTag.Model.Profile
             format = format.TrimEnd(new[] { ' ', '_' });
 
             return format;
+        }
+
+        public void CheckHasChanges()
+        {
+            var modelHash = ModelHash;
+            if (modelHash == null)
+                return;
+
+            string json = JsonSerializer.SerializeObject(this);
+            string hash = SHA1.Calculate(Encoding.UTF8.GetBytes(json));
+
+            HasChanges = (hash != modelHash);
+        }
+
+        public void UpdateModelHash()
+        {
+            string json = JsonSerializer.SerializeObject(this);
+            ModelHash = SHA1.Calculate(Encoding.UTF8.GetBytes(json));
         }
     }
 }

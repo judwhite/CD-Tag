@@ -4,9 +4,10 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using CDTag.Common;
+using CDTag.Common.Events;
+using CDTag.Common.Mvvm;
 using CDTag.Common.Settings;
 using CDTag.View.Interfaces;
-using CDTag.ViewModel.Events;
 using IdSharp.Common.Events;
 
 namespace CDTag.Views

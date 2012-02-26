@@ -45,6 +45,8 @@
     <Compile Include="Profile\NewProfile\NewProfileViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestDialogService.cs" />
+    <Compile Include="UnitTestDispatcher.cs" />
+    <Compile Include="UnitTestPathService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

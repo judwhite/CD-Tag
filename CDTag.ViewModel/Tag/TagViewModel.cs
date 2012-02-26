@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using System.Windows;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Events;
+using CDTag.Common.Mvvm;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.View.Interfaces.About;
 using CDTag.View.Interfaces.Checksum;

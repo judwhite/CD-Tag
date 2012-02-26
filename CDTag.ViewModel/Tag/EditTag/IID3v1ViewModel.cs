@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CDTag.Common;
+using CDTag.Common.Mvvm;
 using IdSharp.Tagging.ID3v1;
 
 namespace CDTag.ViewModels.Tag.EditTag

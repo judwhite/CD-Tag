@@ -2,7 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
 using CDTag.Common.Dispatcher;
+using CDTag.Common.Mvvm;
+using CDTag.Common.Wpf;
 using CDTag.Controls;
 using CDTag.FileBrowser.Events;
 using CDTag.View.Interfaces;

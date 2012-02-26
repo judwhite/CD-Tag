@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using CDTag.View.Interfaces;
 
-namespace CDTag.ViewModel.Events
+namespace CDTag.Common.Events
 {
     /// <summary>
     /// MessageBoxEvent

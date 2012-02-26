@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
+using CDTag.Common.ApplicationServices;
 using CDTag.Common.Dispatcher;
-using CDTag.View;
-using CDTag.ViewModel.Events;
+using CDTag.Common.Events;
+using CDTag.Common.Wpf;
 using IdSharp.Common.Events;
 
-namespace CDTag.Common
+namespace CDTag.Common.Mvvm
 {
     /// <summary>ViewModelBase</summary>
     /// <typeparam name="T">The view model type.</typeparam>

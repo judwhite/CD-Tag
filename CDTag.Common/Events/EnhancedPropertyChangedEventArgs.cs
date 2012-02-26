@@ -3,12 +3,12 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace CDTag.Common
+namespace CDTag.Common.Events
 {
     /// <summary>EnhancedPropertyChangedEventArgs</summary>
     /// <typeparam name="T">The view model type.</typeparam>
     /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="CDTag.Common.EnhancedPropertyChangedEventArgs&lt;T&gt;"/> instance containing the event data.</param>
+    /// <param name="e">The <see cref="EnhancedPropertyChangedEventArgs{T}"/> instance containing the event data.</param>
     public delegate void EnhancedPropertyChangedEventHandler<T>(object sender, EnhancedPropertyChangedEventArgs<T> e);
 
     /// <summary>EnhancedPropertyChangedEventArgs</summary>

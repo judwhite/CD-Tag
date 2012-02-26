@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.Mvvm;
 using CDTag.FileBrowser.Model;
 
 namespace CDTag.FileBrowser.ViewModel

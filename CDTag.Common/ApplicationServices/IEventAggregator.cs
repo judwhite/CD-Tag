@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CDTag.Common
+namespace CDTag.Common.ApplicationServices
 {
     /// <summary>
     /// IEventAggregator

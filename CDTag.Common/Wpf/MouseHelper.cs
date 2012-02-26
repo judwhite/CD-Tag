@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace CDTag.Common
+namespace CDTag.Common.Wpf
 {
     /// <summary>
     /// MouseHelper

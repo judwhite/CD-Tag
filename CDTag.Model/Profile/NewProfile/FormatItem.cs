@@ -1,4 +1,5 @@
 ﻿using CDTag.Common;
+using CDTag.Common.Model;
 
 namespace CDTag.Model.Profile.NewProfile
 {

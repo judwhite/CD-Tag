@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.Mvvm;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 

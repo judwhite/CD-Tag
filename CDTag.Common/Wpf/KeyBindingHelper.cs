@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CDTag.Common
+namespace CDTag.Common.Wpf
 {
     /// <summary>
     /// KeyBindingHelper

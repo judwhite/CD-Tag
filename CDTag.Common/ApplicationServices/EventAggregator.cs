@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CDTag.Common
+namespace CDTag.Common.ApplicationServices
 {
     internal class EventAggregator : IEventAggregator
     {

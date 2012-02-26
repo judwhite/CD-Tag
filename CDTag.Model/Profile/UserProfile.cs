@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Xml.Serialization;
 using CDTag.Common;
+using CDTag.Common.Model;
 
 namespace CDTag.Model.Profile
 {
@@ -13,6 +15,9 @@ namespace CDTag.Model.Profile
             NFOOptions = new NFOOptions();
             Finish = new Finish();
             LastModified = DateTime.Now;
+
+            PropertyChanged += (s, e) => CheckHasChanges();
+            SubPropertyChanged += (s, e) => CheckHasChanges();
         }
 
         [XmlIgnore]
@@ -20,6 +25,20 @@ namespace CDTag.Model.Profile
         {
             get { return Get<string>("ProfileName"); }
             set { Set("ProfileName", value); }
+        }
+
+        [XmlIgnore]
+        public bool HasChanges
+        {
+            get { return Get<bool>("HasChanges"); }
+            set { Set("HasChanges", value); }
+        }
+
+        [XmlIgnore]
+        public string ModelHash
+        {
+            get { return Get<string>("ModelHash"); }
+            set { Set("ModelHash", value); }
         }
 
         [XmlIgnore]

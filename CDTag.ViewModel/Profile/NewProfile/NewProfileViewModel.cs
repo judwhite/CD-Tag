@@ -4,10 +4,12 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Events;
+using CDTag.Common.Mvvm;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
 using CDTag.Model.Tag;
-using CDTag.ViewModel.Events;
 
 namespace CDTag.ViewModels.Profile.NewProfile
 {

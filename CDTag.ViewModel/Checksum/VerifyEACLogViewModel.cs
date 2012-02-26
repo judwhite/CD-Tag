@@ -1,4 +1,6 @@
 ﻿using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Mvvm;
 
 namespace CDTag.ViewModels.Checksum
 {

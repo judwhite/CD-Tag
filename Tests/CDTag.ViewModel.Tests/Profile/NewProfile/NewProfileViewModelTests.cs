@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
 using CDTag.Common.Dispatcher;
 using CDTag.Model.Profile;
 using CDTag.Model.Profile.NewProfile;
@@ -23,7 +24,7 @@ namespace CDTag.ViewModel.Tests.Profile.NewProfile
             IoC.ClearAllRegistrations();
 
             IoC.RegisterInstance<IDispatcher>(new UnitTestDispatcher());
-            IoC.RegisterInstance<IPathService>(new PathService());
+            IoC.RegisterInstance<IPathService>(new UnitTestPathService());
             IoC.RegisterInstance<IDialogService>(new UnitTestDialogService());
 
             string profileDirectory = IoC.Resolve<IPathService>().ProfileDirectory;

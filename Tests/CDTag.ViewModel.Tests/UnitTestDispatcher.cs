@@ -1,6 +1,7 @@
 ﻿using System;
+using CDTag.Common.Dispatcher;
 
-namespace CDTag.Common.Dispatcher
+namespace CDTag.ViewModel.Tests
 {
     /// <summary>
     /// UnitTestDispatcher

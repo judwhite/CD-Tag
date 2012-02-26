@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace CDTag.Common
+namespace CDTag.Common.ApplicationServices
 {
     /// <summary>
     /// PathService

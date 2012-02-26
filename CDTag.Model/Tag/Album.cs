@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using CDTag.Common;
+using CDTag.Common.Model;
 using IdSharp.Tagging.ID3v2;
 
 namespace CDTag.Model.Tag

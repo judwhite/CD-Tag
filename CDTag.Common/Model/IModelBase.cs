@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
+using CDTag.Common.Events;
+using CDTag.Common.Mvvm;
 
-namespace CDTag.Common
+namespace CDTag.Common.Model
 {
     /// <summary>
     /// IViewModelBase

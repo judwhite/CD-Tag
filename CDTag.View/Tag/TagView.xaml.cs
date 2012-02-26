@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
 using CDTag.View;
 using CDTag.ViewModels.Tag;
 

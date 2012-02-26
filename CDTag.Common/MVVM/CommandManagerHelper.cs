@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace CDTag.Common
+namespace CDTag.Common.Mvvm
 {
     /// <summary>
     ///     This class contains methods for the CommandManager that help avoid memory leaks by

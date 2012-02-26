@@ -1,4 +1,4 @@
-﻿namespace CDTag.Common
+﻿namespace CDTag.Common.Wpf
 {
     /// <summary>
     /// IErrorContainer

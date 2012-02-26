@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows;
-using CDTag.ViewModel.Events;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Events;
+using CDTag.Common.Wpf;
 using IdSharp.Common.Events;
 
-namespace CDTag.Common
+namespace CDTag.Common.Mvvm
 {
     /// <summary>
     /// IViewModelBase

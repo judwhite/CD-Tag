@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CDTag.Common.MVVM
+namespace CDTag.Common.Mvvm
 {
     /// <summary>
     /// Focus Extension

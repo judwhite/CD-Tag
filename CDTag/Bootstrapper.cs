@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
 using CDTag.Common.Dispatcher;
+using CDTag.Common.Events;
 using CDTag.FileBrowser.ViewModel;
 using CDTag.View;
 using CDTag.View.Interfaces.About;
@@ -12,7 +14,6 @@ using CDTag.View.Interfaces.Tag.EditTag;
 using CDTag.View.Interfaces.Tag.MassTag;
 using CDTag.View.Interfaces.Tag.TagAlbum;
 using CDTag.View.Interfaces.Tools;
-using CDTag.ViewModel.Events;
 using CDTag.ViewModel.Options;
 using CDTag.ViewModels.About;
 using CDTag.ViewModels.Checksum;

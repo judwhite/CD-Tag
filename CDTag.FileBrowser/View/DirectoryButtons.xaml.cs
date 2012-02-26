@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Events;
 using CDTag.FileBrowser.Events;
 using CDTag.FileBrowser.Model;
 using CDTag.FileBrowser.ViewModel;

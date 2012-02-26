@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using CDTag.Common.ApplicationServices;
 using CDTag.Common.Json;
 using CDTag.View;
 

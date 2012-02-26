@@ -2,19 +2,23 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Events;
+using CDTag.Common.Mvvm;
 using CDTag.Model.Profile;
 
 namespace CDTag.ViewModels.Profile.EditProfile
 {
-    public class EditProfileViewModel : ViewModelBase, IEditProfileViewModel
+    public class EditProfileViewModel : ViewModelBase<EditProfileViewModel>, IEditProfileViewModel
     {
         private readonly DelegateCommand _newProfileCommand;
         private readonly DelegateCommand _renameProfileCommand;
         private readonly DelegateCommand _copyProfileCommand;
         private readonly DelegateCommand _deleteProfileCommand;
-        
+
         private readonly ObservableCollection<UserProfile> _profiles;
 
         public EditProfileViewModel(IEventAggregator eventAggregator)
@@ -41,7 +45,60 @@ namespace CDTag.ViewModels.Profile.EditProfile
                 }
             }
 
+            EnhancedPropertyChanged += EditProfileViewModel_EnhancedPropertyChanged;
+
+            Profile = _profiles.FirstOrDefault();
             Header = "Select Profile";
+            UpdateWindowTitle();
+        }
+
+        private void EditProfileViewModel_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<EditProfileViewModel> e)
+        {
+            if (e.IsProperty(p => p.Profile))
+            {
+                UserProfile oldValue = e.OldValue as UserProfile;
+                if (oldValue != null)
+                {
+                    oldValue.EnhancedPropertyChanged -= Profile_EnhancedPropertyChanged;
+                }
+
+                UserProfile newValue = e.NewValue as UserProfile;
+                if (newValue != null)
+                {
+                    newValue.EnhancedPropertyChanged -= Profile_EnhancedPropertyChanged;
+                    newValue.EnhancedPropertyChanged += Profile_EnhancedPropertyChanged;
+                    newValue.CheckHasChanges();
+                }
+
+                UpdateWindowTitle();
+            }
+        }
+
+        private void Profile_EnhancedPropertyChanged(object sender, EnhancedPropertyChangedEventArgs<UserProfile> e)
+        {
+            if (e.IsProperty(p => p.HasChanges))
+            {
+                UpdateWindowTitle();
+            }
+        }
+
+        private void UpdateWindowTitle()
+        {
+            var profile = Profile;
+            if (profile == null)
+            {
+                WindowTitle = "Edit Profile";
+            }
+            else
+            {
+                WindowTitle = string.Format("Edit Profile - {0}{1}", profile.ProfileName, profile.HasChanges ? "*" : "");
+            }
+        }
+
+        public string WindowTitle
+        {
+            get { return Get<string>("WindowTitle"); }
+            set { Set("WindowTitle", value); }
         }
 
         public string Header
@@ -98,7 +155,7 @@ namespace CDTag.ViewModels.Profile.EditProfile
         public UserProfile Profile
         {
             get { return Get<UserProfile>("Profile"); }
-            set { Set("UserProfile", value); }
+            set { Set("Profile", value); }
         }
     }
 }

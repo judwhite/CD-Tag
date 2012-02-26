@@ -1,7 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using CDTag.Common;
+using CDTag.Common.ApplicationServices;
+using CDTag.Common.Hash;
 using CDTag.Common.Json;
+using CDTag.Common.Model;
 
 namespace CDTag.Model.Profile
 {
@@ -25,6 +29,9 @@ namespace CDTag.Model.Profile
             UserProfile profile = JsonSerializer.ReadObject<UserProfile>(json);
             profile.ProfileName = Path.GetFileNameWithoutExtension(path);
             profile.LastModified = File.GetLastWriteTime(path);
+
+            profile.UpdateModelHash();
+
             return profile;
         }
 

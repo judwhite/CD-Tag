@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using CDTag.Common;
+using CDTag.Common.Mvvm;
 
 namespace CDTag.Views
 {

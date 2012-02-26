@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using CDTag.Common.Dispatcher;
 
-namespace CDTag.Common
+namespace CDTag.Common.Mvvm
 {
     /// <summary>
     ///     This class allows delegating the commanding logic to methods passed as parameters,

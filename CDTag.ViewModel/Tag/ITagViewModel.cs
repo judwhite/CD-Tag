@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using CDTag.Common;
+using CDTag.Common.Mvvm;
 using CDTag.FileBrowser.ViewModel;
 
 namespace CDTag.ViewModels.Tag

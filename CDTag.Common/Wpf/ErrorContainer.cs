@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CDTag.Common
+namespace CDTag.Common.Wpf
 {
     /// <summary>
     /// ErrorContainer
